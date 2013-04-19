@@ -41,14 +41,10 @@ cpo_io_ssl_write(calipso_client_t *client, const void *buf, size_t len)
 
 int cpo_io_ssl_is_handshake_done(calipso_client_t *client)
 {
-	printf("read_header_buff:SSL_State %s\n", SSL_state_string(client->ssl));
-
-	if(!client->ssl) return 0;
-
-	if( SSL_in_init(client->ssl) ) {
-			
+	if(client->ssl && SSL_in_init(client->ssl) ) {
 		int ret = SSL_do_handshake(client->ssl);
-		TRACE("SSL_accept_state\n");
+
+		TRACE("SSL_state %s\n", SSL_state_string(client->ssl));
 		if(ret < 0) {
 		int err = SSL_get_error(client->ssl, ret);
 			switch(err) {

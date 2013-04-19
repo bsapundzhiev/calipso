@@ -13,6 +13,9 @@
 #include "calipso.h"
 #include "chunks.h"
 #include "timer.h"
+#ifdef USE_SSL
+#include "cpo_io_ssl.h"
+#endif
 
 #define REQUEST_BODY_SIZE_MAX	(2 * (1024 * 1024))
 
@@ -277,8 +280,6 @@ int calipso_request_read_handler(calipso_client_t *client)
 		if(CPO_OK == ret) {
 
 			tmr_alrm_reset(client, 300);
-
-			//printf("p1 header_buf [%s]\n", request->header_buf->b);
 			client->parseheader = calipso_request_parse_header_buf(request);
 		}
 
@@ -287,10 +288,9 @@ int calipso_request_read_handler(calipso_client_t *client)
 		if(request->body_length) {
 	
 			ret = calipso_request_read_body(request); 
-			//printf("BodySize %d\n", ret);
 			
 			if(request->in_filter->total_bytes == request->body_length) {
-				//printf("calipso_request_parse_header_buf\n");
+				
 				calipso_request_parse_header_buf(request);
 			}
 		}
@@ -329,7 +329,6 @@ calipso_request_get_pool(calipso_request_t *request)
 int
 calipso_request_set_client(calipso_request_t *request, calipso_client_t *client)
 {
-    /* NEEDS_FIX - this should be in a better place ... */
     calipso_reply_set_client(request->reply, client);
 
     return ((request->client = client) != NULL);
@@ -517,7 +516,6 @@ request_parse_status_line(calipso_request_t *request, char *line)
 {
     char *method = NULL;
     char *uri = NULL;
-    //char *version = NULL;
     char *lastword = NULL;
     char *querystring = NULL;
 

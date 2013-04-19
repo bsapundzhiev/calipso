@@ -81,11 +81,9 @@ int main (int argc, char **argv)
 	calipso_ssl_init();
 #endif
     /* init coniguration */
-    config = calipso_config_alloc();
-    
+    config = calipso_config_alloc();    
     config_parse_file( config , configfile );
     
-
 	if(check_config) {
 		config_list_dump(config);
 		exit(0);
