@@ -1,4 +1,3 @@
-# $Id: Makefile 153 2013-03-17 21:36:34Z borislav $
 .EXPORT_ALL_VARIABLES:
 
 #Build settings

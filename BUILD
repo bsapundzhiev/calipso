@@ -1,5 +1,3 @@
-$Id: BUILD 153 2013-03-17 21:36:34Z borislav $
-
 Build instructuions:
 --------------------
 
@@ -18,10 +16,10 @@ Cross compile for armv6 (raspberry pi)
 ---------------------------------------
 
 export PATH=$PATH:$HOME/cross/tools-master/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian/bin
-
 export CC=arm-linux-gnueabihf-gcc
 
-                   
+or 
+              
 export TOOL_PREFIX=$HOME/cross/tools-master/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian/bin/arm-linux-gnueabihf
 export CXX=$TOOL_PREFIX-g++
 export AR=$TOOL_PREFIX-ar
@@ -37,7 +35,7 @@ make
 2. PHP
 ------
 
-$ ./configure --prefix=/home/borislav/php --with-calipso=/home/borislav/Desktop/calipso-svn/src \ 
+$ ./configure --prefix=$HOME/php --with-calipso=$HOME/Desktop/calipso-svn/src \ 
 --host=arm-linux-gnueabihf --disable-libxml --disable-dom --disable-simplexml --disable-xmlreader \ 
 --disable-xmlwriter --disable-xml --without-pear --without-sqlite3 --without-cdb --without-iconv \
 --without-pdo-sqlite
