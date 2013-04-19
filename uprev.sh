@@ -1,11 +1,20 @@
 #!/bin/sh
 
-REV=0
-#VER=`cat ./VERSION | cut -c1-5`
+REV=""
 VER=0.1.0
 
 if svn --version --quiet >/dev/null 2>&1; then
 	REV=`svn info | grep "^Revision:" | cut -d" " -f2`
 fi
 
-echo "$VER-r$REV" > ./VERSION
+if [ -z "$REV" ]; then
+	REV=`git rev-parse --short HEAD`
+fi
+
+echo "rev: $REV"
+
+if [ -n "$REV" ]; then
+	echo "$VER-r$REV" > ./VERSION
+else
+	echo "$VER" > ./VERSION
+fi
