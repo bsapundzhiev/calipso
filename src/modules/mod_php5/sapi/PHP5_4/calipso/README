@@ -1,0 +1,33 @@
+$Id: README 152 2013-02-09 17:00:33Z borislav $
+==============================================================
+		calipso httpd SAPI module
+==============================================================
+
+1) This is an EXPERIMENTAL sapi - may be changed soon.
+
+NOTE:
+	CALIPSO module is only usable in thread-safe mode
+
+2) TESTING with php 5.1.2, 5.1.4 - 5.2.9 
+
+3) Calipso SAPI quick hack:
+	- untar calipso0xx-sapi.bz2 this produce folder with 
+	name calipso
+	
+	- download last php5 source from http://php.net/
+
+	- put folder calipso int the _php_src_dir/sapi
+
+	- run ./buildconf --force
+
+	- run 	./configure, something like this:
+Example:
+	./configure --with-mysql --enable-force-cgi-redirect\
+	--disable-cgi --with-zlib --with-gettext --with-gdbm\
+	--with-calipso=~/calipso-svn/src
+
+4) make install or make install-sapi
+
+=================================================================
+Autor: (c) 2009 Borislav Sapundjiev <bsapundjiev@gmail.com>
+=================================================================

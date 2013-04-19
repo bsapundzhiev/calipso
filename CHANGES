@@ -1,0 +1,46 @@
+$Id: CHANGES 150 2013-01-12 17:50:01Z borislav $
+
+Changes
+
+03-08-2012
+---------
+* fixed modules (init file handlers)
+* some http protocol implementations
+* buffer abstraction for in out filters 
+* base chunked Transfer-Encoding filter (finally 8-))
+
+30-04-2012
+---------
+* fixed config
+* mem leaks
+* improved stability
+* improved models
+
+---------
+31-03-2012
+* long time delayed design rearangement(in progress) 
+* added worker
+* added persistent connection
+* init timeouts added timer.c (in progress) 
+* routines fixes
+* data fixes hash dllist added
+
+18-02-2009:
+---------
+* epoll
+* evtype
+* sendfile
+
+---------
+27-04-2007:
+ * new HTTP_PARTIAL_CONTENT support 
+
+25-04-2007: 
+ * added file support > 2Gb
+ * fixes
+
+24-01-2007:
+* initial version 1.5.0
+* FR3: First Request, First Response, First Release :) 
+* mod_httpd pushed to work incliding first security fixes
+* initial bugfixing :)

@@ -1,0 +1,24 @@
+/* $Id: TODO 161 2013-04-18 20:30:12Z borislav $ */
+-------
+
+Core:
+-----
+	- config context
+	- log errors and separate logs
+	- reply routines 
+	- big code cleanup
+	- kevent/kqueue
+
+calipso server modules
+----------------------.
+|-- mod_autoind
+|-- mod_dummy
+|-- mod_http
+`-- mod_php
+
+TODO:
+	mod_dav
+	mod_proxy
+	mod_rewrite
+	mod_ssl
+

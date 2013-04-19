@@ -1,0 +1,64 @@
+#!/bin/sh
+
+#############################################################
+# $Id: calipsoctl 150 2013-01-12 17:50:01Z borislav $													#
+# Description: Calipso httpd control tool                   #
+# Autor      : Borislav Sapundjiev <BSapundjiev@gmail.com>  #
+# License    : GPLv2                                        #
+#############################################################
+
+set -f
+
+VER=0.1.x
+PROGRAM=calipso
+
+case "$1" in
+   'start')
+        $PROGRAM -d
+	;;
+   'stop')
+        
+	if kill `cat /var/run/calipso.pid` &> /dev/null 
+	then 
+		echo "$0 :Calipso httpd is now stoped";
+		continue;	
+	else 
+		echo "$0 :error proceed ! Use kill option !";
+	exit 1;
+	fi
+	;;
+   'restart')
+      	echo "Restarting ..."
+	if kill `cat /var/run/calipso.pid` &> /dev/null
+	then 	
+		sleep 3
+		calipsoctl start
+		echo "$0 :Calipso httpd is now restarted!";
+	else 
+		echo "$0 :server not runing!";
+		exit 1;
+	fi
+	;;
+   'kill')
+	echo "Hard killing ..."
+        if kill -HUP `pidof calipso` &> /dev/null
+	then 
+		echo "$0 :Calipso httpd killed"
+    	else
+		echo "$0 :Can't kill proccess";
+	fi
+	;;
+    'test')
+	$PROGRAM -t
+	;;
+	'pmap')
+	pmap -x `pidof calipso`
+	;;
+	
+    *)
+      echo ""
+      echo "Calipso $VER httpd  ctl tool"
+      echo "usage:"
+      echo "	$0 start|stop|restart|kill|test|pmap"
+      echo "" ;;
+esac

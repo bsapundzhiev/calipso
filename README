@@ -1,0 +1,79 @@
+==========================================================================
+$Id: README 158 2013-04-16 20:19:53Z borislav $
+--------------------------------------------------------------------------
+ 		 ____   ____   _     _	 ____   _____   ____
+		|  __| |  _ \ | |   |_| |  _ | |  ___| |    |
+		| |    | |_| || |   | | |  __| | |___  | || | 
+		| |__  |  _  || |__ | | | |     ___| | | || |
+		_____________________________________________
+		|____| |_| |_||____||_| |_|    |_____| |____|
+--------------------------------------------------------------------HT7PD-
+v0.1.x
+==========================================================================
+	
+	Contents:
+	---------
+	1. Introductions.
+	    1.1.	Features
+		1.2.	Installation
+		1.3. 	Requirements
+	3. Data Structure. 
+	4. Licensing
+        5. Resource , specifications , doc's and help
+	6. About, contacts
+
+						-=*=-
+
+	1. Introductions.
+	-----------------
+		This is Calipso server v 0.1.x.
+
+    	Calipso is an proof of concept for event driven HTTP Server, 
+	originally created with educational purpose to solve C10k problem.
+	 	It is designed to be run as a standalone daemon process wich will 
+	create an edge/level-triggered events to handle async client requests. 
+
+		Application include *modular* system that provide easiest 
+	way to extend the server functionality - horizontaly and verticaly
+
+		Its successfuly runs on limited devices because of low memory 
+	footprint with base php module ~ 11mb of ram needed (Tested on 
+	rasspbery pi).
+ 
+	 1.1. Features:
+	 ----------------	
+		* fast response
+		* small memory footprint (designed for low memory systems)
+		* config file 
+		* modules (php5, autoindex ...)
+   	 NOTE:
+		For more see documentation at doc folder
+
+	 1.2 Build and installation:
+	 -------------------
+        	see file called BUILD*
+		
+	 1.3. Requirements:
+	 ------------------
+		* Linux, FreeBSD, Windows
+		* glibc with nptl and epoll/poll/select/kqueue support
+
+	2. Data Structure:
+	------------------
+       	* doxygen 0ne day
+
+	3. Licensing
+	---------
+		Please see the file called "LICENSE"
+
+	4. Resource , specifications , doc's and help:
+	------------
+		http://en.wikipedia.org/wiki/C10k_problem
+		http://www.kegel.com/c10k.html
+		http://www.php.net/
+	
+
+	5. Contacts:
+	------------
+		Autor: Borislav Sapundzhiev <bsapundjiev_AT_gmail_DOT_com>
+	--------------------------------------------------------------------------

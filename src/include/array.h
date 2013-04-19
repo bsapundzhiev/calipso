@@ -1,0 +1,37 @@
+#ifndef _CPO_ARRAY_H
+#define _CPO_ARRAY_H
+
+typedef struct s_array {
+	int num;
+	int max;
+	void *v;
+	int elem_size;
+} cpo_array_t;
+
+cpo_array_t *
+cpo_array_create(int size , int elem_size);
+
+void *
+cpo_array_get_at(cpo_array_t *a, int index);
+
+void *
+cpo_array_push(cpo_array_t *a);
+
+void * 
+cpo_array_insert_at(cpo_array_t *a, int index);
+
+void *
+cpo_array_remove(cpo_array_t *a, int index);
+
+void 
+cpo_array_qsort(cpo_array_t *a, int (*cmp_func)(const void *, const void *));
+
+void
+cpo_array_destroy(cpo_array_t *a);
+
+int array_cmp_int_asc(const void *a,  const void *b); 
+int array_cmp_int_dsc(const void *a,  const void *b);
+int array_cmp_str_asc(const void *a,  const void *b);
+int array_cmp_str_dsc(const void *a,  const void *b);
+
+#endif

@@ -1,0 +1,30 @@
+Certificate howto:
+------------------
+1. Create rsa private key => 2048
+	$openssl genrsa -out calipso_privkey.pem 2048
+
+2. Create cert reuquest.
+	$openssl req -new -key calipso_privkey.pem -out calipso_cert.csr
+
+3. Create CA cert.
+	$openssl req -new -x509 -in calipso_cert.csr -signkey calipso_privkey.pem -out calipso_ca_cert.pem -days 365
+
+
+Second method 
+------------------
+1. Create rsa private key
+
+	$ openssl genrsa -des3 -out server.key 1024
+
+2. Create the Certificate Signing Request (CSR):
+
+	$ openssl req -new -key server.key -out server.csr
+
+3. Remove the necessity of entering a passphrase for starting up nginx with SSL using the above private key:
+
+	$ cp server.key server.key.org
+	$ openssl rsa -in server.key.org -out server.key
+
+4. Finally sign the certificate using the above private key and CSR:
+
+	$ openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
