@@ -15,7 +15,6 @@
 //Linux epoll
 #include <sys/epoll.h>
 
-
 static int kdpfd;
 static struct epoll_event pfds[MAX_EVENTS];
 
@@ -59,7 +58,6 @@ int epoll_add_conn(cpo_event_t * event, int nfds)
 		ev.events |= EPOLLOUT;
 	}
 
-	//printf("Add event %d\n", fd);
 	if ( epoll_ctl(kdpfd, EPOLL_CTL_ADD, fd , &ev) < 0 ) {           
    		
         if (errno == EEXIST) {
@@ -82,10 +80,8 @@ int epoll_del_conn(cpo_event_t * event)
     	fd = ((calipso_client_t *)event->data)->csocket;
 
 	if(fd == 0) return CPO_ERR;
-
-	//printf("Del event %d\n", fd);
 	
-	epoll_ctl(kdpfd, EPOLL_CTL_DEL, fd, pfds); //&ev);
+	epoll_ctl(kdpfd, EPOLL_CTL_DEL, fd,  pfds); 
 
 	return OK;
 }
@@ -106,8 +102,6 @@ int epoll_process(int nfds)
        	TRACE("poll error %s\n", strerror(errno));    
         exit(1);
  	}
-
-	//TRACE("ndfs %d\n", nfds);
 
 	for (i = 0; i < nfds; ++i) {
 

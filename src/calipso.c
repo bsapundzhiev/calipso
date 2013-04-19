@@ -31,13 +31,13 @@ int calipso_init(void)
 
 	calipso->pool = cpo_pool_create( CALIPSO_DEFAULT_POOLSIZE );
 
-	calipso->config = NULL; // calipso_config_alloc();
+	calipso->config = NULL; 
 	
 	calipso->listeners = hash_table_create(LISTENERS_BUCKETS_SIZE, NULL);
 	calipso->m_handler = hash_table_create(HANDLERS_BUCKETS_SIZE, NULL);
 
     for (i = 0; i < NR_HOOKS; i++ ) {
-		//printf("get_hook_byid %s\n", get_hook_byid(i));
+
         calipso->m_hook[i] = list_new();
 	}
 
@@ -209,8 +209,12 @@ int calipso_add_listener(calipso_socket_t *listener)
 
     cpo_itoa(key, listener->lsocket);
     hash_entry = calipso_get_listeners_hash();
-    //hash_table_insert( hash_entry, key , listener);
-	hash_table_update(hash_entry, key , listener);
+
+	if(hash_entry) {
+    	
+		hash_table_update(hash_entry, key , listener);
+	}
+
     return CPO_OK;
 }
 
@@ -231,11 +235,7 @@ hash_t * calipso_get_handler_hash(void)
 
 int calipso_register_handler(char *type, int (*f)(calipso_request_t*))
 {
-    void *p;
-    //int (*f)(void*);
-    TRACE("register handler %s\n", type);
-
-    p = hash_table_get_data(calipso->m_handler, type);
+    void *p = hash_table_get_data(calipso->m_handler, type);
 
     if ( p ) {
         TRACE("handler for %s is already set!\n", type );
@@ -243,7 +243,7 @@ int calipso_register_handler(char *type, int (*f)(calipso_request_t*))
         hash_table_insert(calipso->m_handler, type, f );
     }
 
-    return 1;
+    return CPO_OK;
 }
 
 void * calipso_get_handler(char *type)
@@ -257,7 +257,7 @@ void * calipso_get_handler(char *type)
     return f;
 }
 
-//!modules
+/* modules */
 int calipso_set_module_table(calipso_mod_t * mod_table)
 {
 	return ((calipso->mod_table = mod_table) != NULL);
@@ -268,8 +268,7 @@ calipso_mod_t * calipso_get_module_table(void)
     return (calipso->mod_table);
 }
 
-//=*= procs
-
+/* procs */
 int calipso_set_nprocesses_array(btree_t *array)
 {
     return ((calipso->nprocesses = array) != NULL);
@@ -311,8 +310,7 @@ int (*calipso_get_nprocess_model(void))(void)
     return (calipso->nproc_model);
 }
 
-// -----------------------------------------------------------
-
+/* internal */
 char *calipso_get_server_string(calipso_config_t *config)
 {
     return ("Calipso/"VERSION);
