@@ -1,4 +1,3 @@
-# $Id: Makefile 159M 2013-04-22 17:47:59Z (local) $
 #*
 #* Copyright (C) 2012 Borislav Sapundzhiev
 #*
