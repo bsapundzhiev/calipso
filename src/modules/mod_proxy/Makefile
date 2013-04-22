@@ -3,7 +3,7 @@ NAME    =       mod_proxy
 SRCS    =       mod_proxy.c
 OBJS    =       $(SRCS:.c=.o)
 
-CFLAGS  +=      -D_MODULE -DDEBUG -I ../../include
+CFLAGS  +=      -fPIC -D_MODULE -DDEBUG -I ../../include
 LDFLAGS +=
 
 all:shared

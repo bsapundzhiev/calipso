@@ -3,7 +3,7 @@ NAME    =       mod_xcgi
 SRCS    =       mod_xcgi.c
 OBJS    =       $(SRCS:.c=.o)
 
-CFLAGS  +=      -D_MODULE -DDEBUG -I ../../include -D_REENTRANT
+CFLAGS  +=      -fPIC -D_MODULE -DDEBUG -I ../../include -D_REENTRANT
 LDFLAGS +=
 
 all:shared

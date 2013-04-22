@@ -1,4 +1,4 @@
-# $Id: Makefile 159 2013-04-17 22:25:23Z borislav $
+# $Id: Makefile 159M 2013-04-22 17:47:59Z (local) $
 #*
 #* Copyright (C) 2012 Borislav Sapundzhiev
 #*
@@ -25,7 +25,6 @@ OBJS    = main.o\
 	socket.o\
 	signal.o\
 	cpo_io.o\
-	cpo_aio.o\
 	server.o\
 	client.o\
 	reply.o\

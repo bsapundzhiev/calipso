@@ -3,7 +3,7 @@ NAME    =       mod_autoind
 SRCS    =       mod_autoind.c
 OBJS    =       $(SRCS:.c=.o)
 
-CFLAGS  +=      -Wall -g -D_MODULE -DDEBUG -I ../../include -D_FILE_OFFSET_BITS=64 -D_REENTRANT
+CFLAGS  +=      -fPIC -Wall -g -D_MODULE -DDEBUG -I ../../include -D_FILE_OFFSET_BITS=64 -D_REENTRANT
 LDFLAGS +=
 
 all:shared

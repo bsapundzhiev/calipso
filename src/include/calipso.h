@@ -341,8 +341,9 @@ calipso_client_remote_ip(calipso_client_t *client);
 /*
  * file socket.c
  */
-#define SOCKET_STATE_ACTIVE_NONE 0x0
-#define SOCKET_STATE_ACTIVE 0x1
+#define SOCKET_STATE_ACTIVE_NONE 	0x0
+#define SOCKET_STATE_INIT_SSL 		0x1
+#define SOCKET_STATE_ACTIVE 		0x2
 
 calipso_socket_t * 
 calipso_socket_alloc(void);

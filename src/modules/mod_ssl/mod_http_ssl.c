@@ -15,32 +15,46 @@
 #include "mod_http_ssl.h"
 #include "cpo_io_ssl.h"
 
-#define RSA_SERVER_CERT     "../doc/calipso_ca_cert.pem" 
-#define RSA_SERVER_KEY		"../doc/calipso_privkey.pem"
-#define RSA_SERVER_CA_CERT	"../doc/calipso_ca_cert.pem"
+#define SSL_ERROR(err) if ((err)==-1) { ERR_print_errors_fp(stderr); exit(1); }
 
+#define SSL_USE_QUIET_SHUTDOWN 	0
 
-static int init_SSL_ctx(calipso_socket_t *listener);
+struct http_ssl_conf_ctx {
+	unsigned int portn;
+	unsigned char use_ssl;
+	char * ssl_cert_file;
+	char * ssl_key_file; 
+	char * ssl_chiper;
+};
+
+static void config_port_handler(struct http_ssl_conf_ctx *ctx,  void *val);
+static void config_ssl_handler(struct http_ssl_conf_ctx *ctx,  void *val);
+static void config_ssl_cert_handler(struct http_ssl_conf_ctx *ctx,  void *val);
+static void config_ssl_cert_key_handler(struct http_ssl_conf_ctx *ctx,  void *val);
+static void config_ssl_chiper_handler(struct http_ssl_conf_ctx *ctx,  void *val);
+
+#define CONF_BLOCK_CTX "server"
+
+cfg_t conf_opt[] = {
+	{ "server_port", NULL, (void*)config_port_handler },
+	{ "use_ssl", NULL, (void*)config_ssl_handler },
+	{ "use_ssl_rsa_certfile", NULL, (void*)config_ssl_cert_handler},
+	{ "use_ssl_rsa_keyfile", NULL, (void*)config_ssl_cert_key_handler },
+	{ "use_ssl_chiper", NULL, (void*)config_ssl_chiper_handler }
+};
+
+/* module */
+static int init_SSL_ctx(struct http_ssl_conf_ctx *conf_ctx, calipso_socket_t *listener);
 static int mod_http_ssl_accept_callback(calipso_client_t * client);
 
 static int mod_http_ssl_init(void);
-static int mod_http_ssl_configure(void);
-static int mod_http_ssl_chroot(void);
-static int mod_http_ssl_privileges(void);
-
-#define SERVER_KEEPALIVES_MAX 100
-#define SSL_ERROR(err) if ((err)==-1) { ERR_print_errors_fp(stderr); exit(1); }
 
 int pm_init()
 {
     TRACE("register: %s\n",__FILE__);
-    //calipso_register_handler("*/*", mod_http_reply); 
     calipso_register_hook(HOOK_INIT, (void *)mod_http_ssl_init);
-    calipso_register_hook(HOOK_CONFIGURE, (void *)mod_http_ssl_configure);
-    calipso_register_hook(HOOK_CHROOT, (void *)mod_http_ssl_chroot);
-    calipso_register_hook(HOOK_PRIVILEGES, (void *)mod_http_ssl_privileges);
 
-    return 1;
+    return CPO_OK;
 }
 
 int pm_exit()
@@ -49,85 +63,132 @@ int pm_exit()
 	return 0;
 }
 
-static int mod_http_ssl_init()
+static void config_port_handler(struct http_ssl_conf_ctx *ctx,  void *val)
 {
-    const char *documentroot;
-    const char *hostname;
-    int portn;
-    const char *listen_naddr;
-
-    calipso_socket_t *listener;
-    calipso_server_t *server;
-    calipso_config_t *calipso_config;
-
-    calipso_config = calipso_get_config();
-
-    server = calipso_server_alloc();
-
-    portn = 443;
-    listen_naddr = config_get_option(calipso_config, "listen", NULL);
-    listener 	= calipso_do_listen_sock(listen_naddr, portn);
-    hostname	= config_get_option(calipso_config, "server_host", NULL);
-    documentroot 	= config_get_option(calipso_config, "server_docroot", NULL);
-	
-	server->keep_alive_max = SERVER_KEEPALIVES_MAX;
-    calipso_server_set_hostname(server, (char*)hostname);
-    calipso_server_set_documentroot(server, (char*)documentroot);
-	
-	init_SSL_ctx(listener);
-	//calipso_socket_set_accept_callback(listener, mod_http_ssl_accept_callback);
-	listener->accept_callback = (void*)mod_http_ssl_accept_callback;
-	//r/w handlers
-	//listener->r = (void*)fd_ssl_read;
-	//listener->w = (void*)fd_ssl_write;
-    calipso_socket_add_server(listener, server);
-
-    printf("register port: %d\n", listener->port);
-    printf("register lsocket: %d\n", listener->lsocket);
-	
-    listener->state = SOCKET_STATE_ACTIVE;
-    calipso_add_listener( listener );
-
-    return OK;
+	ctx->portn = val ?  atoi((const char *)val) : 0;
 }
 
-static int mod_http_ssl_configure()
+static void config_ssl_handler(struct http_ssl_conf_ctx *ctx,  void *val)
 {
-	return OK;
+	ctx->use_ssl = val ? OK : NOK;
 }
 
-static int mod_http_ssl_chroot()
+static void config_ssl_cert_handler(struct http_ssl_conf_ctx *ctx,  void *val)
 {
+	ctx->ssl_cert_file = val;
+	
+}
 
-    const char *chrootenable;
-    const char *chrootpath;
-    calipso_config_t *config;
+static void config_ssl_cert_key_handler(struct http_ssl_conf_ctx *ctx,  void *val)
+{
+	ctx->ssl_key_file = val;
+}
 
-    config = calipso_get_config();
+static void config_ssl_chiper_handler(struct http_ssl_conf_ctx *ctx,  void *val)
+{
+	ctx->ssl_chiper = val;
+}
 
-    /* Check wether chroot()-ing is required, chroot is default behaviour */
-    chrootenable = config_get_option(config, "chroot", NULL);
+static int config_parse_run(struct http_ssl_conf_ctx * ctx, const char *option, void *value)
+{
+	int i, size = ARRAYSZ(conf_opt);
 
-    if (chrootenable == NULL /*|| eoz_config_is_enabled(chrootenable)*/) {
-        if ( calipso_get_uid() )
-            printf("Chroot() must be disabled as non privileged user.");
+	for(i=0; i < size; i++) {
 
-        chrootpath = config_get_option(config, "chrootpath", NULL);
+		if(!conf_opt[i].p) { 
+			continue;
+		}
 
-        if (chrootpath == NULL)
-            printf("Chroot() directive enabled, but no ChrootPath() set.");
-        if (chroot(chrootpath) < 0)
-            printf("chroot() call failure in %s.", __func__);
-        if (chdir("/") < 0)
-            printf("chdir() call failure in %s.", __func__);
+		if(option == NULL) {
+
+			conf_opt[i].p(ctx, NULL);
+		} else { 
+
+			if(! strcmp(conf_opt[i].name, option) ) {
+				conf_opt[i].p(ctx, value);
+			}
+       }
+	}
+	
+	return CPO_OK;
+}
+
+static int mod_http_ssl_init_server_ctx(struct http_ssl_conf_ctx * ctx)
+{
+	List *l, *listeners = calipso_get_listeners_list();
+
+	if(listeners == NULL || ctx->use_ssl ==0) 
+		return CPO_ERR;
+	
+	for(l = list_get_first_entry( listeners );
+		l != NULL;
+		l = list_get_next_entry( l )) {
+	
+        calipso_socket_t *listener = list_get_entry_value( l );
+		
+		if(listener->state & SOCKET_STATE_INIT_SSL 
+			&& ctx->portn == listener->port) {
+			
+			init_SSL_ctx(ctx, listener); 
+		}
+	}
+
+	list_delete(listeners);
+ 	free(listeners);
+
+	return CPO_OK;
+}
+
+static int mod_http_ssl_init_config(calipso_config_t * config)
+{
+	struct http_ssl_conf_ctx * ctx = NULL;
+
+	for(config = list_get_first_entry( config );
+		config != NULL;
+		config = list_get_next_entry( config )) {
+	
+        conf_ctx_t *c = list_get_entry_value( config );
+
+		if(c && c->block) {	
+			if(!strcasecmp(c->block, CONF_BLOCK_CTX)) {
+				
+				int state = config_get_state_ctx(c);
+				/* lazzy loading */
+				if(CTX_BLOCK_BEGIN == state) {
+					if(!ctx) {
+						ctx = xmalloc(sizeof(*ctx));
+						config_parse_run(ctx, NULL, NULL);
+					}
+				}
+
+				if(CTX_BLOCK_END == state)	{
+					mod_http_ssl_init_server_ctx(ctx);
+					if(ctx) {
+						free(ctx);
+						ctx = NULL;
+					}
+				}
+	
+				if(ctx) {
+					config_parse_run(ctx, c->option, c->value);
+				}
+			}
+		}
     }
 
-    return 1;
+	if(ctx) {
+		free(ctx);
+		ctx=NULL;
+	}
+
+	return CPO_OK;
 }
 
-static int mod_http_ssl_privileges(void)
+static int mod_http_ssl_init()
 {
-    return NOK;
+    calipso_config_t *calipso_config = calipso_get_config();
+	/* new config init */
+	return mod_http_ssl_init_config(calipso_config);
 }
 
 static int s_server_session_id_context = 1;
@@ -143,12 +204,12 @@ static void session_rem_callback(SSL_CTX *ctx, SSL_SESSION *sess)
 	printf("session_rem_callback CALL %p\n", sess);	
 }
 
-int init_SSL_ctx(calipso_socket_t *listener) 
+int init_SSL_ctx(struct http_ssl_conf_ctx *conf_ctx, calipso_socket_t *listener) 
 {
 	SSL_CTX *ctx;
    	const SSL_METHOD *meth;
    	//X509 *client_cert = NULL;
-	char verify_client = OK; //NOK;
+	char verify_client = OK;
  
 	/* Create a SSL_METHOD structure (choose a SSL/TLS protocol version) */
 	meth =  SSLv23_method();
@@ -160,17 +221,20 @@ int init_SSL_ctx(calipso_socket_t *listener)
      	exit(1);
  	}
 
- 	//SSL_CTX_set_cipher_list(ctx, "RC4-SHA");
+	if(conf_ctx->ssl_chiper) {
+ 		SSL_CTX_set_cipher_list(ctx, conf_ctx->ssl_chiper);
+	}
+
 	//SSL_CTX_set_mode(ctx, SSL_MODE_AUTO_RETRY |  SSL_MODE_ENABLE_PARTIAL_WRITE );
 
 	/* Load the server certificate into the SSL_CTX structure */
-	if (SSL_CTX_use_certificate_file(ctx, RSA_SERVER_CERT, SSL_FILETYPE_PEM) <= 0) { 
+	if (SSL_CTX_use_certificate_file(ctx, conf_ctx->ssl_cert_file, SSL_FILETYPE_PEM) <= 0) { 
 		ERR_print_errors_fp(stderr); 
 		exit(1); 
 	}
  
 	/* Load the private-key corresponding to the server certificate */
-	if (SSL_CTX_use_PrivateKey_file(ctx, RSA_SERVER_KEY, SSL_FILETYPE_PEM) <= 0) {
+	if (SSL_CTX_use_PrivateKey_file(ctx, conf_ctx->ssl_key_file, SSL_FILETYPE_PEM) <= 0) {
 		ERR_print_errors_fp(stderr);
         exit(1);
     }
@@ -181,13 +245,12 @@ int init_SSL_ctx(calipso_socket_t *listener)
         exit(1);
     }
 
-	//SSL_CTX_set_quiet_shutdown(ctx, 1);
-
+	SSL_CTX_set_quiet_shutdown(ctx, SSL_USE_QUIET_SHUTDOWN);
 
 	if(verify_client == OK) {
-		/*SSL session support*/
-		//SSL_CTX_sess_set_new_cb(ctx, session_new_callback);
-		//SSL_CTX_sess_set_remove_cb(ctx, session_rem_callback);
+		/*TODO: our ssl session support*/
+		SSL_CTX_sess_set_new_cb(ctx, session_new_callback);
+		SSL_CTX_sess_set_remove_cb(ctx, session_rem_callback);
 
 		SSL_CTX_set_session_id_context(ctx,(void*)&s_server_session_id_context, 
 			sizeof (s_server_session_id_context));
@@ -199,7 +262,7 @@ int init_SSL_ctx(calipso_socket_t *listener)
 		SSL_CTX_set_session_cache_mode( ctx, mode );
 
    		/* Load the RSA CA certificate into the SSL_CTX structure */
-     	if (!SSL_CTX_load_verify_locations(ctx, RSA_SERVER_CA_CERT, NULL)) {
+     	if (!SSL_CTX_load_verify_locations(ctx, conf_ctx->ssl_cert_file, NULL)) {
         	ERR_print_errors_fp(stderr);
            	exit(1);
       	}
@@ -208,10 +271,11 @@ int init_SSL_ctx(calipso_socket_t *listener)
         SSL_CTX_set_verify(ctx, SSL_VERIFY_PEER, NULL);
  
       	/* Set the verification depth to 1 */
-        SSL_CTX_set_verify_depth(ctx,1);
+        SSL_CTX_set_verify_depth(ctx, 1);
 	}
 	
 	listener->ssl_ctx = ctx;
+	listener->accept_callback = (void*)mod_http_ssl_accept_callback;
 
 	return OK;
 }
@@ -266,8 +330,8 @@ static int mod_http_ssl_accept_callback(calipso_client_t * client)
 	}
 //}
 	client->ssl = ssl;
-	client->listener->r = cpo_io_ssl_read; //(void*)fd_ssl_read;
-	client->listener->w = cpo_io_ssl_write; //(void*)fd_ssl_write;
+	client->listener->r = cpo_io_ssl_read; 
+	client->listener->w = cpo_io_ssl_write;
 
 	return OK;
 }

@@ -150,10 +150,6 @@ static int mod_http_init_server_ctx(struct http_conf_ctx * ctx)
     
 	if(ctx->listen_naddr) 
 		printf("listen_naddr %s\n", ctx->listen_naddr);
-	/*!dbg*/
-	if(ctx->use_ssl) { 
-		return CPO_ERR;
-	}
 
 	calipso_server_t *server = calipso_server_alloc();
 	if(server == NULL) {
@@ -176,6 +172,16 @@ static int mod_http_init_server_ctx(struct http_conf_ctx * ctx)
 			return CPO_ERR;
 	}
 
+	/*mark to set ssl*/
+	if(ctx->use_ssl) { 
+#ifdef USE_SSL
+		listener->state |= SOCKET_STATE_INIT_SSL;
+#else
+		printf("SSL is not enabled\n");
+		exit(-1);
+#endif
+	}
+
 	/* confgure server */
 	server->keep_alive_max = SERVER_KEEPALIVES_MAX;
     calipso_server_set_hostname(server, (char*)ctx->hostname);
@@ -189,7 +195,7 @@ static int mod_http_init_server_ctx(struct http_conf_ctx * ctx)
 
     calipso_socket_add_server(listener, server);
 
-    listener->state = SOCKET_STATE_ACTIVE;
+    listener->state |= SOCKET_STATE_ACTIVE;
 	/*add/update listener hash;*/
 	printf("register port: %d\n", listener->port);
     printf("register lsocket: %d\n", listener->lsocket);

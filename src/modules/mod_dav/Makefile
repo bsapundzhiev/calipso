@@ -3,7 +3,7 @@ NAME    =       mod_dav
 SRCS    =       mod_dav.c
 OBJS    =       $(SRCS:.c=.o)
 
-CFLAGS  +=  -g -O2 -Wall -D_MODULE -DDEBUG -I ../../include -D_FILE_OFFSET_BITS=64
+CFLAGS  +=  -fPIC -g -O2 -Wall -D_MODULE -DDEBUG -I ../../include -D_FILE_OFFSET_BITS=64
 LDFLAGS +=
 
 all:shared
