@@ -206,6 +206,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\cpo_io.c"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\cpo_log.c"
 				>
 			</File>
@@ -223,10 +227,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\event.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\fd.c"
 				>
 			</File>
 			<File

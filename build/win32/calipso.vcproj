@@ -195,10 +195,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\coding.c"
-				>
-			</File>
-			<File
 				RelativePath="..\..\os\win32\compat.c"
 				>
 			</File>
@@ -215,6 +211,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\cpo_io.c"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\cpo_log.c"
 				>
 			</File>
@@ -228,10 +228,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\event.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\fd.c"
 				>
 			</File>
 			<File
@@ -342,10 +338,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\include\chunks.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\include\coding.h"
 				>
 			</File>
 			<File

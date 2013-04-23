@@ -97,13 +97,14 @@ int remove_dots_from_uri_path(char* path)
   if (*path!='/') return -1; // invalid path
   while (1) {
     if (path[1]=='.' && path[2]=='.' && (path[3]=='/' || path[3]=='\0')) { // /..(/.*)?$
-      memmove(path, path+3, strlen(path+3)+1);
-      return 1;
-    }
-    char* p1=strchr(path+1, '/');
-    if (!p1) return 0;
-    if (!remove_dots_from_uri_path(p1)) return 0;
-    memmove(path, p1, strlen(p1)+1);
+		memmove(path, path+3, strlen(path+3)+1);
+		return 1;
+	} else {
+		char* p1=strchr(path+1, '/');
+		if (!p1) return 0;
+		if (!remove_dots_from_uri_path(p1)) return 0;
+		memmove(path, p1, strlen(p1)+1);
+	}
   }
 }
 

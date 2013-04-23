@@ -10,7 +10,7 @@ int pread(unsigned int fd, char *buf, size_t count, off_t offset)
     return read(fd, buf, count);
 }
 
-char *remove_trailing_slash(const char *str)
+char *remove_trailing_slash(char *str)
 {
 	int len;
 	char *p = str;
@@ -33,6 +33,18 @@ int setenv(const char *name, const char *value, int overwrite)
 		free(string);
     }
     return result;
+}
+
+/* getpagesize for windows */
+long getpagesize (void) 
+{
+	long pagesize = 0;
+    if (! pagesize) {
+        SYSTEM_INFO system_info;
+        GetSystemInfo (&system_info);
+        pagesize = system_info.dwPageSize;
+    }
+    return pagesize;
 }
 
 uid_t getuid() 

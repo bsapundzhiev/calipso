@@ -211,6 +211,14 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\cplib\cpo_file.c"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\cpo_io.c"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\cpo_log.c"
 				>
 			</File>
@@ -224,10 +232,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\event.c"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\fd.c"
 				>
 			</File>
 			<File
@@ -251,11 +255,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\list.c"
+				RelativePath="..\..\src\modules\mod_http\http_mime.c"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\modules\mod_http\mime.c"
+				RelativePath="..\..\src\list.c"
 				>
 			</File>
 			<File

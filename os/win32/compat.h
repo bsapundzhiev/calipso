@@ -8,8 +8,9 @@ typedef int  		pid_t;
 typedef int  		uid_t;
 typedef int  		gid_t;
 typedef void*		timer_t;
-typedef uint32_t	u_int16_t;
+typedef uint16_t	u_int16_t;
 typedef uint32_t	socklen_t;
+typedef unsigned int	u_int;
 /* !types */
 
 #define __func__		__FUNCTION__
@@ -42,6 +43,9 @@ typedef uint32_t	socklen_t;
 //04 Read-only
 //06 Read and write
 
+#define	STDIN_FILENO	fileno(stdin)
+#define STDOUT_FILENO	fileno(stdout)
+
 #ifndef VERSION
 #define	VERSION "0.1.0"
 #endif
@@ -58,7 +62,8 @@ int daemon();
 int clearenv();
 int chroot(const char *chrootpath);
 void heapdump( void );
-char *remove_trailing_slash(const char *str);
+char *remove_trailing_slash(char *str);
+long getpagesize (void);
 
 #endif
 

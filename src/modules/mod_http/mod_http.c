@@ -140,6 +140,7 @@ static int config_parse_run(struct http_conf_ctx * ctx, const char *option, void
 
 static int mod_http_init_server_ctx(struct http_conf_ctx * ctx)
 {
+	calipso_server_t *server;
 	calipso_socket_t *listener = NULL;
 	/*dbg */
 	printf("DBG:server %d %s %s ssl %d\n", 
@@ -151,7 +152,7 @@ static int mod_http_init_server_ctx(struct http_conf_ctx * ctx)
 	if(ctx->listen_naddr) 
 		printf("listen_naddr %s\n", ctx->listen_naddr);
 
-	calipso_server_t *server = calipso_server_alloc();
+	server = calipso_server_alloc();
 	if(server == NULL) {
 		printf("cant alloc server!\n");
 		exit(-1);
@@ -162,9 +163,9 @@ static int mod_http_init_server_ctx(struct http_conf_ctx * ctx)
 		listener = calipso_do_listen_sock(ctx->listen_naddr, ctx->portn);
 	}
 	else {
-		printf("Update existing listener...\n");
 		hash_t *listeners_hash = calipso_get_listeners_hash();
 		hash_node_t *n = hash_get_last_entry(listeners_hash);
+		printf("Update existing listener...\n");
 		if(n != NULL) {
 			listener = (calipso_socket_t *)n->data;
 		} 
