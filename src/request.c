@@ -30,16 +30,16 @@ static int calipso_request_read_header(calipso_request_t *request);
 static int calipso_request_read_body(calipso_request_t *request);
 
 static int calipso_request_parse_header_buf(calipso_request_t *request);
-static int	request_parse_status_line(calipso_request_t *, char *);
-static int	request_parse_header(calipso_request_t *, char *);
+static int request_parse_status_line(calipso_request_t *, char *);
+static int request_parse_header(calipso_request_t *, char *);
 
 calipso_request_t *
 calipso_request_alloc(void)
 {
     calipso_request_t *request = xmalloc(sizeof(calipso_request_t));
-
+	
 	if(request == NULL) return NULL;
-
+	
 	request->pool = cpo_pool_create( CALIPSO_DEFAULT_POOLSIZE * 2 );
 
     return (request);
@@ -65,8 +65,8 @@ calipso_request_unalloc(calipso_request_t *request)
     	cpo_pool_destroy(request->pool);
 	}
 
-    free(request);
-    return;
+    	free(request);
+    	return;
 }
 
 int calipso_request_init_handler(calipso_client_t * client)
@@ -90,10 +90,11 @@ int calipso_request_init_handler(calipso_client_t * client)
 
     request->header = hash_table_create(MAX_HASH_REQUEST_HEADER, NULL);
 
-    //calipso_request_set_method(request, NULL);
-    //calipso_request_set_uri(request, "/");
-    //calipso_request_set_version(request, "HTTP/1.1");
-    calipso_request_set_querystring(request, NULL);
+    calipso_request_set_method(request, NULL);
+    calipso_request_set_uri(request, "/");
+    calipso_request_set_version(request, "HTTP/1.1");
+
+	calipso_request_set_querystring(request, NULL);
 	calipso_request_set_handler(request, NULL);
 
 	request->host = NULL;
