@@ -32,6 +32,7 @@ static int calipso_request_read_body(calipso_request_t *request);
 static int calipso_request_parse_header_buf(calipso_request_t *request);
 static int request_parse_status_line(calipso_request_t *, char *);
 static int request_parse_header(calipso_request_t *, char *);
+static int request_persisten_handler(calipso_client_t *client);
 
 calipso_request_t *
 calipso_request_alloc(void)
@@ -65,8 +66,8 @@ calipso_request_unalloc(calipso_request_t *request)
     	cpo_pool_destroy(request->pool);
 	}
 
-    	free(request);
-    	return;
+	free(request);
+	request = NULL;
 }
 
 int calipso_request_init_handler(calipso_client_t * client)
@@ -102,6 +103,7 @@ int calipso_request_init_handler(calipso_client_t * client)
 	request->body_length = 0;
 	request->request_time = (time_t)0;
 
+	client->client_persistent_hdl = request_persisten_handler;
 	calipso_request_set_client(request, client);
 
 	/* header head and body */
@@ -118,7 +120,20 @@ int calipso_request_init_handler(calipso_client_t * client)
 
 	return CPO_OK;
 }
+
+int request_persisten_handler(calipso_client_t *client)
+{
+	//XXX: add cache
 	
+	if (client->request != NULL) {
+		assert(client->request->reply->state == 2);
+		calipso_request_unalloc(client->request);
+		client->request = NULL;
+	}
+
+	return CPO_OK;
+}
+
 static int calipso_request_read_header(calipso_request_t *request)
 {
 	int n;
@@ -274,14 +289,14 @@ int calipso_request_read_handler(calipso_client_t *client)
 		return 0;
 #endif
 
-	if(!client->parseheader) {
+	if(!client->done) {
 		
 		ret = calipso_request_read_header(request);
 
 		if(CPO_OK == ret) {
 
 			tmr_alrm_reset(client, 300);
-			client->parseheader = calipso_request_parse_header_buf(request);
+			client->done = calipso_request_parse_header_buf(request);
 		}
 
 	} else {
@@ -476,7 +491,7 @@ calipso_request_parse_header_buf(calipso_request_t *request)
 {
 	calipso_client_t *client = calipso_request_get_client(request);
 
-	if(!client->parseheader) {	
+	if(!client->done) {	
 		char *eol;
 		char *requestbuf = request->header_buf->b;
 
@@ -615,15 +630,7 @@ request_parse_header(calipso_request_t *request, char *header)
             while (*eol && (*eol = tolower((int)*eol)) && ++eol)
                 ;
 			if(hdr != NULL) {
-				/*if(!strcmp(hdr, "host")) {
-					char * p = strrchr(val, ':');
-					request->host = (p) ? cpo_pool_strndup(request->pool, val, p - val):
-						cpo_pool_strdup(request->pool, val);
-				}
-				if(!strcmp(hdr, "content-length")) {
-					request->body_length = cpo_atoi(val);
-				}*/ /*XXX: transfer-coding */
-				//TRACE("add key %s val %s\n", hdr, val);
+				
 				hash_table_insert(request->header, hdr, val);
 			}
         }

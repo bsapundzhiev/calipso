@@ -11,6 +11,7 @@
 
 #include <signal.h>
 #include "calipso.h"
+#include <execinfo.h>
 
 static void handle_sigterm( int sig );
 static void handle_sigchld( int sig );
@@ -75,12 +76,15 @@ static void handle_sigchld( int sig )
 
 /**
  * sigfault handler
- * TODO: coredumper
  */
 static void handle_sigsegv( int sig )
 {
+	void *array[10];
+	size_t size;
+	size = backtrace(array, 10);
     printf("Oops, SIGSEGV: get last error %d -> '%s'\n",errno, strerror(errno) );
     cpo_log_error(calipso->log, "Oops, SIGSEGV: get last error %d -> '%s'\n",errno, strerror(errno) );
+    backtrace_symbols_fd(array, size, fileno(calipso->log->fp_log_error) );
     exit(1);
 }
 

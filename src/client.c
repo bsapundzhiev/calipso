@@ -32,8 +32,9 @@ calipso_client_init(calipso_client_t *client)
 	client->request = NULL;
     calipso_client_set_connect_time(client, (time_t)NULL);
 	client->keepalive = client->keepalives = 0;
+	client->client_persistent_hdl = NULL;
 	client->ctmr = tmr_alrm_create(client, 30);
-	client->parseheader = 0;
+	client->done = 0;
 #ifdef USE_SSL	
 	client->ssl = NULL;
 #endif
@@ -77,6 +78,7 @@ calipso_client_unalloc(calipso_client_t *client)
 	}
 
     free(client);
+    client = NULL;
 }
 
 queue_t *
@@ -133,17 +135,14 @@ calipso_client_handle_keep_alive(calipso_client_t *client)
 {
 	calipso_socket_t *listener = calipso_client_get_listener(client);
 	
-	//XXX: add cache
-	if (client->request != NULL) {
-		assert(client->request->reply->state == 2);
-		calipso_request_unalloc(client->request);
-		client->request = NULL;
+	if(client->client_persistent_hdl) {
+		client->client_persistent_hdl(client);
 	}
-
+	
 	tmr_alrm_reset(client, 15);
-	client->parseheader = 0;
+	client->done = 0;
 	client->keepalive = 0;
-
+	
 	if(listener) {
     	queue_t *list = calipso_socket_get_client_list(listener);
 

@@ -140,8 +140,9 @@ struct s_client {
     time_t	connect_time;
 	int8_t	keepalive; 	/*keepalive conn*/
 	int8_t	keepalives;	/*persistent connections cntr*/
+	int(*client_persistent_hdl)(struct s_client *); /*persistent handler*/
 	timer_t ctmr;		/*conn timer*/
-	int8_t parseheader;
+	int8_t done; /* client complete state */
 	struct cpo_event_s *event; /*event */
 	size_t pending_bytes; 
 #ifdef USE_SSL

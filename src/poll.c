@@ -62,7 +62,7 @@ int poll_add_conn(cpo_event_t * event , int nfds)
     pfds[nfds].events	= POLLIN;
 
 	if(event->type == EVENT_CONNECTION
-		&& ((calipso_client_t *)event->data)->parseheader) {  
+		&& ((calipso_client_t *)event->data)->done) {  
 		//&& ((calipso_client_t *)event->data)->request) {
 		 pfds[nfds].events |= POLLOUT;
 	}

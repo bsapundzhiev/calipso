@@ -53,7 +53,7 @@ int epoll_add_conn(cpo_event_t * event, int nfds)
 	event->active = 1;
 
 	if(event->type == EVENT_CONNECTION
-		&& ((calipso_client_t *)event->data)->parseheader) {  
+		&& ((calipso_client_t *)event->data)->done) {  
 		//&& ((calipso_client_t *)event->data)->request) {
 		ev.events |= EPOLLOUT;
 	}

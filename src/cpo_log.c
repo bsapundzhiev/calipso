@@ -47,9 +47,15 @@ int  cpo_log_set_level(cpo_log_t *log, u_int level)
 
 static int make_log_date(char *buf, int len, time_t t)
 {
-	t = (t != 0) ? t : time(NULL); 
-
-	return strftime(buf, len-1, "%d/%b/%Y:%H:%M:%S %z", localtime(&t));
+	struct tm * tm = NULL; 
+	if(t == 0) {
+		time_t tt = time(NULL);
+		tm = localtime(&tt);
+	} else {
+		tm= localtime(&t);
+	}
+	
+	return strftime(buf, len-1, "%d/%b/%Y:%H:%M:%S %z", tm);
 }
 
 static void cpo_log_rotate_logfile(cpo_log_t *log, const char *logfilename)
@@ -190,17 +196,25 @@ void cpo_log_print(cpo_log_t * log, int type ,char *fmt,...)
 /* commont HTTP log format */
 void cpo_log_write_access_log(cpo_log_t * log, calipso_request_t * request)
 {
-	char date[64];
-	const char *user_agent = calipso_request_get_header_value(request, "User-Agent");
-
+	char date[32]= {'\0'};
+	
+	const char *user_agent = NULL; 
+	const char *client_addr = NULL;
+	if(request== NULL) return;
+	
+	user_agent = calipso_request_get_header_value(request, "User-Agent");
 	if(!user_agent) {
 		user_agent = "-";
+	}
+	
+	if(request->client!= NULL) {
+		client_addr = calipso_client_remote_ip(request->client);
 	}
 	
 	make_log_date(date, sizeof(date), request->request_time);
 
 	cpo_log_print(log, LOG_ACCESS, "[%s] - %s [%s] \"%s %s %s\" %d %d %s",
-		calipso_client_remote_ip(request->client),
+		client_addr ? client_addr : "-",
 		request->user ? request->user : "-",
 		date, 
 		request->method, 

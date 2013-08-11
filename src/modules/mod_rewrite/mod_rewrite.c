@@ -92,11 +92,11 @@ static int  mod_rewrite_request(calipso_request_t *request)
 
 	compile_regex (&r, "^/dokuwiki/(data|conf|bin|inc)/");
 
-	if ( match(&r, request->uri) ) {
+	if (request->uri && match(&r, request->uri) ) {
 		//test just deny
 		calipso_reply_set_status(request->reply, HTTP_FORBIDDEN);
 	} 
-
+	TRACE("End\n");
 	regfree (& r);
 	return CPO_OK;
 }
