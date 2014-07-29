@@ -26,8 +26,10 @@ typedef unsigned int	u_int;
 //socket
 #define SHUT_RDWR		2 //SD_BOTH
 #define ioctl 			ioctlsocket
-#define EWOULDBLOCK 	EAGAIN //WSAEWOULDBLOCK
 
+//#ifndef EWOULDBLOCK
+//#define EWOULDBLOCK 	EAGAIN //WSAEWOULDBLOCK
+//#endif
 
 #ifndef S_ISDIR
 #define S_ISDIR(mode)  (((mode) & S_IFMT) == S_IFDIR)
@@ -52,6 +54,14 @@ typedef unsigned int	u_int;
 
 #ifdef _WIN32
 #define OS 	"Win32"
+#endif
+
+#if defined(WINAPI_FAMILY) && WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
+ /// This code is for Windows phone 8
+#undef OS
+#define OS "WP8"
+#define WP8 1
+//other config 
 #endif
 
 int pread(unsigned int fd, char *buf, size_t count, off_t offset);

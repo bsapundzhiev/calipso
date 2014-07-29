@@ -25,6 +25,12 @@
 #include <winsock2.h>
 #endif
 
+#ifdef __APPLE__
+//typedef int timer_t;
+typedef  pthread_cond_t timer_t;
+typedef unsigned int u_int;
+#endif
+
 /* HTTPS support */
 #ifdef USE_SSL
 #include <openssl/crypto.h>
@@ -84,9 +90,14 @@
 #include <netinet/tcp.h>
 #include <arpa/inet.h>
 #include <sys/socket.h>
+#ifdef __APPLE__
+#include <sys/types.h> 
+#include <sys/uio.h>
 
+#else
 #include <sys/sendfile.h>
 
+#endif
 #define CPO_INVALID_SOCKET  (int)(~0)
 #define CPO_SOCKET_ERROR         (-1)
 

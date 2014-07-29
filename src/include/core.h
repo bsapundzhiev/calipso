@@ -187,7 +187,7 @@ struct s_config {
  * struct module
  */
 struct s_module {
-	char *mod_name;
+	const char *mod_name;
  	void *handler;
 	/*int (*handle)(void*);*/
 };

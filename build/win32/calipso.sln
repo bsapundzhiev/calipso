@@ -1,22 +1,13 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "calipso", "calipso.vcproj", "{30C4C1F9-4408-47E5-AD2F-3D7629DC30A3}"
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual C++ Express 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "calipso", "calipso.vcxproj", "{30C4C1F9-4408-47E5-AD2F-3D7629DC30A3}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mod_http", "mod_http.vcproj", "{F999BC5C-0330-4D4E-A2F1-79551DFA3F52}"
-	ProjectSection(ProjectDependencies) = postProject
-		{30C4C1F9-4408-47E5-AD2F-3D7629DC30A3} = {30C4C1F9-4408-47E5-AD2F-3D7629DC30A3}
-	EndProjectSection
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mod_http", "mod_http.vcxproj", "{F999BC5C-0330-4D4E-A2F1-79551DFA3F52}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mod_autoind", "mod_autoind.vcproj", "{39A400FF-E2D6-4D06-87CA-93A4383893A1}"
-	ProjectSection(ProjectDependencies) = postProject
-		{30C4C1F9-4408-47E5-AD2F-3D7629DC30A3} = {30C4C1F9-4408-47E5-AD2F-3D7629DC30A3}
-	EndProjectSection
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mod_autoind", "mod_autoind.vcxproj", "{39A400FF-E2D6-4D06-87CA-93A4383893A1}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mod_xcgi", "mod_xcgi.vcproj", "{0B8161EC-F23F-4D16-8B40-FE560415AB6F}"
-	ProjectSection(ProjectDependencies) = postProject
-		{30C4C1F9-4408-47E5-AD2F-3D7629DC30A3} = {30C4C1F9-4408-47E5-AD2F-3D7629DC30A3}
-	EndProjectSection
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mod_xcgi", "mod_xcgi.vcxproj", "{0B8161EC-F23F-4D16-8B40-FE560415AB6F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

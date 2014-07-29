@@ -35,7 +35,7 @@ typedef struct pollfd {
 */
 #ifndef poll
 #undef FD_SETSIZE
-#define FD_SETSIZE 1024
+#define FD_SETSIZE (1024 *2)
 
 // poll flags
 #undef POLLIN

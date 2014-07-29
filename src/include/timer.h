@@ -14,8 +14,6 @@
 
 #include "calipso.h"
 
-int wait_fd(int fd, short stimeout);
-
 timer_t tmr_alrm_create(calipso_client_t *client, int sec);
 void tmr_alrm_reset(calipso_client_t *client, int sec);
 void tmr_alrm_kill(timer_t timerid);

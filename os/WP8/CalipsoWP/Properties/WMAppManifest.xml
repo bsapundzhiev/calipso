@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Deployment xmlns="http://schemas.microsoft.com/windowsphone/2012/deployment" AppPlatformVersion="8.0">
+  <DefaultLanguage xmlns="" code="en-US" />
+  <App xmlns="" ProductID="{ae1c6533-1220-4fd6-baa8-4e660367a3a7}" Title="CalipsoWP" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="Borislav Sapundzhiev" Description="Sample HTTP server for windows phone" Publisher="CalipsoWP" PublisherID="{0b963fc8-7faa-4ffc-89ee-66763d24786e}">
+    <IconPath IsRelative="true" IsResource="false">Assets\ApplicationIcon.png</IconPath>
+    <Capabilities>
+      <Capability Name="ID_CAP_NETWORKING" />
+      <Capability Name="ID_CAP_MEDIALIB_AUDIO" />
+      <Capability Name="ID_CAP_MEDIALIB_PLAYBACK" />
+      <Capability Name="ID_CAP_SENSORS" />
+      <Capability Name="ID_CAP_WEBBROWSERCOMPONENT" />
+      <Capability Name="ID_CAP_MEDIALIB_PHOTO" />
+      <Capability Name="ID_CAP_REMOVABLE_STORAGE" />
+    </Capabilities>
+    <Tasks>
+      <DefaultTask Name="_default" NavigationPage="MainPage.xaml" />
+    </Tasks>
+    <Tokens>
+      <PrimaryToken TokenID="CalipsoWPToken" TaskName="_default">
+        <TemplateFlip>
+          <SmallImageURI IsRelative="true" IsResource="false">Assets\Tiles\FlipCycleTileSmall.png</SmallImageURI>
+          <Count>0</Count>
+          <BackgroundImageURI IsRelative="true" IsResource="false">Assets\Tiles\FlipCycleTileMedium.png</BackgroundImageURI>
+          <Title>CalipsoWP</Title>
+          <BackContent>
+          </BackContent>
+          <BackBackgroundImageURI>
+          </BackBackgroundImageURI>
+          <BackTitle>
+          </BackTitle>
+          <DeviceLockImageURI>
+          </DeviceLockImageURI>
+          <HasLarge>
+          </HasLarge>
+        </TemplateFlip>
+      </PrimaryToken>
+    </Tokens>
+    <Extensions>
+      <FileTypeAssociation TaskID="_default" Name="CalipsoFileAssoc" NavUriFragment="fileToken=%s">
+        <Logos>
+          <Logo Size="small" IsRelative="true">Assets/Route_Mapper_Logo33x33.png</Logo>
+          <Logo Size="medium" IsRelative="true">Assets/Route_Mapper_Logo69x69.png</Logo>
+          <Logo Size="large" IsRelative="true">Assets/Route_Mapper_Logo176x176.png</Logo>
+        </Logos>
+        <SupportedFileTypes>
+          <FileType ContentType="application/epub">.epub</FileType>
+          <FileType ContentType="application/txt">.txt</FileType>
+        </SupportedFileTypes>
+      </FileTypeAssociation>
+    </Extensions>
+    <ScreenResolutions>
+      <ScreenResolution Name="ID_RESOLUTION_WVGA" />
+      <ScreenResolution Name="ID_RESOLUTION_WXGA" />
+      <ScreenResolution Name="ID_RESOLUTION_HD720P" />
+    </ScreenResolutions>
+  </App>
+</Deployment>

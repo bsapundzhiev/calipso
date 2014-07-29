@@ -3,9 +3,20 @@
 
 #ifdef _WIN32
 #		include <windows.h>
+#ifdef WP8
+__inline void * Sys_LoadLibrary(const char *path) 
+{
+	int len = strlen(path);
+	wchar_t wpath[64];
+	MultiByteToWideChar(CP_ACP, 0, path, len, wpath, len);
+	wpath[len]= '\0';
+	return (void*)LoadPackagedLibrary(wpath, 0);
+}
+#else
 #		define Sys_LoadLibrary(f) (void*)LoadLibrary(f)
+#endif
 #		define Sys_UnloadLibrary(h) FreeLibrary((HMODULE)h)
-#		define Sys_LoadFunction(h,fn) (void*)GetProcAddress((HMODULE)h,fn)
+#		define Sys_LoadFunction(h,fn) (void*)GetProcAddress((HMODULE)h, fn)
 #		define Sys_LibraryError() GetLastError()==0 ? NULL : "LibraryError"
 #else
 #		include <dlfcn.h>

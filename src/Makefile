@@ -6,8 +6,11 @@
 #*
 
 ifndef OS
+#debug
 CFLAGS+= -DUSE_SSL
 USE_SSL=1
+USE_POLL=1
+USE_EPOLL=1
 endif
 
 OBJS    = main.o\
@@ -29,8 +32,6 @@ OBJS    = main.o\
 	reply.o\
 	request.o\
 	resource.o\
-	poll.o\
-	epoll.o\
 	event.o\
 	mpool.o\
 	process.o\
@@ -50,6 +51,17 @@ OBJS    = main.o\
 
 ifdef USE_SSL
 	OBJS+=cpo_io_ssl.o
+endif
+
+ifdef USE_POLL
+	OBJS+=poll.o
+endif
+ifdef USE_EPOLL
+	OBJS+=epoll.o
+endif
+
+ifdef USE_KQUEUE
+	OBJS+=kqueue.o
 endif
 #
 # project related

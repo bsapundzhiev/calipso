@@ -3,9 +3,10 @@
 #Build settings
 #SSL usage 
 USE_SSL=1
-#USE_POLL=1
-#default event model
-#USE_EPOLL=1 
+#events
+USE_POLL=1
+USE_EPOLL=1
+#USE_KQUEUE=1
 #PLATFORM=armv6l
 #CC=gcc
 -include Config
@@ -19,10 +20,23 @@ CALIPSO_INC:=$(TOPDIR)/libs
 endif
 
 CFLAGS+= -D_REENTRANT -D_GNU_SOURCE
-
+#defines
 ifdef USE_SSL
 CFLAGS+= -DUSE_SSL
 endif
+
+ifdef USE_POLL
+CFLAGS+= -DUSE_POLL
+endif
+
+ifdef USE_EPOLL
+CFLAGS+= -DUSE_EPOLL
+endif
+
+ifdef USE_KQUEUE
+CFLAGS+= -DUSE_KQUEUE
+endif
+
 ###################################
 # project related
 ###################################

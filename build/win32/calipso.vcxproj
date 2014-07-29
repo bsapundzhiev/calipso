@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{30C4C1F9-4408-47E5-AD2F-3D7629DC30A3}</ProjectGuid>
+    <RootNamespace>calipso</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>D:\Projects\calipso\src\cplib;D:\Projects\calipso\os\win32;D:\Projects\calipso\src\include;C:\OpenSSL-Win32\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>DEBUG;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <CompileAs>CompileAsC</CompileAs>
+      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>C:\OpenSSL-Win32\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\array.c" />
+    <ClCompile Include="..\..\src\cplib\base64.c" />
+    <ClCompile Include="..\..\src\bridge.c" />
+    <ClCompile Include="..\..\src\btree.c" />
+    <ClCompile Include="..\..\src\calipso.c" />
+    <ClCompile Include="..\..\src\chunks.c" />
+    <ClCompile Include="..\..\src\client.c" />
+    <ClCompile Include="..\..\os\win32\compat.c" />
+    <ClCompile Include="..\..\src\config.c" />
+    <ClCompile Include="..\..\src\cplib\cp_time.c" />
+    <ClCompile Include="..\..\src\cplib\cplib.c" />
+    <ClCompile Include="..\..\src\cpo_io.c" />
+    <ClCompile Include="..\..\src\cpo_log.c" />
+    <ClCompile Include="..\..\src\cplib\cpo_string.c" />
+    <ClCompile Include="..\..\src\dllist.c" />
+    <ClCompile Include="..\..\src\event.c" />
+    <ClCompile Include="..\..\src\cplib\getopt.c" />
+    <ClCompile Include="..\..\src\hash.c" />
+    <ClCompile Include="..\..\src\hooks.c" />
+    <ClCompile Include="..\..\src\http.c" />
+    <ClCompile Include="..\..\src\list.c" />
+    <ClCompile Include="..\..\src\main.c" />
+    <ClCompile Include="..\..\src\module.c" />
+    <ClCompile Include="..\..\src\mpool.c" />
+    <ClCompile Include="..\..\src\mprocess.c" />
+    <ClCompile Include="..\..\src\poll.c" />
+    <ClCompile Include="..\..\src\process.c" />
+    <ClCompile Include="..\..\src\queue.c" />
+    <ClCompile Include="..\..\src\rbtree.c" />
+    <ClCompile Include="..\..\src\reply.c" />
+    <ClCompile Include="..\..\src\request.c" />
+    <ClCompile Include="..\..\src\resource.c" />
+    <ClCompile Include="..\..\src\server.c" />
+    <ClCompile Include="..\..\src\signal.c" />
+    <ClCompile Include="..\..\src\socket.c" />
+    <ClCompile Include="..\..\src\cplib\thread.c" />
+    <ClCompile Include="..\..\os\win32\timer.c" />
+    <ClCompile Include="..\..\src\cplib\xmalloc.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\include\base64.h" />
+    <ClInclude Include="..\..\src\include\bridge.h" />
+    <ClInclude Include="..\..\src\include\calipso.h" />
+    <ClInclude Include="..\..\src\include\chunks.h" />
+    <ClInclude Include="..\..\src\include\config.h" />
+    <ClInclude Include="..\..\src\include\core.h" />
+    <ClInclude Include="..\..\src\include\cplib.h" />
+    <ClInclude Include="..\..\src\include\cpo_log.h" />
+    <ClInclude Include="..\..\src\include\debug.h" />
+    <ClInclude Include="..\..\src\include\dllist.h" />
+    <ClInclude Include="..\..\src\include\dt.h" />
+    <ClInclude Include="..\..\src\include\event.h" />
+    <ClInclude Include="..\..\src\cplib\getopt.h" />
+    <ClInclude Include="..\..\src\include\hash.h" />
+    <ClInclude Include="..\..\src\include\hooks.h" />
+    <ClInclude Include="..\..\src\include\module.h" />
+    <ClInclude Include="..\..\src\include\process.h" />
+    <ClInclude Include="..\..\src\include\rbtree.h" />
+    <ClInclude Include="..\..\src\include\rfc2616.h" />
+    <ClInclude Include="..\..\src\include\thread.h" />
+    <ClInclude Include="..\..\src\include\timer.h" />
+    <ClInclude Include="..\..\src\include\xmalloc.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

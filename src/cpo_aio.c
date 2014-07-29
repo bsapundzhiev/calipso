@@ -15,91 +15,91 @@ int total;
 //Signal handler called when an AIO operation finishes
 void aio_handler(int signal, siginfo_t *info, void*uap)
 {
-/*
-	int cbNumber = info->si_value.sival_int;
-	printf("AIO operation %d completed returning %d\n", 
-		cbNumber,
-		0);
-*/
-	total =	aio_return( info->si_value.sival_ptr );
-	printf("aio: total %d\n", total);
+    /*
+    	int cbNumber = info->si_value.sival_int;
+    	printf("AIO operation %d completed returning %d\n",
+    		cbNumber,
+    		0);
+    */
+    total =	aio_return( info->si_value.sival_ptr );
+    printf("aio: total %d\n", total);
 }
 
 
 ssize_t fd_aio_read(int fd, void *buf, size_t len)
 {
-	ssize_t retval; 
-	ssize_t nbytes; 
-struct aiocb myaiocb;
-	//Set up the signal handler
-	struct sigaction action;
-	action.sa_sigaction = aio_handler;
-	action.sa_flags = SA_SIGINFO;
-	sigemptyset(&action.sa_mask);
-	sigaction(SIG_AIO, &action, NULL);
+    ssize_t retval;
+    ssize_t nbytes;
+    struct aiocb myaiocb;
+    //Set up the signal handler
+    struct sigaction action;
+    action.sa_sigaction = aio_handler;
+    action.sa_flags = SA_SIGINFO;
+    sigemptyset(&action.sa_mask);
+    sigaction(SIG_AIO, &action, NULL);
 
-	//struct aiocb myaiocb; 
-	bzero( &myaiocb, sizeof (struct aiocb)); 
-	myaiocb.aio_fildes = fd;
-	myaiocb.aio_offset = 0; 
-	myaiocb.aio_buf = buf; 
-	myaiocb.aio_nbytes = len; //sizeof (buf); 
+    //struct aiocb myaiocb;
+    bzero( &myaiocb, sizeof (struct aiocb));
+    myaiocb.aio_fildes = fd;
+    myaiocb.aio_offset = 0;
+    myaiocb.aio_buf = buf;
+    myaiocb.aio_nbytes = len; //sizeof (buf);
 //	myaiocb.aio_lio_opcode = LIO_WRITE;
-	//The signal to send, and the value of the signal
-	myaiocb.aio_sigevent.sigev_notify = SIGEV_SIGNAL;
-	myaiocb.aio_sigevent.sigev_signo = SIG_AIO;
-	//myaiocb.aio_sigevent.sigev_value.sival_int = 0;
-	myaiocb.aio_sigevent.sigev_value.sival_ptr = &myaiocb;
+    //The signal to send, and the value of the signal
+    myaiocb.aio_sigevent.sigev_notify = SIGEV_SIGNAL;
+    myaiocb.aio_sigevent.sigev_signo = SIG_AIO;
+    //myaiocb.aio_sigevent.sigev_value.sival_int = 0;
+    myaiocb.aio_sigevent.sigev_value.sival_ptr = &myaiocb;
 
-	retval = aio_read( &myaiocb ); 
-		if (retval == -1) { 
-			perror("aio_read:"); 
-			exit(1);
-		}
-	/* continue processing */  
-	/* wait for completion */ 
-	while ( (retval = aio_error( &myaiocb) ) == EINPROGRESS );
-	
-	int err = aio_error(&myaiocb);
+    retval = aio_read( &myaiocb );
+    if (retval == -1) {
+        perror("aio_read:");
+        exit(1);
+    }
+    /* continue processing */
+    /* wait for completion */
+    while ( (retval = aio_error( &myaiocb) ) == EINPROGRESS );
+
+    int err = aio_error(&myaiocb);
     if (err != 0) {
-                printf("aio_read err : %s\n", strerror(err));
-           }
-     
-	/* free the aiocb */ 
-	/*nbytes*/ total = aio_return( &myaiocb);
-	printf("aio_read nbytes %d err %d retval %d\n", total/*nbytes*/, err, retval);
-	return total; //nbytes;
+        printf("aio_read err : %s\n", strerror(err));
+    }
+
+    /* free the aiocb */
+    /*nbytes*/ total = aio_return( &myaiocb);
+    printf("aio_read nbytes %d err %d retval %d\n", total/*nbytes*/, err, retval);
+    return total; //nbytes;
 }
 
 ssize_t fd_aio_write(int fd, void *buf, size_t len)
 {
-	ssize_t retval; 
-	ssize_t nbytes; 
-	struct aiocb myaiocb; 
+    ssize_t retval;
+    ssize_t nbytes;
+    struct aiocb myaiocb;
 
-	bzero( &myaiocb, sizeof (struct aiocb)); 
+    bzero( &myaiocb, sizeof (struct aiocb));
 
-	myaiocb.aio_fildes = fd;
-	myaiocb.aio_offset = 0; 
-	myaiocb.aio_buf = buf; 
-	myaiocb.aio_nbytes = len; //sizeof (buf); 
-	myaiocb.aio_sigevent.sigev_notify = SIGEV_NONE; 
-	retval = aio_write( &myaiocb ); 
-		if (retval == -1) { 
-			perror("aio_write:"); 
-			exit(1);
-		} 
-	/* continue processing */  
-	/* wait for completion */ 
-	while ( (retval = aio_error( &myaiocb) ) == EINPROGRESS) ; 
-	int err = aio_error(&myaiocb);
-	       if (err != 0)
-                 printf("aio_write err : %s\n", strerror(err));
-     
-	/* free the aiocb */ 
-	nbytes = aio_return( &myaiocb) ;
-	printf("aio_read nbytes %d err %d retval %d\n", nbytes, err, retval);
-	return nbytes;
+    myaiocb.aio_fildes = fd;
+    myaiocb.aio_offset = 0;
+    myaiocb.aio_buf = buf;
+    myaiocb.aio_nbytes = len; //sizeof (buf);
+    myaiocb.aio_sigevent.sigev_notify = SIGEV_NONE;
+    retval = aio_write( &myaiocb );
+    if (retval == -1) {
+        perror("aio_write:");
+        exit(1);
+    }
+    /* continue processing */
+    /* wait for completion */
+    while ( (retval = aio_error( &myaiocb) ) == EINPROGRESS) ;
+    int err = aio_error(&myaiocb);
+    if (err != 0)
+        printf("aio_write err : %s\n", strerror(err));
+
+    /* free the aiocb */
+    nbytes = aio_return( &myaiocb) ;
+    printf("aio_read nbytes %d err %d retval %d\n", nbytes, err, retval);
+    return nbytes;
 }
 
 
@@ -120,7 +120,7 @@ long int calipso_aio_sendfile(int out_fd, int in_fd,  size_t size )
                 ( ww = fd_aio_write( out_fd, buf, cc ) ) < 0 ) {
             return -1;
         } else if ( cc == 0 || out_fd < 0 ) {
-			printf("AIO errno %d\n", errno);
+            printf("AIO errno %d\n", errno);
             break;
         }
 

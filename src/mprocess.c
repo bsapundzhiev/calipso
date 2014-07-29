@@ -1,11 +1,10 @@
 /*
- * master process 
+ * master process
  */
 #include "calipso.h"
 #include "_process.h"
 
-int
-mprocess_init(void)
+int mprocess_init(void)
 {
     calipso_process_t *proc = calipso_process_alloc();
 
@@ -22,8 +21,7 @@ mprocess_init(void)
     return (1);
 }
 
-int
-mprocess(void)
+int mprocess(void)
 {
     int (*mprocess_model)(void);
 

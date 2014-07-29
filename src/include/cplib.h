@@ -2,7 +2,9 @@
 #define _CPL_H
 
 #include <stdio.h>
-
+#ifdef _WIN32
+#include "compat.h"
+#endif
 /*calipso portable lib */
 #define F_BIN 	0x0
 #define F_ASCII	0x1

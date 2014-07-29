@@ -16,10 +16,10 @@
 int LaunchThread( void *(*func)(), void *parg)
 {
 #	ifdef WINDOWS
-	LPDWORD			tid;
+	LPDWORD tid;
 	return CreateThread(NULL, 0L, (void *)func, parg, 0L, &tid);
 #	else
-	pthread_t               pth;
+	pthread_t pth;
 	return pthread_create(&pth, NULL, (void *)func, parg);
 #	endif
 
@@ -29,10 +29,10 @@ int LaunchThread( void *(*func)(), void *parg)
  * new functions flows
  */
 
-int 
-cpo_thread_create (pthread_t *thread_id, 
-			const pthread_attr_t *attributes,
-			void *(*thread_function)(void *), void *arguments)
+int
+cpo_thread_create (pthread_t *thread_id,
+		const pthread_attr_t *attributes,
+		void *(*thread_function)(void *), void *arguments)
 {
 	int stat;
 
@@ -40,7 +40,6 @@ cpo_thread_create (pthread_t *thread_id,
 
 	return stat;
 }
-
 
 /*---MUTEXS---*/
 
@@ -52,7 +51,6 @@ TS_API THREAD_T cpo_thread_id(void)
 	return pthread_self();
 #endif
 }
-
 
 /* Allocate a mutex */
 TS_API MUTEX_T cpo_mutex_alloc(void)
@@ -84,8 +82,6 @@ TS_API void cpo_mutex_free(MUTEX_T mutexp)
 #endif
 }
 
-
-
 /* Lock a mutex */
 TS_API int cpo_mutex_lock(MUTEX_T mutexp)
 {
@@ -98,7 +94,6 @@ TS_API int cpo_mutex_lock(MUTEX_T mutexp)
 #endif
 }
 
-
 /* Unlock a mutex */
 TS_API int cpo_mutex_unlock(MUTEX_T mutexp)
 {
@@ -110,7 +105,6 @@ TS_API int cpo_mutex_unlock(MUTEX_T mutexp)
 	return pthread_mutex_unlock(mutexp);
 #endif
 }
-
 
 #endif /*!PTHREAD*/
 

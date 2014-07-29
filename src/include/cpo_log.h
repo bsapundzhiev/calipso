@@ -43,7 +43,7 @@ void
 cpo_log_close(cpo_log_t * log);
 
 void 
-cpo_log_print(cpo_log_t * log, int type ,char *fmt,...);
+cpo_log_print(cpo_log_t * log, int type ,const char *fmt,...);
 
 void 
 cpo_log_write_access_log(cpo_log_t * log, calipso_request_t * request);

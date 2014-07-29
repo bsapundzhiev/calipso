@@ -42,7 +42,7 @@ v0.1.x
 		
 	 1.3. Requirements:
 	 ------------------
-		* Linux, FreeBSD, Windows
+		* Linux, FreeBSD, Windows, Windows Phone 8, Mac OS X
 		* glibc with nptl and epoll/poll/select/kqueue support
 
 	2. Licensing

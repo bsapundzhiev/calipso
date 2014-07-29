@@ -1,7 +1,7 @@
 /* poll.c - edge-trgered event module
  *
  * Copyright (C) 2007 Borislav Sapundzhiev
- *         
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2 of the License, or (at
@@ -33,141 +33,137 @@ static int poll_process(int nfds);
 static int poll_init();
 static int poll_done();
 
-cpo_events_t cpo_poll_events = {
-	"poll_events",
-	poll_add_conn,
+cpo_events_t cpo_poll_events = { 
+	"poll_events", 
+	poll_add_conn, 
 	poll_del_conn,
-	poll_process,
-	poll_init,
-	poll_done,
+	poll_process, 
+    poll_init, poll_done,
 };
 
-int poll_add_conn(cpo_event_t * event , int nfds)
+int poll_add_conn(cpo_event_t * event, int nfds)
 {
-	int fd =0;
-	
+    int fd = 0;
 
-	if(event->type == EVENT_LISTENER) 
-		fd = ((calipso_socket_t *)event->data)->lsocket;
+    if (event->type == EVENT_LISTENER)
+        fd = ((calipso_socket_t *) event->data)->lsocket;
 
-	else if(event->type == EVENT_CONNECTION)
-    	fd = ((calipso_client_t *)event->data)->csocket;
-	
-	if(fd == 0) return CPO_ERR;
+    else if (event->type == EVENT_CONNECTION)
+        fd = ((calipso_client_t *) event->data)->csocket;
 
-	printf("add ndfs %d fd %d\n", nfds, fd);
-	fdtype[fd].type 	= event->type;
-    fdtype[fd].c    	= event;
-    pfds[nfds].fd 		= fd;
-    pfds[nfds].events	= POLLIN;
+    if (fd == 0)
+        return CPO_ERR;
 
-	if(event->type == EVENT_CONNECTION
-		&& ((calipso_client_t *)event->data)->done) {  
-		//&& ((calipso_client_t *)event->data)->request) {
-		 pfds[nfds].events |= POLLOUT;
-	}
+    printf("add ndfs %d fd %d\n", nfds, fd);
+    fdtype[fd].type = event->type;
+    fdtype[fd].c = event;
+    pfds[nfds].fd = fd;
+    pfds[nfds].events = POLLIN;
 
-	return CPO_OK;
+    if (event->type == EVENT_CONNECTION
+            && ((calipso_client_t *) event->data)->done) {
+        //&& ((calipso_client_t *)event->data)->request) {
+        pfds[nfds].events |= POLLOUT;
+    }
+
+    return CPO_OK;
 }
 
 int poll_del_conn(cpo_event_t * event)
 {
-	return CPO_OK;
+    return CPO_OK;
 }
 
 int poll_process(int nfds)
 {
-	int pollret =0 ,i,nbytes;
+    int pollret = 0, i, nbytes;
 
-	if ((pollret = poll(pfds, nfds, -1)) < 0) {
+    if ((pollret = poll(pfds, nfds, -1)) < 0) {
 
-		if (errno == EINTR) {
-			printf("poll interupted\n");
-      		return CPO_ERR;
-		}
+        if (errno == EINTR) {
+            printf("poll interupted\n");
+            return CPO_ERR;
+        }
 
-       	TRACE("poll error %s\n", strerror(errno));    
+        TRACE("poll error %s\n", strerror(errno));
         exit(1);
- 	}
+    }
 
-   	printf("pollret = %d ndfs= %d\n" , pollret , nfds);
+    printf("pollret = %d ndfs= %d\n", pollret, nfds);
 
-	for (i = 0; i < nfds/*nfds && pollret*/; i++) {
-		//--pollret;
+    for (i = 0; i < nfds/*nfds && pollret*/; i++) {
+        //--pollret;
 
-    	if (pfds[i].revents & (POLLIN|POLLOUT)) {
-			
-			cpo_event_t * event = fdtype[ pfds[i].fd ].c;
-			
-			if ((pfds[i].revents & POLLIN) && 
-				event->type == EVENT_LISTENER) {
+        if (pfds[i].revents & (POLLIN | POLLOUT)) {
 
-				calipso_socket_t * listener = event->data;
+            cpo_event_t * event = fdtype[pfds[i].fd].c;
 
-				printf("lsocket: %d\n", listener->lsocket);
-		        printf("state: %d\n", listener->state);
+            if ((pfds[i].revents & POLLIN) && event->type == EVENT_LISTENER) {
 
-				if ( calipso_socket_accept_client(listener) == NULL ) {
-		        	TRACE("FIXME: maxconn reached\n");            
-		      	}
+                calipso_socket_t * listener = event->data;
 
-			} 
-			else if(event->type == EVENT_CONNECTION) {
+                printf("lsocket: %d\n", listener->lsocket);
+                printf("state: %d\n", listener->state);
 
-				calipso_client_t* client = event->data;
-				printf("client %d\n", client->csocket);
-				
-				if (pfds[i].revents & POLLIN) {
-                       
-               		if ((nbytes = calipso_client_sent_data(client)) == 0) {
-                    	printf("nbytes == 0 break; \n");
-                   		calipso_client_disconnect(client);
-						continue;
-                  	}
-					else  {
-                    	TRACE("READING= %d\n", nbytes);
-						client->pending_bytes = nbytes;
-                       	//calipso_client_read(client, nbytes);
-						assert(event->handler_read != NULL);
-						event->handler_read(client);
-                    }
-                        
-             	}
+                if (calipso_socket_accept_client(listener) == NULL) {
+                    TRACE("FIXME: maxconn reached\n");
+                }
 
-              	if (pfds[i].revents & POLLOUT) {
-                	printf("POLLOUT\n");
-                	//if (calipso_client_write_reply(client)) {
-					assert(event->handler_write != NULL);
-					if(event->handler_write(client)) {
-                		//epoll_del_conn(event);
-                    	calipso_client_disconnect(client);
-			    		continue;
+            } else if (event->type == EVENT_CONNECTION) {
+
+                calipso_client_t* client = event->data;
+                printf("client %d\n", client->csocket);
+
+                if (pfds[i].revents & POLLIN) {
+
+                    if ((nbytes = calipso_client_sent_data(client)) == 0) {
+                        printf("nbytes == 0 break; \n");
+                        calipso_client_disconnect(client);
+                        continue;
+                    } else {
+                        TRACE("READING= %d\n", nbytes);
+                        client->pending_bytes = nbytes;
+                        //calipso_client_read(client, nbytes);
+                        assert(event->handler_read != NULL);
+                        event->handler_read(client);
                     }
 
-            	}
+                }
 
-			}
+                if (pfds[i].revents & POLLOUT) {
+                    printf("POLLOUT\n");
+                    //if (calipso_client_write_reply(client)) {
+                    assert(event->handler_write != NULL);
+                    if (event->handler_write(client)) {
+                        //epoll_del_conn(event);
+                        calipso_client_disconnect(client);
+                        continue;
+                    }
 
-		}		
-	}//for
+                }
 
-	return CPO_OK;
+            }
+
+        }
+    } //for
+
+    return CPO_OK;
 }
 
 int poll_init()
 {
-	pfds = malloc( MAX_EVENTS * sizeof(struct pollfd));
+    pfds = malloc( MAX_EVENTS * sizeof(struct pollfd));
     fdtype = malloc( MAX_EVENTS * sizeof(struct _fdtype));
 
-	return CPO_OK;
+    return CPO_OK;
 }
 
 int poll_done()
 {
-	printf("Clerar poll data\n");
-	memset(pfds, 0, MAX_EVENTS * sizeof(struct pollfd));
-	memset(fdtype, 0, MAX_EVENTS * sizeof(struct _fdtype));
+    printf("Clerar poll data\n");
+    memset(pfds, 0, MAX_EVENTS * sizeof(struct pollfd));
+    memset(fdtype, 0, MAX_EVENTS * sizeof(struct _fdtype));
 
-	return NOK;
+    return NOK;
 }
 

@@ -47,6 +47,7 @@ void cpo_events_init();
 
 extern cpo_events_t cpo_epoll_events;
 extern cpo_events_t cpo_poll_events;
+extern cpo_events_t cpo_kqueue_events;
 //extern cpo_events_t * cpo_events;
 
 #endif

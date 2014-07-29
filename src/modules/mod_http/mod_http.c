@@ -207,8 +207,8 @@ static int mod_http_init_server_ctx(struct http_conf_ctx * ctx)
 
 static int mod_http_init_config(calipso_config_t * config)
 {
-	struct http_conf_ctx * ctx = NULL;
-
+	struct http_conf_ctx x, * ctx = NULL;
+	
 	for(config = list_get_first_entry( config );
 		config != NULL;
 		config = list_get_next_entry( config )) {
@@ -222,15 +222,14 @@ static int mod_http_init_config(calipso_config_t * config)
 				/* lazzy loading */
 				if(CTX_BLOCK_BEGIN == state) {
 					if(!ctx) {
-						ctx = xmalloc(sizeof(*ctx));
-						config_parse_run(ctx, NULL, NULL);
+						config_parse_run(&x, NULL, NULL);
+						ctx = &x;
 					}
 				}
 
 				if(CTX_BLOCK_END == state)	{
 					mod_http_init_server_ctx(ctx);
 					if(ctx) {
-						free(ctx);
 						ctx = NULL;
 					}
 				}
@@ -241,12 +240,7 @@ static int mod_http_init_config(calipso_config_t * config)
 			}
 		}
     }
-
-	if(ctx) {
-		free(ctx);
-		ctx=NULL;
-	}
-
+    
 	return CPO_OK;
 }
 
@@ -264,7 +258,8 @@ int pm_init()
     calipso_register_hook(HOOK_TRANSLATE, (void *)mod_http_translate);
     calipso_register_hook(HOOK_RESOURCE, (void *)mod_http_resource);
     calipso_register_hook(HOOK_MIME, (void *)mod_http_mime);
-
+/*TODO: http auth */
+    http_auth_basic_init();
     return CPO_OK;
 }
 
@@ -286,7 +281,11 @@ static int mod_http_configure(void)
 /*TODO: fix */
 	mime_type = hash_table_create(64, NULL);
 #ifdef _WIN32
+#ifdef WP8
+	mime_load_file(mime_type, "mime.types");
+#else
 	mime_load_file(mime_type, "../../doc/mime.types");
+#endif
 #else 
 	mime_load_file(mime_type, "../doc/mime.types");
 #endif
