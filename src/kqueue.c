@@ -17,10 +17,6 @@
 #include "event.h"
 
 
-#define	FDTYPE_FREE		0x0
-#define	FDTYPE_LISTENER	0x1
-#define	FDTYPE_CLIENT	0x2
-
 static struct kevent *pfds;
 static int _kqueue;
 static struct kevent evlist[MAX_EVENTS];

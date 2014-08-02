@@ -33,11 +33,11 @@ static timer_t create_timer(int signo, void *data)
     return timerid;
 }
 
-static void signal_handler(int sig, siginfo_t *si, void *ctx)
+static void signal_handler(int sig, siginfo_t *si, void *ctx __attribute__((unused)))
 {
     calipso_client_t *client = (calipso_client_t *) si->si_value.sival_ptr;
 
-    if (client) {
+    if (client && TIMERSIGNAL == sig) {
         TRACE("signal_handler client @ %p : %d\n", client, client->csocket);
         //calipso_client_disconnect(client);
         shutdown(client->csocket, SHUT_RDWR);

@@ -205,7 +205,7 @@ calipso_reply_get_header_value(calipso_reply_t *reply, char *header)
 
 int calipso_reply_send_header(calipso_reply_t *reply)
 {
-    int i;
+    hash_size i;
     hash_node_t *node;
     hash_t * hash = reply->header;
 
@@ -377,7 +377,7 @@ int calipso_reply_send_writev(calipso_reply_t *reply)
     } //for;;
 
     calipso_reply_set_replybuf_size(reply, reply->out_filter->total_bytes);
-    assert(calipso_reply_get_replybuf_size(reply) >= 0);
+    //assert(calipso_reply_get_replybuf_size(reply) >= 0);
 
     return 1;
 }
@@ -445,8 +445,13 @@ int calipso_reply_send_file(calipso_reply_t * reply)
 #ifdef _WIN32
             nr = calipso_sendfile(clientsock, rdesc , calipso_resource_get_size(reply->resource) );
 #else
+#ifdef __APPLE__
+			off_t sent_bytes = calipso_resource_get_size(reply->resource);
+			nr = sendfile(rdesc, clientsock, reply->resource->offset, &sent_bytes, NULL, 0);
+#else
             nr = sendfile(clientsock, rdesc, &(reply->resource)->offset,
                           calipso_resource_get_size(reply->resource));
+#endif
             //nr = splice_sendfile( rdesc, clientsock, &(reply->resource)->offset, calipso_resource_get_size(reply->resource) );
 
             //nr = calipso_sendfile( clientsock, rdesc,  calipso_resource_get_size(reply->resource) );

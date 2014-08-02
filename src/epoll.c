@@ -46,7 +46,7 @@ static int epoll_get_event_fd(cpo_event_t * event)
     return fd;
 }
 
-int epoll_add_conn(cpo_event_t * event, int nfds)
+int epoll_add_conn(cpo_event_t * event, int nfds __attribute__((unused)))
 {
     struct epoll_event ev;
 

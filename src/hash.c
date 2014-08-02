@@ -42,7 +42,7 @@ static hash_size def_hashfunc(const char *key, hash_size size)
 }
 
 /* hash key for hashtable -> Horner's rule */
-static hash_size hash_table_hash(const char *key, hash_size size)
+hash_size hash_table_hash(const char *key, hash_size size)
 {
     hash_size result = 0;
     while (*key)

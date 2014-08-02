@@ -33,7 +33,6 @@ return (-1);\
 
 static int socket_create_inet(const char *addr, int16_t portn);
 static int socket_set_options(int lsocket);
-static char * calipso_socket_get_peer_name(int s);
 
 calipso_socket_t *
 calipso_socket_alloc(void)

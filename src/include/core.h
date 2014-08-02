@@ -35,6 +35,23 @@ enum {
 #endif
 
 /**
+ * calipso type's
+ */
+typedef struct  s_calipso   calipso_t;
+typedef struct 	s_socket	calipso_socket_t;
+typedef struct 	s_server 	calipso_server_t;
+//typedef struct 	_List    	calipso_config_t;
+typedef struct 	s_client	calipso_client_t;
+#ifndef	calipso_request_t
+typedef struct 	s_request	calipso_request_t;
+#endif
+typedef struct	s_reply		calipso_reply_t;
+typedef	struct 	mpool		calipso_pool_t;
+typedef struct 	s_process	calipso_process_t;
+typedef	struct 	s_resource 	calipso_resource_t;
+typedef struct  s_module 	calipso_mod_t;
+
+/**
  * struct listener
  */
 struct  s_socket {
@@ -197,19 +214,6 @@ struct s_module {
  */
 //struct mpool;
 
-/**
- * calipso type's
- */
-typedef struct  s_calipso   calipso_t;
-typedef struct 	s_socket	calipso_socket_t;
-typedef struct 	s_server 	calipso_server_t;
-//typedef struct 	_List    	calipso_config_t;
-typedef struct 	s_client	calipso_client_t;
-typedef struct 	s_request	calipso_request_t;
-typedef struct	s_reply		calipso_reply_t;
-typedef	struct 	mpool		calipso_pool_t;
-typedef struct 	s_process	calipso_process_t;
-typedef	struct 	s_resource 	calipso_resource_t;
-typedef struct  s_module 	calipso_mod_t;
+
 
 #endif 

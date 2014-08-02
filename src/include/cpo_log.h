@@ -13,7 +13,6 @@ enum log_type {
 
 /* forward declatarion */
 typedef struct 	s_request calipso_request_t;
-typedef struct 	chunk_ctx chunk_buf_t;
 
 typedef struct cpo_log {
 	u_int level;

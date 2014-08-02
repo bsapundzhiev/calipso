@@ -20,7 +20,7 @@
 #define FIRSTSUNDAY(timp)	(((timp)->tm_yday - (timp)->tm_wday + 420) % 7)
 #define FIRSTDAYOF(timp)   	(((timp)->tm_wday - (timp)->tm_yday + 420) % 7)
 
-const int _ytab[2][12] = { { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 }, {
+const unsigned int _ytab[2][12] = { { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 }, {
 		31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 } };
 
 const char *wdays[] = { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };

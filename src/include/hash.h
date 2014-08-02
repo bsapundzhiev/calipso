@@ -52,6 +52,7 @@ int hash_table_remove(hash_t *hashtbl, const char *key);
 void *hash_table_get_data(hash_t *hashtbl, const char *key);
 int hash_table_resize(hash_t *hashtbl, hash_size size);
 /*misc*/
+hash_size hash_table_hash(const char *key, hash_size size);
 hash_node_t *hash_get_first_entry( hash_t *hash_entry );
 hash_node_t *hash_get_last_entry( hash_t *hash_entry );
 hash_size hash_table_get_size(hash_t *hashtbl);

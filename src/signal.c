@@ -54,7 +54,9 @@ static void handle_sigchld(int sig)
 {
     pid_t pid;
     int status;
-
+//#ifdef _DEBUG
+	fprintf( stderr, "handle_sigchld SIG(%d)\n", sig);
+//#endif
     for (;;) {
 
 #ifdef _WIN32
@@ -87,8 +89,8 @@ static void handle_sigsegv(int sig)
 #endif
     printf("Oops, SIGSEGV: get last error %d -> '%s'\n", errno,
            strerror(errno));
-    cpo_log_error(calipso->log, "Oops, SIGSEGV: get last error %d -> '%s'\n",
-                  errno, strerror(errno));
+    cpo_log_error(calipso->log, "Oops, SIGSEGV(%d): get last error %d -> '%s'\n",
+                  sig, errno, strerror(errno));
 #ifdef LINUX
     backtrace_symbols_fd(array, size, fileno(calipso->log->fp_log_error));
 #endif

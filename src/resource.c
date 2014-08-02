@@ -28,12 +28,12 @@ calipso_resource_alloc(void)
 
     return (resource);
 }
-
+/*
 int calipso_resource_init(calipso_resource_t *resource, calipso_pool_t *pool)
 {
     return 0;
 }
-
+*/
 void calipso_resource_unalloc(calipso_resource_t *resource)
 {
     if (resource->resource_fd > 0)

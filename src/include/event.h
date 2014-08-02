@@ -20,13 +20,13 @@ enum event_type {
 #define MAX_EVENTS 1024
 
 /* forward declatarion */
-typedef struct 	s_client	calipso_client_t;
+//typedef struct 	s_client calipso_client_t;
 
 typedef struct cpo_event_s {
 	unsigned char type;						/* type of data */
 	void *data;								/* link to connection */
-	int (*handler_read)(calipso_client_t*);	/* event handler read*/
-	int (*handler_write)(calipso_client_t*);/* event handler write*/
+	int (*handler_read)(void* );	/* event handler read*/
+	int (*handler_write)(void*);/* event handler write*/
 	unsigned int active;					/* is event active */
 } cpo_event_t;
 

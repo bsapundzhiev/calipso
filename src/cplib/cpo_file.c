@@ -9,7 +9,7 @@ int cpo_file_open(const char *filename, int flags) {
 	int fd = open(filename, O_RDONLY, _O_RANDOM | _O_SEQUENTIAL);
 	_setmode( fd, _O_BINARY);
 #else
-	int fd = open(filename, O_RDONLY | O_NONBLOCK, 0644);
+	int fd = open(filename, O_RDONLY | O_NONBLOCK | flags, 0644);
 #endif
 
 	return fd;

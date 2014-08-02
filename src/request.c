@@ -24,8 +24,8 @@
 #define EOL 	"\n"
 #define EOLCR	"\r\n"
 
-static int calipso_request_read_handler(calipso_client_t *client);
-static int calipso_request_write_handler(calipso_client_t *client);
+static int calipso_request_event_read_handler(calipso_client_t *client);
+static int calipso_request_event_write_handler(calipso_client_t *client);
 static int calipso_request_read_header(calipso_request_t *request);
 static int calipso_request_read_body(calipso_request_t *request);
 
@@ -87,8 +87,8 @@ int calipso_request_init_handler(calipso_client_t * client)
     else
         return CPO_ERR;
 
-    event->handler_read = calipso_request_read_handler;
-    event->handler_write = calipso_request_write_handler;
+    event->handler_read = (void*)calipso_request_event_read_handler;
+    event->handler_write = (void*)calipso_request_event_write_handler;
 
     request->header = hash_table_create(MAX_HASH_REQUEST_HEADER, NULL);
 
@@ -256,7 +256,7 @@ static int calipso_request_read_body(calipso_request_t *request)
 
         if (reqlen > 0) {
 
-            assert(reqlen == client->pending_bytes);
+            assert(reqlen == (int)client->pending_bytes);
 
             chunks_add_tail(request->in_filter, buf, reqlen);
         } else if (reqlen < 0) {
@@ -274,7 +274,7 @@ static int calipso_request_read_body(calipso_request_t *request)
     return reqlen;
 }
 
-int calipso_request_read_handler(calipso_client_t *client)
+int calipso_request_event_read_handler(calipso_client_t *client)
 {
     int ret = CPO_OK;
     calipso_request_t *request = client->request;
@@ -294,7 +294,7 @@ int calipso_request_read_handler(calipso_client_t *client)
         ret = calipso_request_read_header(request);
 
         if (CPO_OK == ret) {
-
+			/*TODO: timeout*/
             tmr_alrm_reset(client, 300);
             client->done = calipso_request_parse_header_buf(request);
         }
@@ -315,7 +315,7 @@ int calipso_request_read_handler(calipso_client_t *client)
     return ret;
 }
 
-int calipso_request_write_handler(calipso_client_t *client)
+int calipso_request_event_write_handler(calipso_client_t *client)
 {
 
 #ifdef USE_SSL
@@ -326,7 +326,7 @@ int calipso_request_write_handler(calipso_client_t *client)
 
         if (pbytes) {
             client->pending_bytes = pbytes;
-            calipso_request_read_handler(client);
+            calipso_request_event_read_handler(client);
             return CPO_ERR;
         }
     }
@@ -612,8 +612,8 @@ static int request_parse_header(calipso_request_t *request, char *header)
         if (eol) {
             *eol = 0;
             val = eol + 1;
-            if (isspace((int)*val) && ++val)
-                ;
+            if (isspace((int)*val) && ++val){}
+            //    ;
             eol = hdr;
             while (*eol && (*eol = tolower((int) *eol)) && ++eol)
                 ;

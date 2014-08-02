@@ -46,8 +46,8 @@ typedef unsigned int u_int;
 #include "dllist.h"
 #include "queue.h"
 #include "event.h"
-#include "cpo_log.h"
 #include "hooks.h"
+#include "cpo_log.h"
 #include "core.h"
 #include "rfc2616.h"
 #include "xmalloc.h"
@@ -402,6 +402,7 @@ int calipso_socket_set_nonblocking(int  sock, u_int on);
 int set_tcp_nopush_option(int s, short enable);
 int set_tcp_nodelay_option(int s, short enable);
 int set_keep_alive(int socket, short enable);
+char * calipso_socket_get_peer_name(int s);
 
 /* 
  * request.c

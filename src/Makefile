@@ -11,6 +11,7 @@ CFLAGS+= -DUSE_SSL
 USE_SSL=1
 USE_POLL=1
 USE_EPOLL=1
+STRICT=1
 endif
 
 OBJS    = main.o\
@@ -92,7 +93,9 @@ STR_CFLAGS = -DDEBUG -D_GNU_SOURCE
 CFLAGS += -g -O2 -Wall $(STR_CFLAGS) $(LFS) -I$(INCLUDE_DIR)
 LDFLAGS += -rdynamic
 
-#CFLAGS += -Werror -W -Wno-unused-parameter -pedantic -g -O0 -ansi -fno-exceptions 
+ifdef STRICT
+CFLAGS += -Werror -W -Wno-unused-parameter #-pedantic -fno-exceptions #-g -O0 -ansi 
+endif
 #
 # if your system needs any additional libraries (solaris, for example, 
 # needs the ones commented out below), edit this line.

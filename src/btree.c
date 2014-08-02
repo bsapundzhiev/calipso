@@ -23,7 +23,7 @@ btree_new()
     new_tree->data = NULL;
     new_tree->left = NULL;
     new_tree->right = NULL;
-    //new_tree->size	= 0;
+    new_tree->size	= 0;
     return new_tree;
 }
 
@@ -55,7 +55,7 @@ btree_append_node(btree_t *root, int key, void *data)
     new_node->data = data;
 
     *prevp = new_node;
-    //root->size++;
+    root->size++;
     return root;
 }
 
@@ -118,14 +118,13 @@ btree_delete_node(btree_t *root, int num)
 
         free(temp);
     }
-
-    //root->size--;
+	root->size--;
     return root;
 }
 
 int btree_get_size(btree_t *root)
 {
-    return 0; //root->size;
+    return root->size;
 }
 
 void btree_print(btree_t *root)

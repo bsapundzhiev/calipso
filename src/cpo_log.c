@@ -55,7 +55,7 @@ static int make_log_date(char *buf, int len, time_t t)
     return strftime(buf, len - 1, "%d/%b/%Y:%H:%M:%S %z", tm);
 }
 
-static void cpo_log_rotate_logfile(cpo_log_t *log, const char *logfilename)
+static void cpo_log_rotate_logfile(const char *logfilename)
 {
     u_int i;
     struct stat st;
@@ -82,8 +82,8 @@ static void cpo_log_rotate_logfile(cpo_log_t *log, const char *logfilename)
 int cpo_log_open(cpo_log_t * log)
 {
     /* rotate old log files */
-    cpo_log_rotate_logfile(log, LOG_FILE_ACCESS);
-    cpo_log_rotate_logfile(log, LOG_FILE_ERROR);
+    cpo_log_rotate_logfile(LOG_FILE_ACCESS);
+    cpo_log_rotate_logfile(LOG_FILE_ERROR);
 
     log->fp_log_access = fopen(LOG_FILE_ACCESS, "a+");
     if (!log->fp_log_access) {
@@ -126,9 +126,9 @@ static FILE *cpo_log_get_fp(cpo_log_t * log, int type)
 void cpo_log_print(cpo_log_t * log, int type, const char *fmt, ...)
 {
     va_list list;
-    const char *p, *r;
-    int e;
-    long l;
+    //const char *p, *r;
+    //int e;
+    //long l;
     FILE *fp = NULL;
     long length;
 

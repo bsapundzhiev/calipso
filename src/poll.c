@@ -32,16 +32,18 @@ static int poll_del_conn(cpo_event_t * event);
 static int poll_process(int nfds);
 static int poll_init();
 static int poll_done();
+static int poll_get_fd(cpo_event_t * event);
 
 cpo_events_t cpo_poll_events = { 
 	"poll_events", 
 	poll_add_conn, 
 	poll_del_conn,
 	poll_process, 
-    poll_init, poll_done,
+    poll_init, 
+    poll_done,
 };
 
-int poll_add_conn(cpo_event_t * event, int nfds)
+static int poll_get_fd(cpo_event_t * event)
 {
     int fd = 0;
 
@@ -50,6 +52,13 @@ int poll_add_conn(cpo_event_t * event, int nfds)
 
     else if (event->type == EVENT_CONNECTION)
         fd = ((calipso_client_t *) event->data)->csocket;
+
+    return fd;
+}
+
+int poll_add_conn(cpo_event_t * event, int nfds)
+{
+	int fd = poll_get_fd(event);
 
     if (fd == 0)
         return CPO_ERR;
@@ -71,6 +80,12 @@ int poll_add_conn(cpo_event_t * event, int nfds)
 
 int poll_del_conn(cpo_event_t * event)
 {
+	int fd = poll_get_fd(event);
+
+    if (fd == 0)
+        return CPO_ERR;
+	fdtype[fd].type = 0;
+    fdtype[fd].c = NULL;
     return CPO_OK;
 }
 
@@ -123,7 +138,6 @@ int poll_process(int nfds)
                     } else {
                         TRACE("READING= %d\n", nbytes);
                         client->pending_bytes = nbytes;
-                        //calipso_client_read(client, nbytes);
                         assert(event->handler_read != NULL);
                         event->handler_read(client);
                     }
@@ -132,10 +146,9 @@ int poll_process(int nfds)
 
                 if (pfds[i].revents & POLLOUT) {
                     printf("POLLOUT\n");
-                    //if (calipso_client_write_reply(client)) {
+                   
                     assert(event->handler_write != NULL);
                     if (event->handler_write(client)) {
-                        //epoll_del_conn(event);
                         calipso_client_disconnect(client);
                         continue;
                     }
@@ -143,7 +156,8 @@ int poll_process(int nfds)
                 }
 
             }
-
+            
+			poll_del_conn(event);
         }
     } //for
 
@@ -160,9 +174,9 @@ int poll_init()
 
 int poll_done()
 {
-    printf("Clerar poll data\n");
+    printf("Clear poll data\n");
     memset(pfds, 0, MAX_EVENTS * sizeof(struct pollfd));
-    memset(fdtype, 0, MAX_EVENTS * sizeof(struct _fdtype));
+    //memset(fdtype, 0, MAX_EVENTS * sizeof(struct _fdtype));
 
     return NOK;
 }

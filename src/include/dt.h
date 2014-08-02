@@ -35,7 +35,7 @@ List *	sort_list(List *L, lcomparer cmpfn);
 
 /*---btree---*/
 struct bin_tree {
-	//int 		size;
+		int 			size;
     	int             key;
     	void            *data;
     	struct bin_tree	*left;

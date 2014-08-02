@@ -27,7 +27,7 @@ cpo_array_create(int size, int elem_size)
     if (a == NULL)
         return NULL;
 
-    a->v = NULL;
+    a->v = calloc(size, elem_size);
     a->num = a->max = 0;
     a->elem_size = elem_size;
 
@@ -108,7 +108,7 @@ void *
 cpo_array_insert_at(cpo_array_t *a, int index)
 {
     int nmove;
-
+	/*TODO: fixme*/
     if (index >= a->num) {
         cpo_array_setsize(a, index);
     }

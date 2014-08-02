@@ -138,7 +138,8 @@ void *cpo_pool_malloc(struct mpool *pool, size_t size)
 
 void cpo_pool_free(struct mpool *pool, void * data)
 {
-
+	/*TODO: */
+	(void)pool, (void)data;
 }
 
 //free block

@@ -10,7 +10,7 @@
 #include "queue.h"
 
 static void remove_element(struct dlqlist* s, struct dllist* d);
-static void remove_element_2(struct dlqlist* s, struct dllist* d);
+
 enum {
     VAL_SUCC = 0, VAL_ERR = 1
 };
@@ -103,14 +103,13 @@ int queue_remove(struct dlqlist*s, void * elem)
         }
         if (s->tail->data == elem) {
             p = s->tail;
-            remove_element_2(s, p);
+            remove_element(s, p);
             return VAL_SUCC;
         }
         //!-------------------
         for (; p; p = p->next) {
             if (elem == p->data) {
-                //remove_element(s,p);
-                remove_element_2(s, p);
+                remove_element(s,p);
                 break;
             }
         }
@@ -119,7 +118,7 @@ int queue_remove(struct dlqlist*s, void * elem)
 
     return ret;
 }
-
+/*
 void remove_element(struct dlqlist* s, struct dllist* d)
 {
     if (NULL == d->next && (NULL == s->head->next && NULL == s->tail->next)) {
@@ -136,9 +135,9 @@ void remove_element(struct dlqlist* s, struct dllist* d)
     }
 
     free(d);
-}
+}*/
 
-void remove_element_2(struct dlqlist* s, struct dllist* d)
+void remove_element(struct dlqlist* s, struct dllist* d)
 {
     if (NULL == d->next) {
         s->tail = d->prev;

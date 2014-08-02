@@ -311,8 +311,7 @@ void config_unalloc(calipso_config_t * config)
             if (c->option)
                 free(c->option);
             if (c->value)
-                ;
-            free(c->value);
+            	free(c->value);
             free(c);
         }
         config = list_get_next_entry(config);

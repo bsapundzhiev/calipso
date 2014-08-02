@@ -60,7 +60,7 @@ calipso_init (void)
 static void
 calipso_unalloc_listeners (hash_t * listeners)
 {
-    u_int i;
+    hash_size i;
     for (i = 0; i < hash_table_get_size (listeners); ++i) {
 
         hash_node_t *node = calipso->listeners->nodes[i];
@@ -78,7 +78,7 @@ calipso_unalloc_listeners (hash_t * listeners)
 void
 calipso_destroy ()
 {
-    u_int i;
+    int i;
     List *p;
     TRACE ("calipso free resources\n");
 
@@ -341,6 +341,7 @@ int (*calipso_get_nprocess_model (void)) (void)
 char *
 calipso_get_server_string (calipso_config_t * config)
 {
+	if(config) {/*TODO:*/}
     return ("Calipso/" VERSION);
 }
 
