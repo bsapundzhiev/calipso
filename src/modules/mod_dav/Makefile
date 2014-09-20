@@ -1,6 +1,6 @@
 
 NAME    =       mod_dav
-SRCS    =       mod_dav.c
+SRCS    =       mod_dav.c webdav.c dav_fs.c
 OBJS    =       $(SRCS:.c=.o)
 
 CFLAGS  +=  -fPIC -g -O2 -Wall -D_MODULE -DDEBUG -I ../../include -D_FILE_OFFSET_BITS=64

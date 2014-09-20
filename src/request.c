@@ -32,7 +32,7 @@ static int calipso_request_read_body(calipso_request_t *request);
 static int calipso_request_parse_header_buf(calipso_request_t *request);
 static int request_parse_status_line(calipso_request_t *, char *);
 static int request_parse_header(calipso_request_t *, char *);
-static int request_persisten_handler(calipso_client_t *client);
+static int request_persistent_handler(calipso_client_t *client);
 
 calipso_request_t *
 calipso_request_alloc(void)
@@ -104,7 +104,7 @@ int calipso_request_init_handler(calipso_client_t * client)
     request->body_length = 0;
     request->request_time = (time_t) 0;
 
-    client->client_persistent_hdl = request_persisten_handler;
+    client->client_persistent_hdl = request_persistent_handler;
     calipso_request_set_client(request, client);
 
     /* header head and body */
@@ -122,7 +122,7 @@ int calipso_request_init_handler(calipso_client_t * client)
     return CPO_OK;
 }
 
-int request_persisten_handler(calipso_client_t *client)
+int request_persistent_handler(calipso_client_t *client)
 {
     //XXX: add cache
 
@@ -566,12 +566,13 @@ static int request_parse_status_line(calipso_request_t *request, char *line)
     querystring = cpo_strtok( NULL, "?");
 
     if (querystring) {
-
-        calipso_request_set_querystring(request, querystring);
+		char *new_querystring = cpo_pool_strdup(request->pool, querystring);
+        calipso_request_set_querystring(request, new_querystring);
     }
 
     if (*uri) {
-        calipso_request_set_uri(request, uri);
+    	char *new_uri = cpo_pool_strdup(request->pool, uri);
+        calipso_request_set_uri(request, new_uri);
         /* remove tailing spaces */
         /*
          while (*uri && ++uri)

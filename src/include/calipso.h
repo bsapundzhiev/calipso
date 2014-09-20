@@ -39,7 +39,7 @@ typedef unsigned int u_int;
 #include <openssl/bio.h>
 #endif
 /*- - - calipso related - - -*/
-
+#include "mpool.h"
 #include "dt.h" 	/*generic data types*/
 #include "array.h"
 #include "hash.h"

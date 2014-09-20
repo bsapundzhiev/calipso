@@ -44,31 +44,30 @@ int chunk_ctx_append(struct mpool * pool, struct chunk_ctx *ctx,
     return 0;
 }
 
-/* XXX: overhead calc len
- * string operations
- */
+/* string operations */
 int chunk_ctx_printf(struct mpool * pool, struct chunk_ctx *ctx, char *fmt, ...)
 {
-    char *buf;
-    int size;
-    int len = strlen(fmt) + 256;
+    char 	*buf;
+	int		bytes;			
+	char	temp[256];		
+  	va_list arg_ptr, apcopy;
+  	va_start(arg_ptr, fmt);
+  	va_copy(apcopy, arg_ptr);
+  	bytes = vsnprintf(temp, sizeof(temp), fmt, apcopy);
 
-    va_list arg_ptr;
-    buf = malloc(len + 1);
-    if (buf == NULL)
-        return 0;
-
-    va_start(arg_ptr, fmt);
-    //size = vsnprintf(buf, len, fmt, arg_ptr);
-    size = cpo_vslprintf(buf, len, fmt, arg_ptr);
-    va_end(arg_ptr);
-
-    if (size) {
-        chunk_ctx_append(pool, ctx, buf, size);
+    buf = malloc(bytes + 1);
+    if(buf) {
+    	/* cpo_vslprintf */
+    	bytes = vsnprintf(buf, bytes + 1, fmt, arg_ptr);
+    	if(bytes) {
+        	chunk_ctx_append(pool, ctx, buf, bytes);
+        }
     }
+    
+    va_end(arg_ptr);
     free(buf);
-
-    return size;
+	
+    return bytes;
 }
 
 int chunk_ctx_from_txt_file(struct mpool * pool, struct chunk_ctx *ctx,

@@ -10,6 +10,7 @@ ifdef USE_SSL
 	@make -C mod_ssl
 endif
 	@make -C mod_rewrite
+	@make -C mod_dav
 
 clean:
 	@make -C mod_proxy clean
@@ -20,5 +21,6 @@ ifdef USE_SSL
 	@make -C mod_ssl clean
 endif
 	@make -C mod_rewrite clean
+	@make -C mod_dav
 
 install:

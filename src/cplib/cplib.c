@@ -223,9 +223,14 @@ int fchk(int fd) {
 	return (F_ASCII);
 }
 
-int is_file_of(const char * file, const char *ext) {
+int is_file_of(const char * file, const char *ext) 
+{
 	char *trim = NULL;
 	char *ext1 = (char*) ext;
+	
+	if(!file || !ext) 
+		return 0;
+	
 	trim = strrchr(file, '.');
 	if (trim == NULL)
 		return 0;

@@ -124,7 +124,7 @@ int epoll_process(int nfds)
                 client = event->data;
                 assert(client != NULL);
                 if ((pfds[i].events & EPOLLIN)) {
-                    TRACE("x1\n");
+                    
                     client->pending_bytes = calipso_client_sent_data(client);
 
                     if (client->pending_bytes == 0) {
@@ -138,22 +138,19 @@ int epoll_process(int nfds)
                         assert(event->handler_read != NULL);
                         event->handler_read(client);
                     }
-                    TRACE("x2\n");
                 }
 
                 if ((pfds[i].events & EPOLLOUT)) {
-                    TRACE("in 1\n");
+                
                     assert(event->handler_write != NULL);
 
                     if (event->handler_write(client)) {
 
                         epoll_del_conn(event);
                         calipso_client_disconnect(client);
-                        TRACE("out 2 disconn\n");
                         continue;
 
                     }
-                    TRACE("out 3 again\n");
                 }
             }
 
