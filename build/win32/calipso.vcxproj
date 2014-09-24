@@ -45,7 +45,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>D:\Projects\calipso\src\cplib;D:\Projects\calipso\os\win32;D:\Projects\calipso\src\include;C:\OpenSSL-Win32\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>DEBUG;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>DEBUG;USE_POLL;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -86,6 +86,7 @@
     <ClCompile Include="..\..\src\client.c" />
     <ClCompile Include="..\..\os\win32\compat.c" />
     <ClCompile Include="..\..\src\config.c" />
+    <ClCompile Include="..\..\src\cplib\cpo_file.c" />
     <ClCompile Include="..\..\src\cplib\cp_time.c" />
     <ClCompile Include="..\..\src\cplib\cplib.c" />
     <ClCompile Include="..\..\src\cpo_io.c" />

@@ -16,7 +16,7 @@
 #define EPOCH_YR        	1970            	/* EPOCH = Jan 1 1970 00:00:00 */
 #define SECS_DAY        	(24L * 60L * 60L)
 #define LEAPYEAR(year)  	(!((year) % 4) && (((year) % 100) || !((year) % 400)))
-#define YEARSIZE(year)  	(LEAPYEAR(year) ? 366 : 365)
+#define YEARSIZE(year)  	(LEAPYEAR(year) ? 366U : 365U)
 #define FIRSTSUNDAY(timp)	(((timp)->tm_yday - (timp)->tm_wday + 420) % 7)
 #define FIRSTDAYOF(timp)   	(((timp)->tm_wday - (timp)->tm_yday + 420) % 7)
 

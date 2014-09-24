@@ -48,12 +48,12 @@ int chunk_ctx_append(struct mpool * pool, struct chunk_ctx *ctx,
 int chunk_ctx_printf(struct mpool * pool, struct chunk_ctx *ctx, char *fmt, ...)
 {
     char 	*buf;
-	int		bytes;			
-	char	temp[256];		
+	int		bytes;
   	va_list arg_ptr, apcopy;
   	va_start(arg_ptr, fmt);
-  	va_copy(apcopy, arg_ptr);
-  	bytes = vsnprintf(temp, sizeof(temp), fmt, apcopy);
+  	apcopy= arg_ptr;
+	bytes = vsnprintf(NULL, 0, fmt, apcopy);
+	va_end(apcopy);
 
     buf = malloc(bytes + 1);
     if(buf) {

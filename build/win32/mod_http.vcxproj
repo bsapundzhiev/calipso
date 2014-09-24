@@ -49,7 +49,7 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>C:\OpenSSL-Win32\include;D:\Projects\calipso\os\win32;D:\Projects\calipso\src\cplib;D:\Projects\calipso\src\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;MOD_HTTP_EXPORTS;_CRT_SECURE_NO_WARNINGS;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;DEBUG;_WINDOWS;_USRDLL;MOD_HTTP_EXPORTS;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <ExceptionHandling>
       </ExceptionHandling>
@@ -98,6 +98,7 @@
     <ClCompile Include="..\..\src\client.c" />
     <ClCompile Include="..\..\os\win32\compat.c" />
     <ClCompile Include="..\..\src\config.c" />
+    <ClCompile Include="..\..\src\cplib\base64.c" />
     <ClCompile Include="..\..\src\cplib\cp_time.c" />
     <ClCompile Include="..\..\src\cplib\cplib.c" />
     <ClCompile Include="..\..\src\cplib\cpo_file.c" />
@@ -109,6 +110,7 @@
     <ClCompile Include="..\..\src\hash.c" />
     <ClCompile Include="..\..\src\hooks.c" />
     <ClCompile Include="..\..\src\http.c" />
+    <ClCompile Include="..\..\src\modules\mod_http\http_auth.c" />
     <ClCompile Include="..\..\src\modules\mod_http\http_chunked.c" />
     <ClCompile Include="..\..\src\modules\mod_http\http_error.c" />
     <ClCompile Include="..\..\src\modules\mod_http\http_mime.c" />

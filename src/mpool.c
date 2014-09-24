@@ -258,11 +258,10 @@ int
 cpo_pool_vasprintf(mpool_t *pool, char **buf, const char *format, va_list ap)
 {
     int		bytes;
-    char	temp[256];
     va_list	apcopy;
-    //va_copy(apcopy, ap);
-    apcopy = ap;
-    bytes = vsnprintf(temp, sizeof(temp), format, apcopy);
+	apcopy= ap;
+	bytes = vsnprintf(NULL, 0, format, apcopy);
+	va_end(apcopy);
 
     *buf = cpo_pool_malloc(pool, bytes + 1);
     if (*buf) {
@@ -283,40 +282,4 @@ cpo_pool_asprintf(mpool_t *pool, char *fmt, ...)
     va_end(ap);
 
     return ret;
-}
-
-char *cpo_pool_vstrcat(mpool_t *pool, const char *first, ...)
-{
-    size_t len;
-    char *retbuf;
-    va_list argp;
-    char *p;
-
-    if (first == NULL)
-        return NULL;
-
-    len = strlen(first);
-
-    va_start(argp, first);
-
-    while ((p = va_arg(argp, char *)) != NULL)
-        len += strlen(p);
-
-    va_end(argp);
-
-    retbuf = cpo_pool_malloc(pool, len + 1);	/* +1 for trailing \0 */
-
-    if (retbuf == NULL)
-        return NULL;		/* error */
-
-    (void)strcpy(retbuf, first);
-
-    va_start(argp, first);		/* restart; 2nd scan */
-
-    while ((p = va_arg(argp, char *)) != NULL)
-        (void)strcat(retbuf, p);
-
-    va_end(argp);
-
-    return retbuf;
 }

@@ -25,7 +25,7 @@
 #include "http_error.h"
 #include "chunks.h"
 #include "http_chunked.h"
-
+#include "http_auth.h"
 /* TODO: config */
 #define SERVER_KEEPALIVES_MAX 				100
 #define KEEPALIVE_TIMEOUT 					15
