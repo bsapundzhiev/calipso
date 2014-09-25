@@ -91,7 +91,7 @@ int cpo_uri_normalize_remove_dots(char* path) {
 
 //nxweb
 int remove_dots_from_uri_path(char* path) {
-	if (!*path)
+	if (!path || !*path)
 		return 0; // end of path
 	if (*path != '/')
 		return -1; // invalid path
