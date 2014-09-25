@@ -263,7 +263,7 @@ cpo_pool_vasprintf(mpool_t *pool, char **buf, const char *format, va_list ap)
 	bytes = vsnprintf(NULL, 0, format, apcopy);
 	va_end(apcopy);
 
-    *buf = cpo_pool_malloc(pool, bytes + 1);
+    *buf = cpo_pool_malloc(pool, ALIGN_SIZE(bytes) + 1);
     if (*buf) {
         bytes = vsnprintf(*buf, bytes + 1, format, ap);
     }

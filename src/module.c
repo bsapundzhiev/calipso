@@ -118,7 +118,7 @@ static calipso_mod_t *calipso_load_modules(calipso_config_t * config)
 
             char *name = cpo_strtok(conf->value, ":");
             char *path = cpo_strtok(NULL, ":");
-            printf("load_module: mod_name: %s , path: %s\n", name, path);
+            printf("load_module: %s\n", path);
 
             if (MAX_LOADED_MODULES > nr_modules) {
                 calipso_register_module(&module_table[nr_modules], name, path);

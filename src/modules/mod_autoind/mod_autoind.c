@@ -217,7 +217,9 @@ static int mod_autoind_make_index_table(calipso_reply_t * reply, const char *uri
 
 	if(strcmp(uri,"/") ) {		
 		char dir[FILENAME_MAX];
-		strncpy(dir, uri, sizeof(dir));
+		int len = strlen(uri)+1;
+		strncpy(dir, uri, len);
+		dir[len]= '\0';
 		 
 		chunk_ctx_printf(reply->pool, cb, "<a href=\"%s\">%s</a>%s %40s\n", 
 			dirname(dir), PARENT_DIR_NAME, add_space(PARENT_DIR_NAME, 
