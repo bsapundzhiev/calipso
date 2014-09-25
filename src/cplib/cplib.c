@@ -32,6 +32,9 @@
 #define isxdigit(c) ( isdigit((c)) || ((c) >= 'a' && (c) <= 'f') || ((c) >= 'A' && (c) <= 'F') )
 #endif
 
+#define IS_INVALID_PATH(path)\
+	(!path || !*path || *path != '/')\
+
 /* http related */
 
 /*
@@ -55,7 +58,8 @@ void cpo_uri_strdecode(char* to, char* from) {
 int cpo_uri_normalize_remove_dots(char* path) {
 	char prev = 0;
 	char *p = path;
-	if (*path != '/')
+
+	if (IS_INVALID_PATH(path)) 
 		return 0;
 
 	while (*path != '\0') {
@@ -107,11 +111,16 @@ int remove_dots_from_uri_path(char* path) {
 	}
 }
 
-int cpo_uri_sanity_check(const char *string) {
-	u_int i;
-	for (i = 0; string[i] != '\0'; i++) {
 
-		if (string[i] == '.' && string[i + 1] == '.' && string[i - 1] == '/') {
+int cpo_uri_sanity_check(const char *path) {
+	u_int i;
+		
+	if (IS_INVALID_PATH(path)) 
+		return 0;
+
+	for (i = 0; path[i] != '\0'; i++) {
+
+		if (path[i] == '.' && path[i + 1] == '.' && path[i - 1] == '/') {
 			return 0;
 		}
 	}
@@ -175,7 +184,7 @@ int cpo_explode(char ***arr_ptr, char *str, char delimiter) {
 	char *src = str, *end, *dst;
 	char **arr;
 	int size = 1, i;
-
+	if(!str) return 0;
 	// Find number of strings
 	while ((end = strchr(src, delimiter)) != NULL) {
 		++size;
