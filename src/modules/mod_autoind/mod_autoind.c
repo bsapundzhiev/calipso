@@ -157,9 +157,8 @@ static int mod_autoind_reply(calipso_request_t *request)
 
 		mod_autoind_make_index_table(reply, uri, INDEX_TYPE);
 	} else {
-
-		strcat(uri, "/");
-		calipso_reply_set_header_value(reply, "Location", uri);
+	
+		calipso_reply_set_header_value(reply, "Location","%s/", uri);
 	}
 	
 	return OK;

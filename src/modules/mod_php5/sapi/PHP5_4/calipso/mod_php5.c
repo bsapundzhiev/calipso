@@ -118,8 +118,14 @@ int mod_php5_resource(calipso_request_t *request)
 
 	/* set the default handler */
 	//calipso_request_set_handler(request, php_handler);
-	php_handler(request);
-
+	if( access(filename, R_OK) == 0 ) {
+	
+		php_handler(request);
+	} 
+	else {
+		 calipso_reply_set_status(reply, HTTP_FORBIDDEN);
+	}
+	
 	return 1;	
 }
 

@@ -525,7 +525,7 @@ static int request_parse_status_line(calipso_request_t *request, char *line)
     char *uri = NULL;
     char *lastword = NULL;
     char *querystring = NULL;
-
+/*TODO: fix me */
     /* Method */
     method = line;
     calipso_request_set_method(request, method);
@@ -570,7 +570,7 @@ static int request_parse_status_line(calipso_request_t *request, char *line)
         calipso_request_set_querystring(request, new_querystring);
     }
 
-    if (*uri) {
+    if (uri && *uri) {
     	char *new_uri = cpo_pool_strdup(request->pool, uri);
         calipso_request_set_uri(request, new_uri);
         /* remove tailing spaces */
@@ -581,6 +581,9 @@ static int request_parse_status_line(calipso_request_t *request, char *line)
          while (isspace((int)*uri) && (*uri-- = 0) == 0)
          ;
          */
+    } else {
+    	calipso_reply_set_status(request->reply,
+                                                HTTP_BAD_REQUEST);
     }
 
     return (1);

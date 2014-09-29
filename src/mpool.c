@@ -135,17 +135,17 @@ void *mpool_alloc(mpool_t * pool, size_t size)
 
     return  mblk_alloc(p,  size );
 }
-
+/*TODO: fix free */
 static void mpool_free_size(mpool_t  *pool, void *ptr, size_t size)
 {
     if (!mpool_is_valid(pool) && size <= 0) {
         printf("%s invalid params \n",__func__);
         return;
     }
-
+    /*
     pool->free_blk = ptr;
     pool->free_blk = (void*)((char*)pool->free_blk + size);
-    pool->free_size += size;
+    pool->free_size += size;*/
 }
 
 void mpool_free(mpool_t * pool, void *ptr)
@@ -155,7 +155,7 @@ void mpool_free(mpool_t * pool, void *ptr)
     if (!mpool_is_valid(pool))
         return;
 
-    size = get_ptr_size(p);
+    size = get_ptr_size(p)+1;
     mpool_free_size(pool, ptr, size);
 }
 
@@ -254,16 +254,22 @@ cpo_pool_strndup_upper(mpool_t *pool, const char *s, size_t len)
     return (p);
 }
 
+#ifndef _WIN32
+#define _vscprintf(fmt,arg) vsnprintf(NULL, 0, fmt, arg)
+#else 
+#define va_copy(dest, src) (dest = src)
+#endif
+
 int
 cpo_pool_vasprintf(mpool_t *pool, char **buf, const char *format, va_list ap)
 {
     int		bytes;
     va_list	apcopy;
-	apcopy= ap;
-	bytes = vsnprintf(NULL, 0, format, apcopy);
+    va_copy(apcopy, ap);
+	bytes = _vscprintf(format, apcopy);
 	va_end(apcopy);
 
-    *buf = cpo_pool_malloc(pool, ALIGN_SIZE(bytes) + 1);
+    *buf = cpo_pool_malloc(pool, bytes + 1);
     if (*buf) {
         bytes = vsnprintf(*buf, bytes + 1, format, ap);
     }
