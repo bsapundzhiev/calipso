@@ -13,3 +13,6 @@ clean:
 
 install:
 	cp ./gh /usr/bin
+
+format:
+	astyle --style=stroustrup -s4 $(SRC)
