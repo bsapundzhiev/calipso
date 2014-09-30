@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mod_autoind", "mod_autoind.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mod_xcgi", "mod_xcgi.vcxproj", "{0B8161EC-F23F-4D16-8B40-FE560415AB6F}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gh", "gh.vcxproj", "{06B7CAB3-7986-4807-A5D6-EB03FEF40F7D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -31,6 +33,10 @@ Global
 		{0B8161EC-F23F-4D16-8B40-FE560415AB6F}.Debug|Win32.Build.0 = Debug|Win32
 		{0B8161EC-F23F-4D16-8B40-FE560415AB6F}.Release|Win32.ActiveCfg = Release|Win32
 		{0B8161EC-F23F-4D16-8B40-FE560415AB6F}.Release|Win32.Build.0 = Release|Win32
+		{06B7CAB3-7986-4807-A5D6-EB03FEF40F7D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{06B7CAB3-7986-4807-A5D6-EB03FEF40F7D}.Debug|Win32.Build.0 = Debug|Win32
+		{06B7CAB3-7986-4807-A5D6-EB03FEF40F7D}.Release|Win32.ActiveCfg = Release|Win32
+		{06B7CAB3-7986-4807-A5D6-EB03FEF40F7D}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

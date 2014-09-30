@@ -26,7 +26,7 @@
 
 #ifdef _WIN32
 #include <io.h>
-#include <winsock.h>
+#include <winsock2.h>
 #define ARCH	"win32"
 #else
 #include <unistd.h>
@@ -39,10 +39,7 @@
 #define ARCH	"Linux"
 #endif
 
-
-/*-----------------------------*
- *-- Format for HTTP request --*
- *-----------------------------*/
+/* Format for HTTP request */
 #define HTTP_HEADER HTTP_HEADER_1
 
 #define HTTP_HEADER_1 "GET %s HTTP/1.0\r\n\
@@ -55,13 +52,8 @@ cp737, cp850, cp852, cp866, x-cp866-u, x-mac, x-mac-ce, x-kam-cs, koi8-r, koi8-u
 , TCVN-5712, VISCII, utf-8\r\n\
 Connection: clos%c\r\n\r\n"
 
-/* --- */
-
 #define VER 	"0.4"
 #define COPYSTR "Autor: (c) 2007 Borislav Sapundzhiev <bsapundjiev@gmail.com>"
-
-#define ARRAY_SIZE(arr,array)\
-	arr = sizeof(array) / sizeof(array[0]);
 
 struct buf {
     int Socket;
@@ -71,28 +63,39 @@ struct buf {
 } gh_buf;
 
 void GetHTTP( char *args[] );
-int parse_HTTP_header(int socket);
-int HTTP_sockgets_trigger(int sock, char *buf, int len);
+static int parse_HTTP_header(int socket);
+static int gh_http_readline(int sock, char *buf, int len);
 static void usage();
 
 int
 sockndelay(int sfd, int on)
 {
+#ifdef _WIN32
+	return ioctlsocket(sfd, FIONBIO, &on);
+#else
     return ((on) ? fcntl(sfd, F_SETFL, fcntl(sfd, F_GETFL, 0) | O_NONBLOCK):
             fcntl(sfd, F_SETFL, fcntl(sfd, F_GETFL, 0) & ~O_NONBLOCK));
-
+#endif
 }
 
 int main(int argc, char *argv[])
 {
-    if (argc < 2) {
+#ifdef _WIN32
+	WSADATA wsaData;
+	int iResult;
+	iResult = WSAStartup(MAKEWORD(2,2), &wsaData);
+	if (iResult != NO_ERROR) {
+		 printf("Error at WSAStartup()\n");
+		 return -1;
+	}
+    _setmode(_fileno(stdout), _O_BINARY);
+#endif
+
+	if (argc < 2) {
         usage();
         return (1);
     }
 
-#ifdef _WIN32
-    setmode(fileno(stdout), _O_BINARY);
-#endif
     GetHTTP(argv);
 
     return (0);
@@ -115,7 +118,7 @@ int gh_connect_poll()
 
         if (select(gh_buf.Socket + 1, &rfd, &wfd, NULL, &tv) <= 0) {
             perror("select");
-            close(gh_buf.Socket);
+            closesocket(gh_buf.Socket);
             return SOCKET_ERROR;
         }
 
@@ -126,7 +129,9 @@ int gh_connect_poll()
             //printf("nRet %d\n", nRet);
 
             if (nRet == SOCKET_ERROR) {
-
+#ifdef _WIN32
+		if(WSAEWOULDBLOCK != GetLastError())
+#endif
                 if ((errno != EINPROGRESS) && (errno != EWOULDBLOCK)) {
                     perror("send");
                     closesocket(gh_buf.Socket);
@@ -147,7 +152,9 @@ int gh_connect_poll()
             //nRet = http_parse_header(gh_buf.Socket);
             
             if (nRet == SOCKET_ERROR) {
-
+#ifdef _WIN32
+		if(WSAEWOULDBLOCK != GetLastError())
+#endif
                 if ((errno != EINPROGRESS) && (errno != EWOULDBLOCK)) {
                     perror("recv");
                     closesocket(gh_buf.Socket);
@@ -231,7 +238,7 @@ void GetHTTP( char *args[] )
 
     if (sockndelay(gh_buf.Socket, 1) == -1) {
         perror("sockndelay");
-        close(gh_buf.Socket);
+        closesocket(gh_buf.Socket);
         return;
     }
 
@@ -242,7 +249,9 @@ void GetHTTP( char *args[] )
     nRet = connect(gh_buf.Socket, (struct sockaddr*)&saServer, sizeof(struct sockaddr_in));
 
     if (nRet == SOCKET_ERROR) {
-
+#ifdef _WIN32
+		if(WSAEWOULDBLOCK != GetLastError())
+#endif
         if ((errno != EINPROGRESS) && (errno != EWOULDBLOCK)) {
             perror("connect");
             closesocket(gh_buf.Socket);
@@ -271,16 +280,11 @@ void GetHTTP( char *args[] )
 
 int http_parse_header(int socket)
 {
-
-    int lines = 0;
+    int lines=0, ret = 0;
     char header_line[1024];
-    /* parse header */
-    int ret;
-    printf("---- HTTP HEADER> ----\n");
-    while ( (ret = HTTP_sockgets_trigger( socket, header_line, 1024)) )
-        printf("line %d => %s\n", lines++, header_line );
-    printf("---- <HTTP HEADER ----\n\n");
 
+    while ( (ret = gh_http_readline( socket, header_line, 1024)) )
+        printf("line %d => %s\n", lines++, header_line );
     return ret;
 }
 
@@ -288,7 +292,7 @@ int http_parse_header(int socket)
 /**
  * get connection bytes (read line \n\r)
  */
-int HTTP_sockgets_trigger(int sock, char *buf, int len)
+static int gh_http_readline(int sock, char *buf, int len)
 {
     char *ptr = buf;
     char *ptr_end = ptr + len - 1;
@@ -322,11 +326,11 @@ int HTTP_sockgets_trigger(int sock, char *buf, int len)
 static void usage()
 {
     printf("\n\
-GetHttp -- http header dump program -- (%s) build (%s)\n\n\
+GetHttp -- http request dump program -- (%s) build (%s)\n\n\
 %s \n\n\
 Usage: [http://serv_name:port/path<?query>] -[d]\n\
-\t-d - dump HTTP header only\n\
+\t-d - show HTTP header only\n\
 \t-x - set invalid char(0x1) in header\n\
-\n\n\
-",ARCH,__DATE__, COPYSTR );
+\n\n",ARCH,__DATE__, COPYSTR );
+
 }
