@@ -45,6 +45,8 @@ typedef unsigned int	u_int;
 //04 Read-only
 //06 Read and write
 
+#define va_copy(dest, src) ((void)((dest) = (src)))
+
 #define	STDIN_FILENO	fileno(stdin)
 #define STDOUT_FILENO	fileno(stdout)
 

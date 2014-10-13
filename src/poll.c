@@ -20,10 +20,6 @@ struct _fdtype {
     void *c;
 };
 
-#define	FDTYPE_FREE	0x0
-#define	FDTYPE_LISTENER	0x1
-#define	FDTYPE_CLIENT	0x2
-
 static struct pollfd *pfds;
 static struct _fdtype *fdtype;
 
@@ -63,7 +59,6 @@ int poll_add_conn(cpo_event_t * event, int nfds)
     if (fd == 0)
         return CPO_ERR;
 
-    printf("add ndfs %d fd %d\n", nfds, fd);
     fdtype[fd].type = event->type;
     fdtype[fd].c = event;
     pfds[nfds].fd = fd;
@@ -104,8 +99,6 @@ int poll_process(int nfds)
         exit(1);
     }
 
-    printf("pollret = %d ndfs= %d\n", pollret, nfds);
-
     for (i = 0; i < nfds/*nfds && pollret*/; i++) {
         //--pollret;
 
@@ -116,10 +109,6 @@ int poll_process(int nfds)
             if ((pfds[i].revents & POLLIN) && event->type == EVENT_LISTENER) {
 
                 calipso_socket_t * listener = event->data;
-
-                printf("lsocket: %d\n", listener->lsocket);
-                printf("state: %d\n", listener->state);
-
                 if (calipso_socket_accept_client(listener) == NULL) {
                     TRACE("FIXME: maxconn reached\n");
                 }
@@ -127,16 +116,16 @@ int poll_process(int nfds)
             } else if (event->type == EVENT_CONNECTION) {
 
                 calipso_client_t* client = event->data;
-                printf("client %d\n", client->csocket);
+              
 
                 if (pfds[i].revents & POLLIN) {
 
                     if ((nbytes = calipso_client_sent_data(client)) == 0) {
-                        printf("nbytes == 0 break; \n");
+                        
                         calipso_client_disconnect(client);
                         continue;
                     } else {
-                        TRACE("READING= %d\n", nbytes);
+                        
                         client->pending_bytes = nbytes;
                         assert(event->handler_read != NULL);
                         event->handler_read(client);
@@ -145,8 +134,7 @@ int poll_process(int nfds)
                 }
 
                 if (pfds[i].revents & POLLOUT) {
-                    printf("POLLOUT\n");
-                   
+
                     assert(event->handler_write != NULL);
                     if (event->handler_write(client)) {
                         calipso_client_disconnect(client);
@@ -174,10 +162,8 @@ int poll_init()
 
 int poll_done()
 {
-    printf("Clear poll data\n");
     memset(pfds, 0, MAX_EVENTS * sizeof(struct pollfd));
     //memset(fdtype, 0, MAX_EVENTS * sizeof(struct _fdtype));
-
     return NOK;
 }
 
