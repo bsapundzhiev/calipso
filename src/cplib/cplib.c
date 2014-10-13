@@ -113,7 +113,7 @@ int remove_dots_from_uri_path(char* path) {
 
 
 int cpo_uri_sanity_check(const char *path) {
-	u_int i;
+	unsigned i;
 		
 	if (IS_INVALID_PATH(path)) 
 		return 0;

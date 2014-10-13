@@ -47,7 +47,6 @@ OBJS    = main.o\
 	cplib/cpo_file.o\
 	cplib/base64.o\
 	chunks.o\
-	timer.o\
 	cpo_log.o
 
 ifdef USE_SSL
@@ -64,6 +63,14 @@ endif
 ifdef USE_KQUEUE
 	OBJS+=kqueue.o
 endif
+
+ifeq ($(OS), Darwin)
+	CFLAGS += -I../os/macosx/
+	OBJS+=../os/macosx/timer.o ../os/macosx/compat.o
+else
+	OBJS+=timer.o
+endif
+
 #
 # project related
 #
@@ -99,10 +106,16 @@ endif
 #
 # if your system needs any additional libraries (solaris, for example, 
 # needs the ones commented out below), edit this line.
-EXTRA_LIBS = -lpthread -ldl -lrt
+EXTRA_LIBS = -lpthread -ldl
+
+
 
 ifdef USE_SSL
 EXTRA_LIBS += -lssl -lcrypto
+endif
+
+ifeq ($(OS), Linux)
+	EXTRA_LIBS += -lrt
 endif
 
 #

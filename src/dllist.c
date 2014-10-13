@@ -8,7 +8,7 @@
 
 #define _CRTDBG_MAP_ALLOC
 #include <stdio.h>
-#include <malloc.h>
+#include <stdlib.h>
 #include "dllist.h"
 
 static void _dllist_release(dllist_t *l);

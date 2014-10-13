@@ -73,7 +73,7 @@ distclean:
 #	@make -C src distclean
 #	@make -C src/modules distclean
 	find . -name \*~ -o -name \*.o | xargs rm -f 
-	find . -name \*.so | xargs rm -f
+	find . -name \*.so -o -name \*.bundle | xargs rm -f
 
 install:
 	@make -C src install

@@ -45,13 +45,16 @@ int chunk_ctx_append(struct mpool * pool, struct chunk_ctx *ctx,
 }
 
 /* string operations */
+#ifdef _WIN32
+#define va_copy(dest, src) (dest = src)
+#endif
 int chunk_ctx_printf(struct mpool * pool, struct chunk_ctx *ctx, char *fmt, ...)
 {
     char 	*buf;
 	int		bytes;
   	va_list arg_ptr, apcopy;
   	va_start(arg_ptr, fmt);
-  	apcopy= arg_ptr;
+  	va_copy(apcopy, arg_ptr);
 	bytes = vsnprintf(NULL, 0, fmt, apcopy);
 	va_end(apcopy);
 

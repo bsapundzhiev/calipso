@@ -26,6 +26,7 @@
 #endif
 
 #ifdef __APPLE__
+ #include "compat.h"
 //typedef int timer_t;
 typedef  pthread_cond_t timer_t;
 typedef unsigned int u_int;
