@@ -3,7 +3,7 @@ NAME    =       dummy
 SRCS    =       dummy.c
 OBJS    =       $(SRCS:.c=.o)
 
-CFLAGS  +=      -D_MODULE -DDEBUG -I ../../include -D_REENTRANT
+CFLAGS  +=     	-fPIC -D_MODULE -DDEBUG -I ../../include -D_REENTRANT
 LDFLAGS +=
 
 ifeq ($(OS), Darwin)
