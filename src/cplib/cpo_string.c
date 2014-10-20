@@ -7,7 +7,7 @@
 #include <time.h>
 #include "cpo_string.h"
 
-#define isdigit(c) 		((c) >= '0' && (c) <= '9')
+#define isdigit(c) 	((c) >= '0' && (c) <= '9')
 #define tolower(c)     	((c>='A' && c<='Z') ? (c+('a'-'A')) : c)
 #define toupper(c)     	((c>='a' && c<='z') ? (c-('a'-'A')) : c)
 
@@ -115,7 +115,7 @@ int cpo_atoi(const char *s) {
  * strlcpy - like strcpy/strncpy, doesn't overflow destination buffer,
  * always leaves destination null-terminated (for len > 0).
  */
-size_t strlcpy(char *dest, const char *src, size_t len) {
+size_t cpo_strlcpy(char *dest, const char *src, size_t len) {
 	size_t ret = strlen(src);
 
 	if (len != 0) {
@@ -133,10 +133,10 @@ size_t strlcpy(char *dest, const char *src, size_t len) {
  * strlcat - like strcat/strncat, doesn't overflow destination buffer,
  * always leaves destination null-terminated (for len > 0).
  */
-size_t strlcat(char *dest, const char *src, size_t len) {
+size_t cpo_strlcat(char *dest, const char *src, size_t len) {
 	size_t dlen = strlen(dest);
 
-	return dlen + strlcpy(dest + dlen, src, (len > dlen ? len - dlen : 0));
+	return dlen + cpo_strlcpy(dest + dlen, src, (len > dlen ? len - dlen : 0));
 }
 
 //#define OUTCHAR(c)	(buflen > 0? (--buflen, *buf++ = (c)): 0)

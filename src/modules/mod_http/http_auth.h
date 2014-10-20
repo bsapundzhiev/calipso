@@ -3,4 +3,4 @@
 
 int http_auth_basic_init(void);
 
-#endif 
+#endif

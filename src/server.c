@@ -33,7 +33,7 @@ void calipso_server_unalloc(calipso_server_t *server)
 
 int calipso_server_set_hostname(calipso_server_t *server, char *hostname)
 {
-    if (strlcpy(server->hostname, hostname, MAXHOSTNAMELEN) >= MAXHOSTNAMELEN)
+    if (cpo_strlcpy(server->hostname, hostname, MAXHOSTNAMELEN) >= MAXHOSTNAMELEN)
         return (0);
 
     return (1);
@@ -41,7 +41,7 @@ int calipso_server_set_hostname(calipso_server_t *server, char *hostname)
 
 int calipso_server_set_serverroot(calipso_server_t *server, char *serverroot)
 {
-    if (strlcpy(server->serverroot, serverroot, MAXPATHLEN) >= MAXPATHLEN)
+    if (cpo_strlcpy(server->serverroot, serverroot, MAXPATHLEN) >= MAXPATHLEN)
         return (0);
 
     return (1);
@@ -50,7 +50,7 @@ int calipso_server_set_serverroot(calipso_server_t *server, char *serverroot)
 int calipso_server_set_documentroot(calipso_server_t *server,
                                     char *documentroot)
 {
-    if (strlcpy(server->documentroot, documentroot, MAXPATHLEN) >= MAXPATHLEN)
+    if (cpo_strlcpy(server->documentroot, documentroot, MAXPATHLEN) >= MAXPATHLEN)
         return (0);
 
     return (1);

@@ -17,14 +17,15 @@ char *
 cpo_itoa(char *buf, int i);
 
 size_t
-strlcpy(char *dest, const char *src, size_t len);
+cpo_strlcpy(char *dest, const char *src, size_t len);
 
 size_t
-strlcat(char *dest, const char *src, size_t len);
+cpo_strlcat(char *dest, const char *src, size_t len);
 
 int 
 cpo_snprintf(char *buf, int len, char *fmt, ...);
 
-int cpo_vslprintf(char *buf, int buflen, char *fmt, va_list args);
+int 
+cpo_vslprintf(char *buf, int buflen, char *fmt, va_list args);
 
 #endif
