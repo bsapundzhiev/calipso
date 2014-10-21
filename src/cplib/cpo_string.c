@@ -32,6 +32,51 @@ size_t new_strlen(const char * src) {
 	}
 	return i;
 }
+/* dloop strstr*/
+char *new_strstr(const char *str1,const char *str2)
+{
+	unsigned char char_mask[256];
+	unsigned char *st3;
+	unsigned int car,
+	i;
+
+	if((unsigned char)*str2 == '\0')
+		return((char *)str1);
+
+	if((unsigned char)*(str2+1) == '\0')
+		return(strchr((char *)str1,(char)*str2));
+
+	memset(char_mask,'\0',sizeof(char_mask));
+
+	char_mask[(unsigned char)*str2] = 1;
+	char_mask[0] = 1;
+
+	car = (unsigned char) *str1++;
+
+	while(char_mask[car] == 0) {
+		car = (unsigned char) *str1++;
+	}
+
+	while(car != 0) {
+		car = (unsigned char) *str1++;
+		if(car == (unsigned char)str2[1]) {
+			st3 = (unsigned char *) (str1-2);
+			i = 1;
+			while((unsigned char)st3[i] == (unsigned char)str2[i]) {
+				i++;
+				if((unsigned char)str2[i] == 0) {
+					return((char *)(str1-2));
+				}
+			}
+		}
+
+		while(char_mask[car] == 0) {
+			car = (unsigned char) *str1++;
+		}
+	}
+
+	return(NULL);
+}
 
 /*
  * string token
