@@ -7,10 +7,10 @@ CPMOD_API int pm_init();
 CPMOD_API int pm_exit();
 CPMOD_API inline void initCalipso(calipso_t *c)
 {
-	if(calipso == NULL){
-		printf("calipso is NULL\n");
-		calipso = c;
-	}
+    if(calipso == NULL) {
+        printf("calipso is NULL\n");
+        calipso = c;
+    }
 }
 
-#endif 
+#endif

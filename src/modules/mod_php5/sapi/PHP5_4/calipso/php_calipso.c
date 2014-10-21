@@ -19,8 +19,6 @@
   +----------------------------------------------------------------------+
 */
 
-/* $Id: php_calipso.c 152 2013-02-09 17:00:33Z borislav $ */
-
 #include "php.h"
 #include "php_ini.h"
 #include "php_globals.h"
@@ -141,7 +139,7 @@ php_calipso_sapi_header_handler(sapi_header_struct *sapi_header, sapi_header_op_
             	reply->content_length = atol(val);
 				calipso_reply_set_header_value(reply, sapi_header->header, val);
 			} else {
-				printf("*** %d header(%s: %s)\n", op, sapi_header->header, val);
+				//printf("*** %d header(%s: %s)\n", op, sapi_header->header, val);
 				//calipso_reply_set_header_value(reply, sapi_header->header, val);
 				//calipso_reply_set_header_value(reply, sapi_header->header, "%s",val);
 				char *hdr_val = cpo_pool_strdup(reply->request->pool, val);
@@ -388,8 +386,10 @@ static void php_calipso_request_ctor(calipso_request_t *request TSRMLS_DC )
 
 	SG(request_info).path_translated = safe_strdup( filename );    
 
-	if( strlen( strrchr(request->uri,'/') ) == 1)
+	if( strlen( strrchr(request->uri,'/') ) == 1) {
 		strcat(request->uri, "index.php");
+	}
+	
 	SG(request_info).request_uri	 = safe_strdup( request->uri );
 
 	const char * content_length = calipso_request_get_header_value(request, "content-length");
@@ -498,7 +498,7 @@ int php_handler(calipso_request_t *request)
 	
 	status = php_calipso_execute( TSRMLS_C );
 
-	printf("php mem_usage %u\n", zend_memory_peak_usage(1 TSRMLS_CC));
+	//printf("php mem_usage %u\n", zend_memory_peak_usage(1 TSRMLS_CC));
 	
 	php_calipso_request_dtor(request TSRMLS_CC );
 	
