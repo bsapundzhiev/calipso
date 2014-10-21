@@ -8,43 +8,46 @@
 #define FNV_offset_basis_64 	14695981039346656037U
 #define FNV_offset_basis_128 	144066263297769815596495629667062367629U
 
-uint32_t FNV_hash32(uint32_t key) {
-	uint8_t i, *bytes = (uint8_t*) (&key);
-	uint32_t hash = FNV_offset_basis_32;
+uint32_t FNV_hash32(uint32_t key)
+{
+    uint8_t i, *bytes = (uint8_t*) (&key);
+    uint32_t hash = FNV_offset_basis_32;
 
-	for (i = 0; i < sizeof(key); i++) {
-		hash = (FNV_prime_32 * hash) ^ bytes[i];
-	}
+    for (i = 0; i < sizeof(key); i++) {
+        hash = (FNV_prime_32 * hash) ^ bytes[i];
+    }
 
-	return hash;
+    return hash;
 }
 
-uint64_t FNV_hash64(uint64_t key) {
-	uint8_t i, *bytes = (uint8_t*) (&key);
-	uint32_t hash = FNV_offset_basis_32;
+uint64_t FNV_hash64(uint64_t key)
+{
+    uint8_t i, *bytes = (uint8_t*) (&key);
+    uint32_t hash = FNV_offset_basis_32;
 
-	for (i = 0; i < sizeof(key); i++) {
-		hash = (FNV_prime_32 * hash) ^ bytes[i];
-	}
+    for (i = 0; i < sizeof(key); i++) {
+        hash = (FNV_prime_32 * hash) ^ bytes[i];
+    }
 
-	return hash;
+    return hash;
 }
 
-uint32_t FNV_hashStr(const char* data) {
-	unsigned char *s = (unsigned char *) data;
-	uint32_t hash = FNV_offset_basis_32;
-	while (*s) {
-		hash = (FNV_prime_32 * hash) ^ (uint8_t) *s++;
-	}
+uint32_t FNV_hashStr(const char* data)
+{
+    unsigned char *s = (unsigned char *) data;
+    uint32_t hash = FNV_offset_basis_32;
+    while (*s) {
+        hash = (FNV_prime_32 * hash) ^ (uint8_t) *s++;
+    }
 
-	return hash;
+    return hash;
 }
 
-/*int main() 
+/*int main()
  {
  int x = 2034;
  uint32_t t = FNV_hash32(x);
- uint32_t t2 = FNV_hashStr("file1"); 
+ uint32_t t2 = FNV_hashStr("file1");
  printf("test %x-%x \n", t, t2);
  }*/
 

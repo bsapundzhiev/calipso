@@ -4,6 +4,9 @@
 size_t 
 cpo_strlen(const char * src);
 
+char *
+cpo_strstr(const char *str1,const char *str2);
+
 int 
 cpo_strnicmp( const char *_src1, const char *_src2, size_t _num );
 

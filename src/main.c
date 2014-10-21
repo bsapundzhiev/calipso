@@ -203,9 +203,9 @@ static void print_info()
     printf("CALIPSO_DEFAULT_POOLSIZE %d\n", CALIPSO_DEFAULT_POOLSIZE);
     printf("INPUTBUFSZ: %d pagesize %d\n", INPUTBUFSZ, getpagesize());
     printf("listener hash table(size= %d buckets)...\n",
-           hash_table_get_size(calipso->listeners));
+           (int)hash_table_get_size(calipso->listeners));
     printf("m_handler hash table(size= %d buckets)...\n",
-           hash_table_get_size(calipso->m_handler));
+           (int)hash_table_get_size(calipso->m_handler));
     printf("calipso hooks = %d \n", calipso_hook_get_NR_HOOKS());
 }
 

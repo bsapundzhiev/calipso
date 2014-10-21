@@ -141,7 +141,7 @@ void chunks_printf(chunks_t *c, char *fmt, ...)
     cpo_pool_vasprintf(c->pool, &buf, fmt, ap);
     va_end(ap);
 
-    chunks_add_tail(c, buf, strlen(buf));
+    chunks_add_tail(c, buf, cpo_strlen(buf));
 }
 
 /* read block this will _consume_ the chunks

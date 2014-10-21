@@ -193,7 +193,7 @@ calipso_reply_get_header_value(calipso_reply_t *reply, char *header)
     calipso_pool_t *pool;
 
     pool = reply->request->pool; //calipso_reply_get_pool(reply);
-    keylen = strlen(header);
+    keylen = cpo_strlen(header);
 
     if (pool && keylen) {
         key = cpo_pool_strndup_lower(pool, header, keylen);
@@ -221,11 +221,10 @@ int calipso_reply_send_header(calipso_reply_t *reply)
 
         node = hash->nodes[i];
         while (node) {
-            chunk_ctx_printf(reply->pool, ctx_header, "%s: %s\r\n", node->key,
-                             (char *) node->data);
 #ifdef DEBUG_HEADER
-            TRACE("HEADER_LINE %s: %s\n", node->key, (char *)node->data);
+            TRACE("HEADER_LINE %s: %s\n", node->key, (char*)node->data);
 #endif
+	    chunk_ctx_printf(reply->pool, ctx_header, "%s: %s\r\n", node->key, (char*)node->data);
             node = node->next;
         }
     }
@@ -398,7 +397,7 @@ int calipso_reply_send_write(calipso_reply_t *reply)
 
     replybufsz = reply->out_filter->total_bytes;
 
-    TRACE("replybufsz %d\n", replybufsz);
+    TRACE("replybufsz %ld\n", replybufsz);
 
     read = chunks_read_block(reply->out_filter, buffer, OUTPUTBUFSZ);
 
@@ -457,7 +456,7 @@ int calipso_reply_send_file(calipso_reply_t * reply)
             //nr = calipso_sendfile( clientsock, rdesc,  calipso_resource_get_size(reply->resource) );
             //nr = calipso_aio_sendfile(clientsock, rdesc ,  calipso_resource_get_size(reply->resource)  );
 #endif
-            TRACE(" nr %d ? %lld\n", nr,
+            TRACE(" nr %lu ? %lu\n", nr,
                   calipso_resource_get_size(reply->resource));
         }
         if (nr <= 0) {

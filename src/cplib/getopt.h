@@ -16,4 +16,4 @@ int getopt(int argc, char **argv, char *opts);
 }
 #endif
 
-#endif  /* _GETOPT_H_ */ 
+#endif  /* _GETOPT_H_ */

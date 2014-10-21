@@ -327,7 +327,7 @@ void rbtDel(RBTreeType *tree)
 
 void displayNode(NodeType *p)
 {
-    printf("%d %d\n", p->key, (int) p->val);
+    printf("%d %d\n", p->key, *(int*) p->val);
 }
 
 RBTreeType * rbtNew()
