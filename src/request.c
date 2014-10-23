@@ -202,37 +202,6 @@ static int calipso_request_read_header(calipso_request_t *request)
 
     return NOK;
 }
-#if 0
-static int calipso_request_read_body(calipso_request_t *request)
-{
-    int reqlen = 0;
-    char buf[INPUTBUFSZ] = {'\0'};
-    calipso_client_t *client = request->client;
-    calipso_socket_t *listener = calipso_client_get_listener(client);
-
-    int size = MIN(client->pending_bytes, INPUTBUFSZ);
-
-    if (request->in_filter->total_bytes + size < REQUEST_BODY_SIZE_MAX) {
-
-        reqlen = listener->r(client, buf, size);
-
-        printf("body_buf[reqlen %d == %d]===> %s\n",reqlen, size, buf);
-        if (reqlen > 0) {
-            printf("reqlen %d strlen(buf) %d\n", reqlen , strlen(buf));
-            assert(reqlen == strlen(buf));
-            chunks_add_tail(request->in_filter, buf, reqlen);
-        } else if (reqlen < 0) {
-
-            calipso_client_connection_error(client);
-            return CPO_ERR;
-        }
-    } else {
-        return calipso_reply_set_status(request->reply, HTTP_REQUEST_ENTITY_TOO_LARGE);
-    }
-
-    return reqlen;
-}
-#endif
 
 static int calipso_request_read_body(calipso_request_t *request)
 {
@@ -446,8 +415,7 @@ int calipso_request_handler(calipso_request_t *request)
 char *
 calipso_request_get_header_value(calipso_request_t *request, char *header)
 {
-    char *key;
-    char *val = NULL;
+    char *key, *val = NULL;
 
     calipso_pool_t *pool = calipso_request_get_pool(request);
     int keylen = cpo_strlen(header);
@@ -562,15 +530,14 @@ static int request_parse_status_line(calipso_request_t *request, char *line)
         ;
 
     uri = cpo_strtok(uri, "?");
-
     querystring = cpo_strtok( NULL, "?");
 
     if (querystring) {
-		char *new_querystring = cpo_pool_strdup(request->pool, querystring);
+	char *new_querystring = cpo_pool_strdup(request->pool, querystring);
         calipso_request_set_querystring(request, new_querystring);
     }
 
-    if (uri && *uri) {
+    if (uri && *uri == '/') {
     	char *new_uri = cpo_pool_strdup(request->pool, uri);
         calipso_request_set_uri(request, new_uri);
         /* remove tailing spaces */

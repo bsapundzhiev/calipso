@@ -11,7 +11,8 @@ CFLAGS+= -DUSE_SSL
 USE_SSL=1
 USE_POLL=1
 USE_EPOLL=1
-STRICT=1
+#STRICT=1
+OS=$(shell uname -s)
 endif
 
 OBJS    = main.o\

@@ -182,10 +182,10 @@ void mpool_dump(mpool_t *pool)
     struct mblk *p;
     p = pool->blk;
     while (p) {
-        printf("sz %d, base %p, ptr %p\n", p->size, p->base, p->end);
+        printf("sz %ld, base %p, ptr %p\n", p->size, p->base, p->end);
         p= p->next;
     }
-    printf("poll size %d free %d\n",pool->size, pool->free_size );
+    printf("mpool size %ld free %ld\n",pool->size, pool->free_size );
 }
 
 void mpool_get_stats(mpool_t *pool, int *size, int *free_size)

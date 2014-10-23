@@ -5,6 +5,9 @@ size_t
 cpo_strlen(const char * src);
 
 char *
+cpo_strchr(const char * s, int c);
+
+char *
 cpo_strstr(const char *str1,const char *str2);
 
 int 

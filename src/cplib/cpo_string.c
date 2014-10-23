@@ -27,26 +27,24 @@ size_t cpo_strlen(const char * src)
     return i;
 }
 
-char *cpo_strchr(const char * val, int c)
+char *cpo_strchr(const char * s, int c)
 {
-	unsigned char char_mask[256];
-	int car;
-	
-	memset(char_mask,0,256);
-	char_mask[(unsigned char)c] = 1;
-	char_mask[0] = 1;
-	car = (unsigned char) *val;
-	while(car != 0)
-	{
-		if(car == c) break;
-		car = (unsigned char) *val++;
-		
-		while(char_mask[car] == 0)
-		{
-			car = (unsigned char) *val++;
-		}
-	}
-	return (char*)val;
+    unsigned char char_mask[256];
+    int car;
+
+    memset(char_mask,0,256);
+    char_mask[(unsigned char)c] = 1;
+    char_mask[0] = 1;
+    car = (unsigned char) *s;
+    while(car != 0) {
+        if(car == c) return (char*)s;
+        car = (unsigned char) *++s;
+
+        while(char_mask[car] == 0) {
+            car = (unsigned char) *++s;
+        }
+    }
+    return NULL;
 }
 
 /*dloop strstr*/
@@ -503,15 +501,13 @@ int main()
 {
     char test[255];
     char test_len[]="Hello world";
-    
+
     assert( strlen(test_len) == new_strlen(test_len) );
+    assert( !strcmp(cpo_strchr(test_len, 'H'), strchr(test_len, 'H')) );
+    assert( !strcmp(cpo_strchr(test_len, 'l'), strchr(test_len, 'l')) );
+    assert( !strcmp(cpo_strchr(test_len, 'd'), strchr(test_len, 'd')) );
 
-    cpo_snprintf(test, sizeof(test) , "xxx %s %20.llu\n", test_len, 1000000000111);
-    //snprintf(test, sizeof(test) , "xxx %s %10.lu\n", test_len, 1000);
-    //cpo_sprintf(test , "xxx %s %10.lu\n", test_len, 1000);
-    //sprintf(test , "xxx %s %10.lu\n", test_len, 1000);
-    printf("result %s\n", test);
-
+    //cpo_snprintf(test, sizeof(test) , "xxx %s %20.llu\n", test_len, 1000000000111);
     return 0;
 }
 #endif
