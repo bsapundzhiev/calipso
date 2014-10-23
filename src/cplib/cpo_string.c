@@ -27,6 +27,28 @@ size_t cpo_strlen(const char * src)
     return i;
 }
 
+char *cpo_strchr(const char * val, int c)
+{
+	unsigned char char_mask[256];
+	int car;
+	
+	memset(char_mask,0,256);
+	char_mask[(unsigned char)c] = 1;
+	char_mask[0] = 1;
+	car = (unsigned char) *val;
+	while(car != 0)
+	{
+		if(car == c) break;
+		car = (unsigned char) *val++;
+		
+		while(char_mask[car] == 0)
+		{
+			car = (unsigned char) *val++;
+		}
+	}
+	return (char*)val;
+}
+
 /*dloop strstr*/
 char *cpo_strstr(const char *str1,const char *str2)
 {
