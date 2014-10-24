@@ -1,6 +1,7 @@
 #ifndef _CPO_LOG_H
 #define _CPO_LOG_H
 
+
 #define LOG_FILE_ACCESS "access.log"
 #define LOG_FILE_ERROR "error.log"
 
@@ -10,9 +11,6 @@ enum log_type {
 	LOG_ERROR	= 2, 
 	LOG_NOTICE	= 3,
 };
-
-/* forward declatarion */
-typedef struct 	s_request calipso_request_t;
 
 typedef struct cpo_log {
 	u_int level;
@@ -44,6 +42,7 @@ cpo_log_close(cpo_log_t * log);
 void 
 cpo_log_print(cpo_log_t * log, int type ,const char *fmt,...);
 
+#include "core.h"
 void 
 cpo_log_write_access_log(cpo_log_t * log, calipso_request_t * request);
 

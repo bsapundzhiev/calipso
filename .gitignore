@@ -22,6 +22,7 @@
 *.log
 *.sdf
 *.key.org
+*.bundle
 /VERSION
 /src/calipso
 /test/gh

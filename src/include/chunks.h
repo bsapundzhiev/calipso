@@ -15,7 +15,7 @@
 #include <ctype.h>
 #include <stddef.h>
 
-typedef struct mpool mpool_t;
+//typedef struct mpool mpool_t;
 
 #define CHUNKS_BUFFER_SIZE 4096
 
