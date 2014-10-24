@@ -147,7 +147,7 @@ void cpo_log_print(cpo_log_t * log, int type, const char *fmt, ...)
     }
 
     if (LOG_ACCESS != type) {
-        char date[32];
+        char date[64];
         make_log_date(date, sizeof(date), 0);
         fprintf(fp, "[%s] [%s] ", date, log_types[type]);
     }
@@ -206,7 +206,7 @@ void cpo_log_print(cpo_log_t * log, int type, const char *fmt, ...)
 /* commont HTTP log format */
 void cpo_log_write_access_log(cpo_log_t * log, calipso_request_t * request)
 {
-    char date[32] = { '\0' };
+    char date[64] = { '\0' };
     const char *user_agent = NULL;
     const char *client_addr = NULL;
 
