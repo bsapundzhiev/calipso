@@ -62,8 +62,14 @@ struct buf {
     char szBuffer[1024];
 } gh_buf;
 
+struct gh_url {
+    char *lpServerName;
+    char *lpFileName;
+    int port;
+};
+
 void GetHTTP( char *args[] );
-static int parse_HTTP_header(int socket);
+//static int parse_HTTP_header(int socket);
 static int gh_http_readline(int sock, char *buf, int len);
 static void usage();
 
@@ -174,75 +180,40 @@ int gh_connect_poll()
     return 1;
 }
 
-void GetHTTP( char *args[] )
+int gh_make_request(struct gh_url *url) 
 {
-    int nRet;
+int nRet;
     struct 	in_addr		iaHost;
     struct 	hostent  	*lpHostEntry;
-    //struct 	servent    	*lpServEnt;
     struct 	sockaddr_in 	saServer;
-    char *lpServerName;
-    char *lpFileName;
-    char *ptr;
-    int port=0;
-
-
-    char proto[64];
-    char host[512];
-    char urlpath[1024];
-    char invalid_char = 'e';
-    //ptr= (char*) malloc( 16 );
-
-    if (sscanf(args[1],"%64[^\n:]://%512[^\n/?]%[^\n]",proto, host, urlpath) < 2) {
-        printf("Error: invalid URL\n");
-        return;
-    }
-
-    lpServerName = strtok(host,":");
-
-    if (strlen(urlpath) > 1)
-        lpFileName = urlpath;
-    else
-        lpFileName = "/";
-
-    ptr = strtok( NULL , ":" );
-
-
-    if (ptr != NULL )
-        port = atoi(ptr);
-    else
-        port = (80);
-
-    printf("resolving::lpServerName='%s', lpFileName='%s', port='%d'\n" , lpServerName, lpFileName, port );
-
-    iaHost.s_addr = inet_addr(lpServerName);
+    iaHost.s_addr = inet_addr(url->lpServerName);
 
     if (iaHost.s_addr == (INADDR_NONE) ) {
 
-        lpHostEntry = gethostbyname(lpServerName);
+        lpHostEntry = gethostbyname(url->lpServerName);
     } else {	/*It was a valid IP address string*/
         lpHostEntry = gethostbyaddr((const char *)&iaHost, sizeof(struct in_addr), AF_INET);
     }
 
     if (lpHostEntry == NULL) {
         perror("gethostbyname()");
-        return;
+        return SOCKET_ERROR;
     }
 
     /*Create a TCP/IP stream socket*/
     gh_buf.Socket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
     if (gh_buf.Socket == INVALID_SOCKET) {
         perror("socket()");
-        return;
+        return SOCKET_ERROR;
     }
 
     if (sockndelay(gh_buf.Socket, 1) == -1) {
         perror("sockndelay");
         closesocket(gh_buf.Socket);
-        return;
+        return SOCKET_ERROR;
     }
 
-    saServer.sin_port = htons( port );
+    saServer.sin_port = htons( url->port );
     saServer.sin_family = AF_INET;
     saServer.sin_addr = *( (struct in_addr*) *lpHostEntry-> h_addr_list );
 
@@ -255,27 +226,52 @@ void GetHTTP( char *args[] )
         if ((errno != EINPROGRESS) && (errno != EWOULDBLOCK)) {
             perror("connect");
             closesocket(gh_buf.Socket);
-            return;
+            return SOCKET_ERROR;
         }
     }
+
+    gh_connect_poll();
+
+    closesocket(gh_buf.Socket);
+
+    return 1;
+}
+
+void GetHTTP( char *args[] )
+{
+    struct gh_url url;
+    char *ptr;
+    char proto[64];
+    char host[512];
+    char urlpath[1024];
+    char invalid_char = 'e';
+ 
+    if (sscanf(args[1],"%64[^\n:]://%512[^\n/?]%[^\n]", proto, host, urlpath) < 2) {
+        printf("Error: invalid URL\n");
+        return;
+    }
+
+    url.lpServerName = strtok(host,":");
+
+    if (strlen(urlpath) > 1)
+        url.lpFileName = urlpath;
+    else
+        url.lpFileName = "/";
+
+    ptr = strtok( NULL , ":" );
+    url.port = (ptr != NULL ) ? atoi(ptr) : (80);
+
+    printf("resolving: %s lpServerName='%s', lpFileName='%s', port='%d'\n",
+	proto , url.lpServerName, url.lpFileName, url.port );
 
     //send invalid char
     if (args[2] && !strcmp(args[2],"-x")) {
         invalid_char = 0x1;
     }
 
-    sprintf(gh_buf.szBuffer, HTTP_HEADER, lpFileName, ARCH, invalid_char);
-    gh_connect_poll();
+    sprintf(gh_buf.szBuffer, HTTP_HEADER, url.lpFileName, ARCH, invalid_char);
 
-#if 0
-    if (args[2] && !strcmp(args[2],"-d")) {
-        parse_HTTP_header(Socket);
-        closesocket(Socket);
-        return;
-    }
-#endif
-
-    closesocket(gh_buf.Socket);
+    gh_make_request(&url) ;
 }
 
 int http_parse_header(int socket)

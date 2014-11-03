@@ -42,6 +42,10 @@ calipso_request_alloc(void)
     if (request == NULL)
         return NULL;
 
+    request->host = NULL;
+    request->user = NULL;
+    request->body_length = 0;
+    request->request_time = (time_t) 0;
     request->pool = cpo_pool_create( CALIPSO_DEFAULT_POOLSIZE * 2);
 
     return (request);
@@ -98,11 +102,6 @@ int calipso_request_init_handler(calipso_client_t * client)
 
     calipso_request_set_querystring(request, NULL);
     calipso_request_set_handler(request, NULL);
-
-    request->host = NULL;
-    request->user = NULL;
-    request->body_length = 0;
-    request->request_time = (time_t) 0;
 
     client->client_persistent_hdl = request_persistent_handler;
     calipso_request_set_client(request, client);
@@ -579,7 +578,7 @@ static int request_parse_header(calipso_request_t *request, char *header)
             header = eol;
         *eol = 0;
 
-        eol = strchr(hdr, ':');
+        eol = cpo_strchr(hdr, ':');
         if (eol) {
             *eol = 0;
             val = eol + 1;
@@ -589,7 +588,7 @@ static int request_parse_header(calipso_request_t *request, char *header)
             while (*eol && (*eol = tolower((int) *eol)) && ++eol)
                 ;
             if (hdr != NULL) {
-
+		
                 hash_table_insert(request->header, hdr, val);
             }
         }

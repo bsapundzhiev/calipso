@@ -198,6 +198,7 @@ calipso_reply_get_header_value(calipso_reply_t *reply, char *header)
     if (pool && keylen) {
         key = cpo_pool_strndup_lower(pool, header, keylen);
         val = hash_table_get_data(reply->header, key);
+	cpo_pool_free(pool, key);
     }
 
     return val;

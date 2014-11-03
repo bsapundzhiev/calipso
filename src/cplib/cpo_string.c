@@ -121,6 +121,22 @@ char * cpo_strtok(char *str, const char *delims)
     return start;
 }
 
+void cpo_str_tolower(char *str) 
+{
+    int i;
+    for(i = 0; str[i]; i++) {
+        str[i] = tolower(str[i]);
+    }
+}
+
+void cpo_str_toupper(char *str) 
+{
+    int i;
+    for(i = 0; str[i]; i++) {
+        str[i] = toupper(str[i]);
+    }
+}
+
 /*
  * strnicmp routines -- mising on some distrib
  */

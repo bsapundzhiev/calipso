@@ -17,6 +17,7 @@
 #include <errno.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <stdarg.h>
 
 #ifdef _WIN32
 #include <stdint.h>
@@ -26,10 +27,14 @@
 #endif
 
 #ifdef __APPLE__
- #include "compat.h"
+#include "compat.h"
 //typedef int timer_t;
 typedef  pthread_cond_t timer_t;
 typedef unsigned int u_int;
+#endif
+
+#if defined(ANDROID)
+#include "compat.h"
 #endif
 
 /* HTTPS support */
@@ -79,7 +84,7 @@ typedef unsigned int u_int;
 #else /* *NIX */
 
 #include <sys/ioctl.h>
-#include <sys/fcntl.h>
+#include <fcntl.h>
 #include <sys/wait.h>
 #include <unistd.h>
 #include <pwd.h>  	/* struct passwd */
@@ -105,8 +110,8 @@ typedef unsigned int u_int;
 #define closesocket		close
 
 
-#ifdef __linux
-	#define LINUX
+#if defined(__linux) && !defined(ANDROID)
+#	define LINUX
 #endif
 
 #ifndef OS

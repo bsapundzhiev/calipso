@@ -16,6 +16,9 @@ cpo_strnicmp( const char *_src1, const char *_src2, size_t _num );
 char *
 cpo_strtok(char *str, const char *delims);
 
+void cpo_str_tolower(char *str);
+void cpo_str_toupper(char *str);
+
 int 
 cpo_atoi(const char *s);
 
