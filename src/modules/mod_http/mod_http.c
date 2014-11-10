@@ -285,7 +285,12 @@ static int mod_http_configure(void)
     mime_load_file(mime_type, "../../doc/mime.types");
 #endif
 #else
+#if defined(ANDROID)
+    mime_load_file(mime_type, "/storage/emulated/0/Android/data/com.bsapundzhiev.calipso/files/mime.types");
+#else
     mime_load_file(mime_type, "../doc/mime.types");
+#endif
+
 #endif
     return 1;
 }

@@ -50,6 +50,7 @@ int mime_load_file(hash_t *l, char const *fname )
 
     if ( (f=fopen(fname,"r")) == NULL ) {
         printf("cant open %s\n", fname);
+	TRACE("mime_load_file: cant open %s\n", fname);
         exit(-1);
     }
     line = (char*)malloc( MAX_MIME_LINE );

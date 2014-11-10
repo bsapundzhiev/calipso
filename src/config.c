@@ -24,12 +24,14 @@
 #include <string.h>
 #include <errno.h>
 
+#include "calipso.h"
+
 #include "config.h"
 #include "dt.h"
 #include "cplib.h"
 
 #define MAXCONFLINELEN 	1024
-#define MAXOPTLEN 		80
+#define MAXOPTLEN 	512
 
 #define BLOCK_BEGIN 	"{"
 #define BLOCK_END		"}"
@@ -194,6 +196,7 @@ int config_parse_file(calipso_config_t *config, char const *fname)
     char parse = 0;
 
     if ((f = fopen(fname, "r")) == NULL) {
+	TRACE("Error : '%s' %s \n", fname, strerror(errno));
         printf("Error : '%s' %s \n", fname, strerror(errno));
         exit(EXIT_FAILURE);
     }
@@ -336,7 +339,7 @@ int calipso_config_set_parent(calipso_config_t * parent,
 static void parser_error(int nline, unsigned short err)
 {
     fprintf(stderr, "parser error @ line: %d ", nline);
-
+    TRACE("parser error @ line: %d err %d", nline , err);
     switch (err) {
     case PERR_LINE:
         fprintf(stderr, "Line too long!\n");

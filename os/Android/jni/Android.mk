@@ -10,6 +10,7 @@ VERSION := $(shell cat ../../../VERSION)
 include $(CLEAR_VARS)
 #include $(call all-subdir-makefiles)
 LOCAL_CFLAGS := -Wall -g -DDEBUG -D_FILE_OFFSET_BITS=64 -D_REENTRANT -DVERSION="\"$(VERSION)\""
+LOCAL_LDLIBS :=  -llog 
 LOCAL_C_INCLUDES := $(SRC_INC)
 LOCAL_MODULE := calipso-jni
 LOCAL_SRC_FILES := calipso-jni.cpp \
@@ -52,7 +53,7 @@ LOCAL_SRC_FILES := calipso-jni.cpp \
 	$(SRC_DIR)/timer.c
 
 include $(BUILD_SHARED_LIBRARY)
-LOCAL_SHARED_LIBRARIES := libc librt libpthread
+LOCAL_SHARED_LIBRARIES := libc librt libpthread 
 
 # create a temp variable with the current path, because it 
 # changes after each include

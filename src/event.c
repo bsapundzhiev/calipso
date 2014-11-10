@@ -114,6 +114,7 @@ void cpo_events_init()
 #endif
 		}
     } else {
+	TRACE("Unknown event model %s\n", server_model);
         printf("Unknown event model %s\n", server_model);
         exit(EXIT_FAILURE);
     }

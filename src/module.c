@@ -90,6 +90,7 @@ static void calipso_register_module(calipso_mod_t * m, const char *module_name,
     m->handler = Sys_LoadLibrary(path);
 
     if (!m->handler) {
+	TRACE("dlerror= %s - terminate\n",Sys_LibraryError());
         fprintf(stderr, "%s():%d dlerror= %s - terminate\n", __func__, __LINE__,
                 Sys_LibraryError());
         exit(-1);
@@ -116,9 +117,9 @@ static calipso_mod_t *calipso_load_modules(calipso_config_t * config)
 
         if (conf && strcmp(conf->option, "load_module") == 0) {
 
-            char *name = cpo_strtok(conf->value, ":");
-            char *path = cpo_strtok(NULL, ":");
-            printf("load_module: %s\n", path);
+            char *name = strtok(conf->value, ":");
+            char *path = strtok(NULL, ":");
+            TRACE("load_module: %s\n", path);
 
             if (MAX_LOADED_MODULES > nr_modules) {
                 calipso_register_module(&module_table[nr_modules], name, path);

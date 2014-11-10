@@ -32,6 +32,7 @@ void mpool_get_stats(mpool_t *pool, int *size, int *free_size);
 char *cpo_pool_strdup(mpool_t * pool, const char *str);
 char *cpo_pool_strndup(mpool_t *pool, const char *str, size_t len);
 char *cpo_pool_strndup_upper(mpool_t *pool, const char *s, size_t len);
+char *cpo_pool_strndup_lower(mpool_t *pool, const char *s, size_t len);
 int cpo_pool_vasprintf(mpool_t *pool, char **buf, const char *format, va_list ap);
 int cpo_pool_asprintf(mpool_t *pool, char *fmt, ...);
 

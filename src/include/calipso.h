@@ -90,6 +90,9 @@ typedef unsigned int u_int;
 #include <pwd.h>  	/* struct passwd */
 #include <limits.h> /* IOV_MAX */ 
 /*net*/
+#if defined(ANDROID)
+#undef MAXHOSTNAMELEN /*defined in netdb*/
+#endif
 #include <netdb.h>
 #include <netinet/in.h>
 #include <netinet/in.h>
@@ -555,38 +558,6 @@ ssize_t fd_aio_read(int fd, void *buf, size_t len);
  * signal .h
  */
 int calipso_init_all_signal_handlers(void);
-
-/*
- * pool.c
- */
-
-/* Create a new pool -- pass zero for default */
-/* 'size' is the size of the first blob of memory that will be allocated */
-struct mpool *
-cpo_pool_create(size_t size);
-
-/* Free a pool */
-void cpo_pool_destroy(struct mpool *pool);
-/* Allocate from a pool */
-void *
-cpo_pool_malloc(struct mpool *pool, size_t size);
-/* free a pool chunk */
-void cpo_pool_free(struct mpool *pool, void * data);
-/* pool lib */
-char *
-cpo_pool_strdup(struct mpool *pool, const char *str);
-
-char *
-cpo_pool_strndup(struct mpool *pool, const char *str, size_t len);
-
-char *
-cpo_pool_strndup_lower(struct mpool *pool, const char *s, size_t len);
-
-char *
-cpo_pool_strndup_upper(struct mpool *pool, const char *s, size_t len);
-
-extern int
-cpo_pool_vasprintf(/*struct mpool *pool, char **buf, const char *format, va_list ap*/);
 
 /*
  * resource.c
