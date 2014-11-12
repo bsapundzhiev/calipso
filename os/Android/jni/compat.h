@@ -7,7 +7,6 @@
 #define USE_EPOLL	1
 
 #include <android/log.h>
-//#define  LOGD(...)  __android_log_print(ANDROID_LOG_DEBUG,"Calipso",__VA_ARGS__)
 #define  TRACE(...)  __android_log_print(ANDROID_LOG_DEBUG,"Calipso",__VA_ARGS__)
 
 int clearenv();

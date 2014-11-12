@@ -4,21 +4,27 @@
 package com.bsapundzhiev.calipso;
 
 /**
- * @author Borislav Sapundzhiev 
- * 
+ * @author Borislav Sapundzhiev  
  */
 public class CalipsoJNIWrapper {
 
+	private Thread _cpoThread;
+	boolean isRunning;
+	
 	static {
 		System.loadLibrary("calipso-jni");
 	}
 	
+	private native String getCurrentWorkingDir();
 	private native String stringFromJNI();
 	private native void startCalipsoServer(final String filePath);
 	/**
 	 * Construct
 	 */
-	public CalipsoJNIWrapper() { }
+	public CalipsoJNIWrapper() { 
+		isRunning = false;
+	}
+	
 	/**
 	 * return server status
 	 * @return {@link String}
@@ -28,20 +34,30 @@ public class CalipsoJNIWrapper {
 		return stringFromJNI();
 	}
 	
-	private Thread cpoThread;
-	public void startCalipso(final String filePath){
-
-		 cpoThread = new Thread(new Runnable() { 
+	public String getCurrentWorkingDirectory() {
+		return getCurrentWorkingDir();
+	}
+ 	
+	public void startCalipso(final String filePath) {
+		if(isRunning) return;
+		
+		_cpoThread = new Thread(new Runnable() { 
 		       public void run() {
-		        	startCalipsoServer(filePath);
-		        }    
-		   });//.start();
+		    	   isRunning = true;
+		    	   startCalipsoServer(filePath);
+		       }  
+		});
 		 
-		 cpoThread.start();
+		_cpoThread.start();
 	}
 	
 	public void stopCalipso() {
 		
-		cpoThread.interrupt();
+		_cpoThread.interrupt();
+		isRunning = false;
+	}
+	
+	public void restartCalipso() {
+		//TODO:
 	}
 }

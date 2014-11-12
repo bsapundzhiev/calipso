@@ -1,8 +1,0 @@
-*.ap_
-*.apk
-*.dex
-/classes/
-/dexedLibs/
-/res/
-*.cache
-*.txt

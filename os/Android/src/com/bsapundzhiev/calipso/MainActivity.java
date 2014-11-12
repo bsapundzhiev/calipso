@@ -2,6 +2,7 @@ package com.bsapundzhiev.calipso;
 
 import java.util.Locale;
 
+import com.bsapundzhiev.util.CpoFileUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -9,10 +10,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.app.ActionBar.Tab;
 import android.app.ActionBar.TabListener;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,21 +29,54 @@ public class MainActivity extends ActionBarActivity implements TabListener {
 	 * becomes too memory intensive, it may be best to switch to a
 	 * {@link android.support.v4.app.FragmentStatePagerAdapter}.
 	 */
+	private static final String LOG_TAG = "MainActivity";
 	SectionsPagerAdapter mSectionsPagerAdapter;
 
 	/**
 	 * The {@link ViewPager} that will host the section contents.
 	 */
 	ViewPager mViewPager;
+	/**
+	 * Calipso JNI object
+	 */
+	private void initServer()
+	{
+		if( AppConstants.getcpoHttpServiceHandle().isRunning == false) {
+			// Init config file
+		    CpoFileUtils.createExternalStoragePrivateFile(this, 
+						this.getResources().openRawResource(R.raw.mime), CpoFileUtils.MIME_TYPE_FILE);
+				
+			String confPath = CpoFileUtils.createExternalStoragePrivateFile(this, 
+						this.getResources().openRawResource(R.raw.calipso), CpoFileUtils.CONFIG_FILE);
+				
+			AppConstants.getcpoHttpServiceHandle().startCalipso(confPath);
+		}
+	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		Log.d(LOG_TAG,"OnDestroy");
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	        
+		super.onActivityResult(requestCode, resultCode, data);
+
+	}
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		try { 
-		Log.d("Calipso", CpoFileUtils.getCpoFilesDir(this.getBaseContext()).getPath() );
-		
-		}catch (Exception e) {}
+			Log.d(LOG_TAG, CpoFileUtils.getCpoFilesDir(this.getBaseContext()).getPath() );
+			Log.d(LOG_TAG, AppConstants.getcpoHttpServiceHandle().getCurrentWorkingDirectory());
+			initServer();
+		}catch (Exception e) {
+			Log.d("Calipso", e.getMessage());
+		}
 		
 		// Set up the action bar.
         final android.app.ActionBar actionBar = this.getActionBar();
@@ -89,7 +123,7 @@ public class MainActivity extends ActionBarActivity implements TabListener {
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
+	public boolean onOptionsItemSelected(MenuItem item) {		
 		// Handle action bar item clicks here. The action bar will
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
@@ -97,9 +131,16 @@ public class MainActivity extends ActionBarActivity implements TabListener {
 		if (id == R.id.action_settings) {
 			return true;
 		}
+		if (id == R.id.action_help) {
+			
+			Intent intent = new Intent(this, AboutHelpActivity.class);
+	        this.startActivity(intent);
+	        return true;
+		}
+		
 		return super.onOptionsItemSelected(item);
 	}
-
+	
 	@Override
 	public void onTabSelected(Tab tab, android.app.FragmentTransaction fragmentTransaction) {
 		
@@ -136,7 +177,6 @@ public class MainActivity extends ActionBarActivity implements TabListener {
 			switch (position) {
 			case 0:
 				return  new NetListFragment();
-				
 			default:
 				return PlaceholderFragment.newInstance(position + 1);
 			}
@@ -162,8 +202,6 @@ public class MainActivity extends ActionBarActivity implements TabListener {
 			}
 			return null;
 		}
-		
-		
 	}
 	
 	/**
@@ -200,4 +238,3 @@ public class MainActivity extends ActionBarActivity implements TabListener {
 		}
 	}
 }
-

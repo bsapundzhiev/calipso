@@ -1,4 +1,4 @@
-package com.bsapundzhiev.calipso;
+package com.bsapundzhiev.util;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -20,8 +20,8 @@ import android.util.Log;
 
 
 public class CpoFileUtils {
-	public static final String cpoFname = "calipso.conf";
-	public static final String cpoMime = "mime.types";
+	public static final String CONFIG_FILE = "calipso.conf";
+	public static final String MIME_TYPE_FILE = "mime.types";
 	
 	/**
 	 * get application directory
@@ -94,7 +94,7 @@ public class CpoFileUtils {
 	    File file = new File(appCtx.getExternalFilesDir(null), fileName);
 	    return file.exists();
 	}
-	
+	//TODO: move to other place
 	/**
 	 * Get all device ip addresses
 	 * @return {@link array}
@@ -122,5 +122,21 @@ public class CpoFileUtils {
 	     }
 	    
 	     return addresses.toArray(new String[0]);
+	}
+	
+	public static long getUsedMemorySize() {
+
+	    long freeSize = 0L;
+	    long totalSize = 0L;
+	    long usedSize = -1L;
+	    try {
+	        Runtime info = Runtime.getRuntime();
+	        freeSize = info.freeMemory();
+	        totalSize = info.totalMemory();
+	        usedSize = totalSize - freeSize;
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return usedSize;
 	}
 }
