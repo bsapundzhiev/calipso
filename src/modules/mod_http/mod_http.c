@@ -276,23 +276,12 @@ static int mod_http_init(void)
 
 static int mod_http_configure(void)
 {
-    /*TODO: fix */
     mime_type = hash_table_create(64, NULL);
-#ifdef _WIN32
-#ifdef WP8
-    mime_load_file(mime_type, "mime.types");
-#else
-    mime_load_file(mime_type, "../../doc/mime.types");
-#endif
-#else
-#if defined(ANDROID)
-    mime_load_file(mime_type, "/storage/emulated/0/Android/data/com.bsapundzhiev.calipso/files/mime.types");
-#else
-    mime_load_file(mime_type, "../doc/mime.types");
-#endif
-
-#endif
-    return 1;
+    calipso_config_t *calipso_config = calipso_get_config();
+    const char* mime_type_file = config_get_option(calipso_config, "mime_type_file", NULL);
+    
+    mime_load_file(mime_type, mime_type_file);
+    return CPO_OK;
 }
 
 static int mod_http_chroot(void)

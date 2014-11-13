@@ -75,7 +75,7 @@ public class MainActivity extends ActionBarActivity implements TabListener {
 			Log.d(LOG_TAG, AppConstants.getcpoHttpServiceHandle().getCurrentWorkingDirectory());
 			initServer();
 		}catch (Exception e) {
-			Log.d("Calipso", e.getMessage());
+			Log.d(LOG_TAG, e.getMessage());
 		}
 		
 		// Set up the action bar.
