@@ -1,5 +1,7 @@
 package com.bsapundzhiev.calipso;
-
+/**
+ * @author Borislav Sapundzhiev
+ */
 import com.bsapundzhiev.util.CpoFileUtils;
 
 import android.support.v7.app.ActionBarActivity;

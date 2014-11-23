@@ -12,15 +12,15 @@ v0.1.x
 ==========================================================================
 
 	1. Introductions.
-	-----------------
-		This is Calipso server v 0.1.x.
+	------------------
+		This is Calipso HTTP server v 0.1.x.
 
     	Calipso is a proof of concept for event driven HTTP Server, 
 	originally created with educational purpose to solve C10k problem.
-	 	It is designed to be run as a standalone daemon process wich will 
+	 	It is designed to be run as a standalone daemon process which will 
 	create an edge/level-triggered events to handle async client requests. 
 
-		Application include *modular* system that provide easiest 
+		Application have modular system which provide easiest 
 	way to extend the server functionality.
 
 		Its successfuly runs on limited devices because of low memory 
@@ -28,35 +28,27 @@ v0.1.x
 	rasspbery pi).
  
 	 1.1. Features:
-	 ----------------	
+	 ------------------
 		* fast response
 		* small memory footprint (designed for low memory systems)
 		* config file 
-		* modules (php5, autoindex ...)
-   	 NOTE:
-		For more see documentation at doc folder
-
+		* custom modules 
+ 
 	 1.2 Build and installation:
-	 -------------------
-        	see file called BUILD*
+	 ------------------
+        	see file called "INSTALL"
 		
 	 1.3. Requirements:
 	 ------------------
-		* Linux, FreeBSD, Windows, Windows Phone 8, Mac OS X
+		* Linux, Android, FreeBSD, Windows, Windows Phone 8, Mac OS X
 		* glibc with nptl and epoll/poll/select/kqueue support
+		* Aditional build tools - see README files in "os" folder
 
-	2. Licensing
-	---------
+	2. Licensing:
+	------------------
 		Please see the file called "LICENSE"
 
-	3. Resources:
-	------------
-		http://en.wikipedia.org/wiki/C10k_problem
-		http://www.kegel.com/c10k.html
-		http://www.php.net/
-	
-
-	4. Contacts:
-	------------
+	3. Contacts:
+	------------------
 		Autor: Borislav Sapundzhiev <bsapundjiev_AT_gmail_DOT_com>
 	--------------------------------------------------------------------------

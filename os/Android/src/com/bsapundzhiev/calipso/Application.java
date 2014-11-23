@@ -1,4 +1,7 @@
 package com.bsapundzhiev.calipso;
+/**
+ * @author Borislav Sapundzhiev
+ */
 //import com.google.api.client.util.Lists;
 //import java.util.ArrayList;
 

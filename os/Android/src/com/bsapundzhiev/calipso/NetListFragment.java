@@ -1,8 +1,12 @@
 package com.bsapundzhiev.calipso;
-
+/**
+ * @author Borislav Sapundzhiev 
+ */
 import com.bsapundzhiev.util.CpoFileUtils;
 
 import android.support.v4.app.Fragment;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +15,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 
 public class NetListFragment extends Fragment {
 
@@ -25,7 +27,6 @@ public class NetListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-    	
     	
 		View root = inflater.inflate(R.layout.activity_list_view_net, container, false);
         TextView textview = (TextView) root.findViewById(R.id.text1);
@@ -48,12 +49,15 @@ public class NetListFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, final View view,
                 int position, long id) {
+            	
               final String item = (String) parent.getItemAtPosition(position);
-           
-              // Show Alert 
-              Toast.makeText(getActivity().getBaseContext(), //,
-                "Position :"+position+"  ListItem : " + item , Toast.LENGTH_LONG)
-                .show();
+              Uri uri = Uri.parse( String.format("http://%s:%s/", item,AppConstants.serverDefaultPort));
+              startActivity( new Intent( Intent.ACTION_VIEW, uri));
+              
+              //Show Alert 
+              //Toast.makeText(getActivity().getBaseContext(), //,
+              //  "Position :"+position+"  ListItem : " + url , Toast.LENGTH_LONG)
+              // .show();
             }
         });
         

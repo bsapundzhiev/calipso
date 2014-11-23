@@ -1,5 +1,7 @@
 package com.bsapundzhiev.calipso;
-
+/**
+ * @author Borislav Sapundzhiev
+ */
 import java.util.Locale;
 
 import com.bsapundzhiev.util.CpoFileUtils;

@@ -1,5 +1,7 @@
 package com.bsapundzhiev.util;
-
+/**
+ * @author Borislav Sapundzhiev
+ */
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
