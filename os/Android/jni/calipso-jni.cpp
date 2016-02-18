@@ -17,7 +17,7 @@
 extern "C" {
 #include "calipso.h"
 #include "compat.h"
-}
+
 
 JNIEXPORT jstring JNICALL
 	Java_com_bsapundzhiev_calipso_CalipsoJNIWrapper_getCurrentWorkingDir
@@ -78,4 +78,6 @@ Java_com_bsapundzhiev_calipso_CalipsoJNIWrapper_startCalipsoServer
     //env->ReleaseStringUTFChars(jstr, cstr); 
     TRACE("main loop\n");
     cpo_events_loop();
+}
+
 }
