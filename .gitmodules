@@ -1,0 +1,3 @@
+[submodule "src/cplib/bsxml-json"]
+	path = src/cplib/bsxml-json
+	url = ../bsxml-json
