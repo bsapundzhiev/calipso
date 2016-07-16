@@ -31,6 +31,7 @@ github.txt
 /VERSION
 #src
 /src/calipso
+/src/calipso.conf
 #test
 /test/gh
 /test/deadcon

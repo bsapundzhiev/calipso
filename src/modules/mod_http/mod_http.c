@@ -653,12 +653,12 @@ static int mod_http_partial_content(calipso_request_t *request, int fd)
 
         total_size = calipso_resource_get_size(request->reply->resource);
         partial_size = total_size - atol(offset1);
-        TRACE("partial size: %llu ? total size %llu\n", partial_size, total_size);
+        TRACE("partial size: %lu ? total size %lu\n", partial_size, total_size);
 
         calipso_reply_set_header_value(request->reply,
-                                       "content-range", "bytes=%s-%llu/%llu", offset1, total_size - 1, total_size);
+                                       "content-range", "bytes=%s-%lu/%lu", offset1, total_size - 1, total_size);
         calipso_reply_set_header_value(request->reply,
-                                       "Content-Length", "%llu", partial_size);
+                                       "Content-Length", "%lu", partial_size);
 
         /*set fd position */
         (off_t)lseek(fd, (off_t)atoi(offset1), SEEK_SET);

@@ -14,13 +14,7 @@
 #include "cpo_io_ssl.h"
 #endif
 
-#ifdef _WIN32
-#include "getopt.h"
-#define CALIPSO_DEFAULT_CONFIG "calipso.conf"
-#else
-#define CALIPSO_DEFAULT_CONFIG "../doc/calipso.conf"
-#endif
-
+#define CALIPSO_DEFAULT_CONFIG 	"calipso.conf"
 #define CALIPSO_PID_FILE	"/var/run/calipso.pid"
 
 static void usage(int);

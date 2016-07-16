@@ -2,7 +2,7 @@
 
 #Build settings
 #SSL usage 
-USE_SSL=1
+#USE_SSL=1
 #events
 USE_POLL=1
 USE_EPOLL=1

@@ -76,6 +76,7 @@ typedef unsigned int u_int;
 
 #include "fakepoll.h"
 #include "writev.h"
+#include "getopt.h"
 
 #pragma comment(lib, "ws2_32.lib")
 #ifdef USE_SSL

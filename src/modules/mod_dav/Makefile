@@ -1,10 +1,10 @@
 
 NAME    =       mod_dav
-SRCS    =       mod_dav.c webdav.c dav_fs.c
+SRCS    =       mod_dav.c webdav.c dav_fs.c ../../cplib/bsxml-json/bsxml.c ../../cplib/bsxml-json/bsstr.c
 OBJS    =       $(SRCS:.c=.o)
 
-CFLAGS  +=  -fPIC -g -O2 -Wall -D_MODULE -DDEBUG -I ../../include -D_FILE_OFFSET_BITS=64
-LDFLAGS +=
+CFLAGS  +=  -fPIC -g -O2 -Wall -D_MODULE -DDEBUG -I. -I ../../include -D_FILE_OFFSET_BITS=64 -I ../../cplib/bsxml-json
+LDFLAGS +=  -L. -lexpat
 
 ifeq ($(OS), Darwin)
 	CFLAGS += -I ../../../os/macosx
