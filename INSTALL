@@ -35,8 +35,8 @@ make
 2. PHP
 ------
 
-$ ./configure --prefix=$HOME/php --with-calipso=$HOME/Desktop/calipso-svn/src \ 
+$ ./configure --prefix=$HOME/php --with-calipso=$HOME/Porjects/calipso/src \ 
 --host=arm-linux-gnueabihf --disable-libxml --disable-dom --disable-simplexml --disable-xmlreader \ 
 --disable-xmlwriter --disable-xml --without-pear --without-sqlite3 --without-cdb --without-iconv \
---without-pdo-sqlite
+--without-pdo-sqlite --enable-sockets 
 
