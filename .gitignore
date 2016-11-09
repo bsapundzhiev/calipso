@@ -3,6 +3,9 @@
 /build/linux/Debug/
 /build/linux/.settings/
 /src/cplib/pcre/
+/src/cplib/bsxml-json/
+/src/*.conf
+
 *.old
 *.d
 *.o

@@ -1,0 +1,2 @@
+set solib-search-path /home/borislav/Projects/calipso/os/Android/app/src/main/obj/local/mips64
+directory /home/borislav/Android/Sdk/ndk-bundle/platforms/android-21/arch-mips64/usr/include ../../../../../../src/include /home/borislav/Android/Sdk/ndk-bundle/sources/cxx-stl/system/include ../../../../../../../src/modules/mod_autoind ../../../../../../../src/modules/mod_http

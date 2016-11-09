@@ -1,4 +1,6 @@
-/app/
+/app/src/main/obj/
+/app/build/
+/app/.externalNativeBuild
 /.gradle/
 /build/
 /.idea/
