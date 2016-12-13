@@ -6,6 +6,7 @@
 /src/cplib/bsxml-json/
 /src/*.conf
 
+/src/modules/mod_dav/prop_req.xml
 *.old
 *.d
 *.o
@@ -27,7 +28,6 @@
 *.key.org
 *.bundle
 *.zip
-*.xml
 *.py
 Makefile.rpi
 github.txt

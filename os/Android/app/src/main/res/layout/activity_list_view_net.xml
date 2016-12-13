@@ -1,0 +1,27 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+ 
+    <ImageView 
+        android:id="@+id/netImage"
+        android:contentDescription="@string/hello_world"
+        android:layout_width="fill_parent"
+        android:layout_height="140dp"
+        android:layout_margin="0dp"
+        android:background="#A4C639"
+        android:padding="0dp"
+        android:src="@drawable/networks" />
+    
+    <TextView
+     	android:id="@+id/text1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        android:text="@string/hello_world" />
+    
+    <ListView
+        android:id="@+id/list"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent" />
+
+</LinearLayout>
