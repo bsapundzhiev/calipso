@@ -1,8 +1,8 @@
-/* 
+/*
 Copyright (c) 2012 the authors listed at the following URL, and/or
 the authors of referenced articles or incorporated external code:
 http://en.literateprograms.org/Hash_table_(C)?action=history&offset=20100620072342
-   
+
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
 "Software"), to deal in the Software without restriction, including
@@ -10,10 +10,10 @@ without limitation the rights to use, copy, modify, merge, publish,
 distribute, sublicense, and/or sell copies of the Software, and to
 permit persons to whom the Software is furnished to do so, subject to
 the following conditions:
-  
+
 The above copyright notice and this permission notice shall be
 included in all copies or substantial portions of the Software.
-  
+
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
 MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
@@ -32,15 +32,15 @@ typedef size_t hash_size;
 typedef hash_size (*hashfunc_ptr)(const char *, hash_size);
 
 typedef struct hashnode_s {
-	char *key;
-	void *data;
-	struct hashnode_s *next;
+    char *key;
+    void *data;
+    struct hashnode_s *next;
 } hash_node_t;
 
 typedef struct hashtbl_s {
-	hash_size size; //buckets
-	hash_node_t **nodes;
-	hashfunc_ptr hashfunc;
+    hash_size size; //buckets
+    hash_node_t **nodes;
+    hashfunc_ptr hashfunc;
 } hash_t;
 
 

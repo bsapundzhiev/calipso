@@ -341,7 +341,7 @@ int (*calipso_get_nprocess_model (void)) (void)
 char *
 calipso_get_server_string (calipso_config_t * config)
 {
-	if(config) {/*TODO:*/}
+    if(config) {/*TODO:*/}
     return ("Calipso/" VERSION);
 }
 

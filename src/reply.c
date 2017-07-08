@@ -198,7 +198,7 @@ calipso_reply_get_header_value(calipso_reply_t *reply, char *header)
     if (pool && keylen) {
         key = cpo_pool_strndup_lower(pool, header, keylen);
         val = hash_table_get_data(reply->header, key);
-	cpo_pool_free(pool, key);
+        cpo_pool_free(pool, key);
     }
 
     return val;
@@ -225,7 +225,7 @@ int calipso_reply_send_header(calipso_reply_t *reply)
 #ifdef DEBUG_HEADER
             TRACE("HEADER_LINE %s: %s\n", node->key, (char*)node->data);
 #endif
-	    chunk_ctx_printf(reply->pool, ctx_header, "%s: %s\r\n", node->key, (char*)node->data);
+            chunk_ctx_printf(reply->pool, ctx_header, "%s: %s\r\n", node->key, (char*)node->data);
             node = node->next;
         }
     }
@@ -443,11 +443,11 @@ int calipso_reply_send_file(calipso_reply_t * reply)
 #endif
         {
 #ifdef _WIN32
-            nr = calipso_sendfile(clientsock, rdesc , calipso_resource_get_size(reply->resource) );
+            nr = calipso_sendfile(clientsock, rdesc, calipso_resource_get_size(reply->resource) );
 #else
 #ifdef __APPLE__
-			off_t sent_bytes = calipso_resource_get_size(reply->resource);
-			nr = sendfile(rdesc, clientsock, reply->resource->offset, &sent_bytes, NULL, 0);
+            off_t sent_bytes = calipso_resource_get_size(reply->resource);
+            nr = sendfile(rdesc, clientsock, reply->resource->offset, &sent_bytes, NULL, 0);
 #else
             nr = sendfile(clientsock, rdesc, &(reply->resource)->offset,
                           calipso_resource_get_size(reply->resource));

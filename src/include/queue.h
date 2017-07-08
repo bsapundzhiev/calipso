@@ -8,17 +8,16 @@ struct dllist
 	struct dllist* prev;
 };
 */
-typedef struct dlqlist
-{
-	struct dllist* head;
-	struct dllist* tail;
+typedef struct dlqlist {
+    struct dllist* head;
+    struct dllist* tail;
 } queue_t;
 
 struct dlqlist * queue_new();
 int queue_enqueue(struct dlqlist*, void*);
 int queue_dequeue(struct dlqlist*);
 struct dlqlist*  queue_delete( struct dlqlist* s );
-int queue_remove(struct dlqlist*s , void * elem);
+int queue_remove(struct dlqlist*s, void * elem);
 void queue_print(struct dlqlist* );
 
 #endif

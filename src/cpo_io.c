@@ -93,7 +93,7 @@ long int calipso_sendfile(int out_fd, int in_fd, size_t size )
     total = 0;
 
     buf = malloc( OUTPUTBUFSZ + 1);
-    size = min(OUTPUTBUFSZ , size);
+    size = min(OUTPUTBUFSZ, size);
     while ( size > 0 ) {
         if (( cc = read( in_fd, buf, OUTPUTBUFSZ) ) < 0 ||
                 ( ww = fd_write( out_fd, buf, cc ) ) < 0 ) {

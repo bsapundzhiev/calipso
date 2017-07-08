@@ -3,11 +3,10 @@
 
 typedef int(*list_show_cb)(void*);
 
-typedef struct dllist
-{
-	void * data;
-	struct dllist *next;
-	struct dllist *prev;
+typedef struct dllist {
+    void * data;
+    struct dllist *next;
+    struct dllist *prev;
 } dllist_t;
 
 dllist_t *dllist_new(void *d);

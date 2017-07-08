@@ -24,13 +24,13 @@ static int epoll_process(int nfds);
 static int epoll_init();
 static int epoll_done();
 // epoll module
-cpo_events_t cpo_epoll_events = { 
-	"epoll_events", 
-	epoll_add_conn,
-	epoll_del_conn, 
-	epoll_process, 
-	epoll_init, 
-	epoll_done,
+cpo_events_t cpo_epoll_events = {
+    "epoll_events",
+    epoll_add_conn,
+    epoll_del_conn,
+    epoll_process,
+    epoll_init,
+    epoll_done,
 };
 
 static int epoll_get_event_fd(cpo_event_t * event)
@@ -124,7 +124,7 @@ int epoll_process(int nfds)
                 client = event->data;
                 assert(client != NULL);
                 if ((pfds[i].events & EPOLLIN)) {
-                    
+
                     client->pending_bytes = calipso_client_sent_data(client);
 
                     if (client->pending_bytes == 0) {
@@ -141,7 +141,7 @@ int epoll_process(int nfds)
                 }
 
                 if ((pfds[i].events & EPOLLOUT)) {
-                
+
                     assert(event->handler_write != NULL);
 
                     if (event->handler_write(client)) {

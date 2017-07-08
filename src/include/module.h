@@ -4,13 +4,13 @@
 #ifdef _WIN32
 #		include <windows.h>
 #ifdef WP8
-__inline void * Sys_LoadLibrary(const char *path) 
+__inline void * Sys_LoadLibrary(const char *path)
 {
-	int len = strlen(path);
-	wchar_t wpath[64];
-	MultiByteToWideChar(CP_ACP, 0, path, len, wpath, len);
-	wpath[len]= '\0';
-	return (void*)LoadPackagedLibrary(wpath, 0);
+    int len = strlen(path);
+    wchar_t wpath[64];
+    MultiByteToWideChar(CP_ACP, 0, path, len, wpath, len);
+    wpath[len]= '\0';
+    return (void*)LoadPackagedLibrary(wpath, 0);
 }
 #else
 #		define Sys_LoadLibrary(f) (void*)LoadLibrary(f)
@@ -31,7 +31,7 @@ __inline void * Sys_LoadLibrary(const char *path)
 
 /* entry points */
 //!FIXME: name refact.
-#define MODULE_INIT_FUNCTION 			"pm_init" 
+#define MODULE_INIT_FUNCTION 			"pm_init"
 #define MODULE_EXIT_FUNCTION 			"pm_exit"
 #define MODULE_CONFIGURE_FUNCTION 		"pm_configure"
 
@@ -39,7 +39,7 @@ __inline void * Sys_LoadLibrary(const char *path)
 #define CPMOD_API	__declspec(dllexport)
 #else
 #define CPMOD_API
-#endif 
+#endif
 
 #define CPMOD_INITIALIZER()\
 CPMOD_API inline void CalipsoModWin32Initializer(calipso_t *c)\
@@ -55,7 +55,7 @@ int
 calipso_set_module_table(calipso_mod_t * mod_table);
 
 /* lookup module table use in init hooks */
-cpo_bool 
+cpo_bool
 calipso_modules_is_module(const char * module_name);
 
 #endif

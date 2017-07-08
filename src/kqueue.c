@@ -48,7 +48,7 @@ int kqueue_get_event_fd(cpo_event_t * event)
     return fd;
 }
 
-int kqueue_add_conn(cpo_event_t * event , int nfds)
+int kqueue_add_conn(cpo_event_t * event, int nfds)
 {
     int fd = kqueue_get_event_fd(event);
     if (fd == 0) return CPO_ERR;
@@ -106,7 +106,7 @@ int kqueue_process(int nfds)
         //exit(1);
     }
 
-    printf("kqueue ret = %d ndfs= %d\n" , kqueueret , nfds);
+    printf("kqueue ret = %d ndfs= %d\n", kqueueret, nfds);
 
     for (i = 0; i < /*nfds &&*/ kqueueret; i++) {
         //--kqueueret;

@@ -88,7 +88,7 @@ typedef unsigned int u_int;
 #include <sys/wait.h>
 #include <unistd.h>
 #include <pwd.h>  	/* struct passwd */
-#include <limits.h> /* IOV_MAX */ 
+#include <limits.h> /* IOV_MAX */
 /*net*/
 #if defined(ANDROID)
 #undef MAXHOSTNAMELEN /*defined in netdb*/
@@ -100,7 +100,7 @@ typedef unsigned int u_int;
 #include <arpa/inet.h>
 #include <sys/socket.h>
 #ifdef __APPLE__
-#include <sys/types.h> 
+#include <sys/types.h>
 #include <sys/uio.h>
 
 #else
@@ -134,10 +134,10 @@ typedef unsigned int u_int;
 /**
  * Helper marcos
  */
-#ifndef MAX				 
+#ifndef MAX
 #define MAX(a,b)	((a < b) ? (b) : (a))
 #endif
-#ifndef MIN				 
+#ifndef MIN
 #define MIN(a,b)	((a < b) ? (a) : (b))
 #endif
 #ifndef ABS
@@ -164,11 +164,11 @@ typedef char cpo_bool;
 
 /*
  * cp_time.c
- */ 
+ */
 int cpo_http_time(char * buf, time_t *timer);
 void cpo_gmtime(struct tm *tm,register const time_t *timer);
 
-/* 
+/*
  * file calipso.c
  */
 extern calipso_t * calipso;
@@ -176,31 +176,31 @@ extern calipso_t * calipso;
 int
 calipso_init(void);
 
-void 
+void
 calipso_destroy(void);
 
-void 
+void
 calipso_struct_unalloc(calipso_t *c);
 
-int 
+int
 calipso_add_listener(calipso_socket_t *listener);
 
-int 
+int
 calipso_set_pool(calipso_pool_t *pool);
 
 calipso_pool_t *
 calipso_get_pool(void);
 
-hash_t * 
+hash_t *
 calipso_get_listeners_hash(void);
 
-List * 
-calipso_get_listeners_list(void); 
+List *
+calipso_get_listeners_list(void);
 
-int 
+int
 calipso_set_listeners_hash(hash_t *hash);
 
-int 
+int
 calipso_set_config(calipso_config_t *config);
 
 calipso_config_t *
@@ -210,19 +210,19 @@ List *
 calipso_get_m_hook(int hook);
 
 /*
-void 
+void
 calipso_register_hook(int hook, void *callback_fn );
 
 int
 calipso_trigger_hook(int hook, ...);
 */
-int 
+int
 calipso_register_handler(char *type, int (*f)(calipso_request_t*));
 
 void *
 calipso_get_handler(char *type);
 
-int 
+int
 calipso_set_handler_hash(hash_t *hash);
 
 hash_t *
@@ -242,7 +242,7 @@ int
 (*calipso_get_mprocess_model(void))(void);
 
 /* - - - modules - - -*/
-int 
+int
 calipso_modules_init(calipso_config_t *conf, int realy_load);
 
 calipso_mod_t *
@@ -269,48 +269,48 @@ calipso_get_uid(void);
 int
 calipso_get_gid(void);
 
-cpo_log_t * 
+cpo_log_t *
 calipso_get_log(void);
 
 /*
- * file client.c 
+ * file client.c
  */
-int 
+int
 calipso_client_get_socket(calipso_client_t *client);
 
-calipso_client_t * 
+calipso_client_t *
 calipso_client_alloc(void);
-int 
+int
 calipso_client_init(calipso_client_t *client);
 
 void
 calipso_client_unalloc(calipso_client_t *client);
 
-int 
+int
 calipso_client_set_socket(calipso_client_t *client, int csocket);
 
-int 
+int
 calipso_client_set_listener(calipso_client_t *client, calipso_socket_t *listener);
 
-int 
+int
 calipso_client_set_server(calipso_client_t *client, calipso_server_t *server);
 
-int 
+int
 calipso_client_set_config(calipso_client_t *client, calipso_config_t *config);
 
 int
 calipso_client_set_request(calipso_client_t *client, calipso_request_t *request);
 
-int 
+int
 calipso_client_set_inputbuf(calipso_client_t *client, char *inputbuf);
 
-int 
+int
 calipso_client_set_inputbuf_size(calipso_client_t *client, size_t inputbufsz);
 
-int 
+int
 calipso_client_set_inputbuf_real_size(calipso_client_t *client, size_t realinputbufsz);
 
-calipso_config_t * 
+calipso_config_t *
 calipso_client_get_config(calipso_client_t *client);
 
 int
@@ -331,7 +331,7 @@ calipso_client_get_listener(calipso_client_t *client);
 int
 calipso_client_read(calipso_client_t *client, size_t nbytes);
 
-int 
+int
 calipso_client_write_reply(calipso_client_t *client);
 
 calipso_server_t *
@@ -355,7 +355,7 @@ calipso_client_set_info(calipso_client_t *client, struct sockaddr_in *info);
 int
 calipso_client_set_connect_time(calipso_client_t *client, time_t connect_time);
 
-const char * 
+const char *
 calipso_client_remote_ip(calipso_client_t *client);
 
 /*
@@ -365,26 +365,26 @@ calipso_client_remote_ip(calipso_client_t *client);
 #define SOCKET_STATE_INIT_SSL 		0x1
 #define SOCKET_STATE_ACTIVE 		0x2
 
-calipso_socket_t * 
+calipso_socket_t *
 calipso_socket_alloc(void);
 
-void 
+void
 calipso_socket_unalloc(calipso_socket_t *socket);
 
-calipso_socket_t * 
+calipso_socket_t *
 calipso_do_listen_sock(const char *naddr,  int16_t);
 
-queue_t * 
+queue_t *
 calipso_socket_get_client_list(calipso_socket_t *listener);
 
-int 
+int
 calipso_socket_get_socketfd(calipso_socket_t *socket);
 
-int16_t 
+int16_t
 calipso_socket_get_port(calipso_socket_t *socket );
 
-int 
-calipso_socket_set_port(calipso_socket_t *socket , int16_t port);
+int
+calipso_socket_set_port(calipso_socket_t *socket, int16_t port);
 
 calipso_client_t *
 calipso_socket_accept_client(calipso_socket_t *listener);
@@ -393,12 +393,12 @@ ssize_t
 (*calipso_socket_get_read_handler(calipso_socket_t *listener))(calipso_client_t *, void *, size_t);
 
 int
-calipso_socket_set_read_handler(calipso_socket_t *listener, 
-					ssize_t (*r)(calipso_client_t *, void *, size_t));
+calipso_socket_set_read_handler(calipso_socket_t *listener,
+                                ssize_t (*r)(calipso_client_t *, void *, size_t));
 
 int
 calipso_socket_set_write_handler(calipso_socket_t *listener,
-			       ssize_t (*w)(calipso_client_t *, const void *, size_t));
+                                 ssize_t (*w)(calipso_client_t *, const void *, size_t));
 
 ssize_t
 (*calipso_socket_get_write_handler(calipso_socket_t *listener))(calipso_client_t *, const void *, size_t);
@@ -413,14 +413,14 @@ int set_tcp_nodelay_option(int s, short enable);
 int set_keep_alive(int socket, short enable);
 char * calipso_socket_get_peer_name(int s);
 
-/* 
+/*
  * request.c
  */
 calipso_request_t *
 calipso_request_alloc(void);
 
 /*default accept_handler - connect events*/
-int 
+int
 calipso_request_init_handler(calipso_client_t * client);
 
 time_t
@@ -468,10 +468,10 @@ calipso_request_get_pool(calipso_request_t *request);
 char *
 calipso_request_get_method(calipso_request_t *request);
 
-char * 
+char *
 calipso_request_get_querystring(calipso_request_t *request);
 
-int 
+int
 calipso_request_set_querystring(calipso_request_t *request, char * querystring);
 
 char *
@@ -483,8 +483,8 @@ calipso_request_get_version(calipso_request_t *request);
 calipso_reply_t *
 calipso_reply_alloc(void);
 
-int 
-calipso_reply_init(calipso_reply_t *reply); 
+int
+calipso_reply_init(calipso_reply_t *reply);
 
 void
 calipso_reply_unalloc(calipso_reply_t *reply);
@@ -547,7 +547,7 @@ int fchk(int fd); /*check file type*/
 ssize_t fd_write(int fd, const void *buf, size_t len);
 ssize_t fd_read(int fd, void *buf, size_t len);
 long int calipso_sendfile(int out_fd, int in_fd,  size_t size );
-ssize_t splice_sendfile(int infd, int outfd, off_t *offset , ssize_t size);
+ssize_t splice_sendfile(int infd, int outfd, off_t *offset, ssize_t size);
 ssize_t cpo_io_read(calipso_client_t * client, void *buf, size_t len);
 ssize_t cpo_io_write(calipso_client_t * client, const void *buf, size_t len);
 
@@ -605,7 +605,7 @@ calipso_resource_get_size(calipso_resource_t *resource);
 calipso_server_t *
 calipso_server_alloc(void);
 
-void 
+void
 calipso_server_unalloc(calipso_server_t *server);
 
 int
@@ -632,7 +632,7 @@ calipso_server_get_config(calipso_server_t *server);
 int
 calipso_server_set_documentroot(calipso_server_t *server, char *documentroot);
 
-char * 
+char *
 calipso_server_get_documentroot(calipso_server_t *server);
 
 /*
@@ -641,22 +641,22 @@ calipso_server_get_documentroot(calipso_server_t *server);
 char *
 calipso_http_status_get_message( int code );
 
-int 
+int
 calipso_http_status_is_info(int status);
 
-int 
+int
 calipso_http_status_is_successful(int status);
 
-int 
+int
 calipso_http_status_is_redirection(int status);
 
-int 
+int
 calipso_http_status_is_client_error(int status);
 
-int 
+int
 calipso_http_status_is_server_error(int status);
 
-int 
+int
 calipso_http_status_is_error(int status);
 
 

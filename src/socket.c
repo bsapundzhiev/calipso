@@ -398,8 +398,8 @@ int calipso_socket_set_nonblocking(int sock, u_int on)
 int set_tcp_nopush_option(int s, short enable)
 {
 #if (!_WIN32 && !__APPLE__)
-	int yes = enable;
-	CP_SSO(s, IPPROTO_TCP, TCP_CORK, yes);
+    int yes = enable;
+    CP_SSO(s, IPPROTO_TCP, TCP_CORK, yes);
 #endif
     return OK;
 }

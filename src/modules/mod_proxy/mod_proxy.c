@@ -1,7 +1,7 @@
 /* mod_proxy.c todo
  *
  * Copyright (C) 2007 Borislav Sapundzhiev
- *         
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 2 of the License, or (at
@@ -36,55 +36,55 @@ int pm_init()
 
 int mod_proxy_init()
 {
-	calipso_socket_t *listener;
-	unsigned short port = 8081;
-	const char * listen_naddr = "0.0.0.0";
-	TRACE("init mod_proxy...\n");
-	listener = calipso_do_listen_sock(listen_naddr, port);
-	printf("register port: %d\n", listener->port);
-	printf("register lsocket: %d\n", listener->lsocket);
-	listener->state = SOCKET_STATE_ACTIVE;
+    calipso_socket_t *listener;
+    unsigned short port = 8081;
+    const char * listen_naddr = "0.0.0.0";
+    TRACE("init mod_proxy...\n");
+    listener = calipso_do_listen_sock(listen_naddr, port);
+    printf("register port: %d\n", listener->port);
+    printf("register lsocket: %d\n", listener->lsocket);
+    listener->state = SOCKET_STATE_ACTIVE;
 
-	calipso_add_listener( listener );
+    calipso_add_listener( listener );
 
-	return 1;
+    return 1;
 }
 
 int mod_proxy_configure()
 {
-	TRACE("TODO");
-	return 1;
+    TRACE("TODO");
+    return 1;
 }
 
 int mod_proxy_chroot()
 {
-	TRACE("TODO");
-	return 1;
+    TRACE("TODO");
+    return 1;
 }
 
 int mod_proxy_request(calipso_request_t *request)
 {
-	TRACE("TODO");
-	return 1;
+    TRACE("TODO");
+    return 1;
 }
 
 int mod_proxy_translate(calipso_request_t *request)
 {
-	TRACE("TODO");
-	return 1;
+    TRACE("TODO");
+    return 1;
 }
 
 int mod_proxy_resource(calipso_request_t *request)
 {
-	TRACE("TODO");
-	return 1;
+    TRACE("TODO");
+    return 1;
 }
 
 //    /* Set the default handler */
 //    calipso_request_set_handler(request, mod_http_reply);
 int mod_proxy_reply(calipso_request_t *request)
 {
-	TRACE("TODO");
-	return 1;
+    TRACE("TODO");
+    return 1;
 }
 

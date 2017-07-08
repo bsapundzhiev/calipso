@@ -46,7 +46,7 @@ static int mod_http_reply(calipso_request_t *);
 static int mod_http_set_keepalive(calipso_request_t *request);
 static int mod_http_partial_content(calipso_request_t *request, int fd);
 static int mod_http_set_if_modified_since(calipso_request_t *request, const char *http_date);
-static void http_range_tokenize(const char *range , char **type , char **from , char **total);
+static void http_range_tokenize(const char *range, char **type, char **from, char **total);
 
 struct http_conf_ctx {
     unsigned int portn;
@@ -279,7 +279,7 @@ static int mod_http_configure(void)
     mime_type = hash_table_create(64, NULL);
     calipso_config_t *calipso_config = calipso_get_config();
     const char* mime_type_file = config_get_option(calipso_config, "mime_type_file", NULL);
-    
+
     mime_load_file(mime_type, mime_type_file);
     return CPO_OK;
 }
@@ -622,7 +622,7 @@ static int mod_http_set_if_modified_since(calipso_request_t *request, const char
 {
     const char *modified_since = calipso_request_get_header_value(request, "if-modified-since");
 
-    if(modified_since && !strcmp(http_date , modified_since)) {
+    if(modified_since && !strcmp(http_date, modified_since)) {
 
         calipso_reply_set_status(request->reply, HTTP_NOT_MODIFIED);
         return OK;
@@ -647,7 +647,7 @@ static int mod_http_partial_content(calipso_request_t *request, int fd)
     if (range) {
         calipso_reply_set_status(request->reply, HTTP_PARTIAL_CONTENT);
         type = offset1 = offset2 = NULL;
-        http_range_tokenize(range, &type, &offset1 , &offset2);
+        http_range_tokenize(range, &type, &offset1, &offset2);
         TRACE("RANGE: %s\n", range);
         TRACE("type: %s offset1: %s offset2: %s \n", type, offset1, offset2);
 
@@ -670,7 +670,7 @@ static int mod_http_partial_content(calipso_request_t *request, int fd)
 
 /* !protocol */
 /* helper */
-void http_range_tokenize(const char *range , char **type , char **from , char **total)
+void http_range_tokenize(const char *range, char **type, char **from, char **total)
 {
     char *copy = (char *)malloc(strlen(range) + 1);
 

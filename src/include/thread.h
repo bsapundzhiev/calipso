@@ -1,4 +1,4 @@
-#ifndef THREAD_H 
+#ifndef THREAD_H
 #define THREAD_H
 
 #ifdef TS_WIN32

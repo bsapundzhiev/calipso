@@ -10,4 +10,4 @@ CPMOD_INITIALIZER();
 int mod_xcgi_parse_cgi_header(calipso_request_t *request, const char *hdr_line);
 int mod_xcgi_readline(int fd, char *buf, int len);
 
-#endif 
+#endif

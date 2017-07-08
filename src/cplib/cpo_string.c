@@ -121,7 +121,7 @@ char * cpo_strtok(char *str, const char *delims)
     return start;
 }
 
-void cpo_str_tolower(char *str) 
+void cpo_str_tolower(char *str)
 {
     int i;
     for(i = 0; str[i]; i++) {
@@ -129,7 +129,7 @@ void cpo_str_tolower(char *str)
     }
 }
 
-void cpo_str_toupper(char *str) 
+void cpo_str_toupper(char *str)
 {
     int i;
     for(i = 0; str[i]; i++) {

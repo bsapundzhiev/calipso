@@ -4,20 +4,20 @@
 
 #define _SECOND 10000000
 
-VOID CALLBACK TimerFinished(LPVOID lpArg, DWORD dwTimerLowValue, DWORD dwTimerHighValue )  
+VOID CALLBACK TimerFinished(LPVOID lpArg, DWORD dwTimerLowValue, DWORD dwTimerHighValue )
 {
-	calipso_client_t * client = (calipso_client_t *) lpArg;
-	//TRACE("signal_handler client @ %p : %d\n", client, client->csocket);
-	if(client) {
-		//calipso_client_disconnect(client);
-		shutdown(client->csocket, SHUT_RDWR);
-	}
+    calipso_client_t * client = (calipso_client_t *) lpArg;
+    //TRACE("signal_handler client @ %p : %d\n", client, client->csocket);
+    if(client) {
+        //calipso_client_disconnect(client);
+        shutdown(client->csocket, SHUT_RDWR);
+    }
 }
 
 timer_t tmr_alrm_create(calipso_client_t *client, int sec)
 {
-	timer_t timerHandle = (HANDLE)OpenWaitableTimerW(NULL, FALSE, L"CalipsoTimer");
-	__int64 qwDueTime= (sec * _SECOND) * -1;
+    timer_t timerHandle = (HANDLE)OpenWaitableTimerW(NULL, FALSE, L"CalipsoTimer");
+    __int64 qwDueTime= (sec * _SECOND) * -1;
     LARGE_INTEGER   liDueTime;
 
     // Copy the relative time into a LARGE_INTEGER.
@@ -25,23 +25,23 @@ timer_t tmr_alrm_create(calipso_client_t *client, int sec)
     liDueTime.HighPart = (LONG)  ( qwDueTime >> 32 );
 
     SetWaitableTimer(
-			 timerHandle,
-             &liDueTime,
-			 0, // signaled once
-             TimerFinished,
-			 client,
-			 FALSE );
+        timerHandle,
+        &liDueTime,
+        0, // signaled once
+        TimerFinished,
+        client,
+        FALSE );
 
-	return timerHandle;
+    return timerHandle;
 }
 
 void tmr_alrm_kill(timer_t timerid)
 {
-	CancelWaitableTimer(timerid);
+    CancelWaitableTimer(timerid);
 }
 
 void tmr_alrm_reset(calipso_client_t *client, int sec)
 {
-	tmr_alrm_kill(client->ctmr);
-	client->ctmr = tmr_alrm_create(client, sec);
+    tmr_alrm_kill(client->ctmr);
+    client->ctmr = tmr_alrm_create(client, sec);
 }

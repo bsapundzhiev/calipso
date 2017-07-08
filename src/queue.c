@@ -171,7 +171,8 @@ void queue_print(struct dlqlist* s)
     }
 }
 
-struct dlqlist * queue_new() {
+struct dlqlist * queue_new()
+{
     struct dlqlist* s = malloc(1 * sizeof *s);
     if (NULL == s) {
         fprintf(stderr, "IN: %s @%d: Out of Memory\n", __FILE__, __LINE__);
@@ -182,7 +183,8 @@ struct dlqlist * queue_new() {
     return s;
 }
 
-struct dlqlist* queue_delete(struct dlqlist* s) {
+struct dlqlist* queue_delete(struct dlqlist* s)
+{
     while (s->head) {
         queue_dequeue(s);
     }

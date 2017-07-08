@@ -256,7 +256,7 @@ cpo_pool_strndup_upper(mpool_t *pool, const char *s, size_t len)
 
 #ifndef _WIN32
 #define _vscprintf(fmt,arg) vsnprintf(NULL, 0, fmt, arg)
-#else 
+#else
 #define va_copy(dest, src) (dest = src)
 #endif
 
@@ -266,8 +266,8 @@ cpo_pool_vasprintf(mpool_t *pool, char **buf, const char *format, va_list ap)
     int		bytes;
     va_list	apcopy;
     va_copy(apcopy, ap);
-	bytes = _vscprintf(format, apcopy);
-	va_end(apcopy);
+    bytes = _vscprintf(format, apcopy);
+    va_end(apcopy);
 
     *buf = cpo_pool_malloc(pool, bytes + 1);
     if (*buf) {

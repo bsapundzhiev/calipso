@@ -30,12 +30,12 @@ static int poll_init();
 static int poll_done();
 static int poll_get_fd(cpo_event_t * event);
 
-cpo_events_t cpo_poll_events = { 
-	"poll_events", 
-	poll_add_conn, 
-	poll_del_conn,
-	poll_process, 
-    poll_init, 
+cpo_events_t cpo_poll_events = {
+    "poll_events",
+    poll_add_conn,
+    poll_del_conn,
+    poll_process,
+    poll_init,
     poll_done,
 };
 
@@ -54,7 +54,7 @@ static int poll_get_fd(cpo_event_t * event)
 
 int poll_add_conn(cpo_event_t * event, int nfds)
 {
-	int fd = poll_get_fd(event);
+    int fd = poll_get_fd(event);
 
     if (fd == 0)
         return CPO_ERR;
@@ -75,11 +75,11 @@ int poll_add_conn(cpo_event_t * event, int nfds)
 
 int poll_del_conn(cpo_event_t * event)
 {
-	int fd = poll_get_fd(event);
+    int fd = poll_get_fd(event);
 
     if (fd == 0)
         return CPO_ERR;
-	fdtype[fd].type = 0;
+    fdtype[fd].type = 0;
     fdtype[fd].c = NULL;
     return CPO_OK;
 }
@@ -116,16 +116,16 @@ int poll_process(int nfds)
             } else if (event->type == EVENT_CONNECTION) {
 
                 calipso_client_t* client = event->data;
-              
+
 
                 if (pfds[i].revents & POLLIN) {
 
                     if ((nbytes = calipso_client_sent_data(client)) == 0) {
-                        
+
                         calipso_client_disconnect(client);
                         continue;
                     } else {
-                        
+
                         client->pending_bytes = nbytes;
                         assert(event->handler_read != NULL);
                         event->handler_read(client);
@@ -144,8 +144,8 @@ int poll_process(int nfds)
                 }
 
             }
-            
-			poll_del_conn(event);
+
+            poll_del_conn(event);
         }
     } //for
 
