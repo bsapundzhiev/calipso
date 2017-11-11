@@ -20,7 +20,7 @@
 /**
  * parse Apache mime.types file
  */
-void mime_parse_line(hash_t *h , char *input)
+void mime_parse_line(hash_t *h, char *input)
 {
     int i, size;
     char **array = NULL;
@@ -45,12 +45,12 @@ void mime_parse_line(hash_t *h , char *input)
 int mime_load_file(hash_t *l, char const *fname )
 {
     FILE *f;
-    int i=0 ,chr = 0;
+    int i=0,chr = 0;
     char *line;
 
     if ( (f=fopen(fname,"r")) == NULL ) {
         printf("cant open %s\n", fname);
-	TRACE("mime_load_file: cant open %s\n", fname);
+        TRACE("mime_load_file: cant open %s\n", fname);
         exit(-1);
     }
     line = (char*)malloc( MAX_MIME_LINE );
@@ -99,13 +99,13 @@ const char *mime_get_type_value(hash_t *h, char const *filename)
 
     while (*ext++ != '.')
         ;
-    data = hash_table_get_data( h , ext );
+    data = hash_table_get_data( h, ext );
     return( data != NULL ? data : DEFAULT_TYPE);
 }
 
 int mime_add_new(hash_t *h, const char *ext, const char *type)
 {
-    hash_table_insert( h,  ext ,  strdup(type)  );
+    hash_table_insert( h,  ext,  strdup(type)  );
     return 0;
 }
 

@@ -118,7 +118,7 @@ btree_delete_node(btree_t *root, int num)
 
         free(temp);
     }
-	root->size--;
+    root->size--;
     return root;
 }
 

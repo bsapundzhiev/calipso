@@ -20,7 +20,7 @@ extern "C" {
 
 
 JNIEXPORT jstring JNICALL
-	Java_com_bsapundzhiev_calipso_CalipsoJNIWrapper_getCurrentWorkingDir
+Java_com_bsapundzhiev_calipso_CalipsoJNIWrapper_getCurrentWorkingDir
 	(JNIEnv *env, jobject obj)
 {
     char cwd[PATH_MAX];
@@ -31,7 +31,7 @@ JNIEXPORT jstring JNICALL
 JNIEXPORT jstring JNICALL
 Java_com_bsapundzhiev_calipso_CalipsoJNIWrapper_stringFromJNI
 	(JNIEnv *env, jobject obj)
-{	
+{
 	return env->NewStringUTF("Calipso is running");
 }
 
@@ -75,9 +75,13 @@ Java_com_bsapundzhiev_calipso_CalipsoJNIWrapper_startCalipsoServer
     /* config should not be used anymore*/
     config_unalloc(calipso->config);
     calipso->config = NULL;
-    //env->ReleaseStringUTFChars(jstr, cstr); 
+    //env->ReleaseStringUTFChars(jstr, cstr);
     TRACE("main loop\n");
     cpo_events_loop();
 }
+<<<<<<< HEAD:os/Android/jni/calipso-jni.cpp
 
+=======
+/*!ex*/
+>>>>>>> master:os/Android/app/src/main/jni/calipso-jni.cpp
 }

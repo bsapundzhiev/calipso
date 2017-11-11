@@ -9,7 +9,7 @@
 #define F_BIN 	0x0
 #define F_ASCII	0x1
 
-void cpo_uri_strdecode( char* to , char* from );
+void cpo_uri_strdecode( char* to, char* from );
 
 int cpo_uri_sanity_check(const char *str );
 

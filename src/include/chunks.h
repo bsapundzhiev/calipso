@@ -1,7 +1,7 @@
 /* chunks.h - small data buffer abstraction layer
  *
  * Copyright (C) 2012 Borislav Sapundzhiev
- *         
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or (at
@@ -31,19 +31,19 @@ for(l = c->list, ctx = l->data; l != NULL && (ctx = l->data); l= l->next)\
 	c->total_bytes += ctx->size;\
 
 typedef struct chunk_ctx {
-	int size;
-	char *b;
-	int pos;
-	int fd;
-	int in_file;
-	size_t file_pos;
+    int size;
+    char *b;
+    int pos;
+    int fd;
+    int in_file;
+    size_t file_pos;
 } chunk_buf_t;
 
 typedef struct chunks {
-	int total_bytes;
-	dllist_t *list;
-	struct mpool *pool;
-	//int max_size;
+    int total_bytes;
+    dllist_t *list;
+    struct mpool *pool;
+    //int max_size;
 } chunks_t;
 
 /*ctx*/

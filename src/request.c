@@ -262,7 +262,7 @@ int calipso_request_event_read_handler(calipso_client_t *client)
         ret = calipso_request_read_header(request);
 
         if (CPO_OK == ret) {
-			/*TODO: timeout*/
+            /*TODO: timeout*/
             tmr_alrm_reset(client, 300);
             client->done = calipso_request_parse_header_buf(request);
         }
@@ -492,7 +492,7 @@ static int request_parse_status_line(calipso_request_t *request, char *line)
     char *uri = NULL;
     char *lastword = NULL;
     char *querystring = NULL;
-/*TODO: fix me */
+    /*TODO: fix me */
     /* Method */
     method = line;
     calipso_request_set_method(request, method);
@@ -532,12 +532,12 @@ static int request_parse_status_line(calipso_request_t *request, char *line)
     querystring = cpo_strtok( NULL, "?");
 
     if (querystring) {
-	char *new_querystring = cpo_pool_strdup(request->pool, querystring);
+        char *new_querystring = cpo_pool_strdup(request->pool, querystring);
         calipso_request_set_querystring(request, new_querystring);
     }
 
     if (uri && *uri == '/') {
-    	char *new_uri = cpo_pool_strdup(request->pool, uri);
+        char *new_uri = cpo_pool_strdup(request->pool, uri);
         calipso_request_set_uri(request, new_uri);
         /* remove tailing spaces */
         /*
@@ -548,8 +548,8 @@ static int request_parse_status_line(calipso_request_t *request, char *line)
          ;
          */
     } else {
-    	calipso_reply_set_status(request->reply,
-                                                HTTP_BAD_REQUEST);
+        calipso_reply_set_status(request->reply,
+                                 HTTP_BAD_REQUEST);
     }
 
     return (1);
@@ -582,13 +582,13 @@ static int request_parse_header(calipso_request_t *request, char *header)
         if (eol) {
             *eol = 0;
             val = eol + 1;
-            if (isspace((int)*val) && ++val){}
+            if (isspace((int)*val) && ++val) {}
             //    ;
             eol = hdr;
             while (*eol && (*eol = tolower((int) *eol)) && ++eol)
                 ;
             if (hdr != NULL) {
-		
+
                 hash_table_insert(request->header, hdr, val);
             }
         }

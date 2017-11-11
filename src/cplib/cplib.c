@@ -34,7 +34,7 @@
 
 #define IS_INVALID_PATH(path)\
 	(!path || !*path || *path != '/')\
- 
+
 /* http related */
 
 /*
@@ -283,7 +283,7 @@ int main ()
     {
         hex2ascii(n, buffer, sizeof(int));
         printf("%s\n",buffer);
-        hex2string(n, buffer , sizeof(int));
+        hex2string(n, buffer, sizeof(int));
         printf("%s\n",buffer);
     }
     return 0;

@@ -295,7 +295,7 @@ static int mod_http_ssl_accept_callback(calipso_client_t * client)
     calipso_request_init_handler(client);
 
     SSL_SESSION *session = SSL_get1_session(ssl);
-    printf("SSL_SESSION %p\n" , session);
+    printf("SSL_SESSION %p\n", session);
     //if(session)
     //SSL_set_session(ssl, session) ;
 

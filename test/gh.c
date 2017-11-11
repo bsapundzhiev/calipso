@@ -77,7 +77,7 @@ int
 sockndelay(int sfd, int on)
 {
 #ifdef _WIN32
-	return ioctlsocket(sfd, FIONBIO, &on);
+    return ioctlsocket(sfd, FIONBIO, &on);
 #else
     return ((on) ? fcntl(sfd, F_SETFL, fcntl(sfd, F_GETFL, 0) | O_NONBLOCK):
             fcntl(sfd, F_SETFL, fcntl(sfd, F_GETFL, 0) & ~O_NONBLOCK));
@@ -87,17 +87,17 @@ sockndelay(int sfd, int on)
 int main(int argc, char *argv[])
 {
 #ifdef _WIN32
-	WSADATA wsaData;
-	int iResult;
-	iResult = WSAStartup(MAKEWORD(2,2), &wsaData);
-	if (iResult != NO_ERROR) {
-		 printf("Error at WSAStartup()\n");
-		 return -1;
-	}
+    WSADATA wsaData;
+    int iResult;
+    iResult = WSAStartup(MAKEWORD(2,2), &wsaData);
+    if (iResult != NO_ERROR) {
+        printf("Error at WSAStartup()\n");
+        return -1;
+    }
     _setmode(_fileno(stdout), _O_BINARY);
 #endif
 
-	if (argc < 2) {
+    if (argc < 2) {
         usage();
         return (1);
     }
@@ -119,7 +119,7 @@ int gh_connect_poll()
     FD_ZERO(&rfd);
     FD_SET(gh_buf.Socket, &wfd);
     //FD_SET(gh_buf.Socket, &rfd);
-    
+
     for (;;) {
 
         if (select(gh_buf.Socket + 1, &rfd, &wfd, NULL, &tv) <= 0) {
@@ -136,40 +136,40 @@ int gh_connect_poll()
 
             if (nRet == SOCKET_ERROR) {
 #ifdef _WIN32
-		if(WSAEWOULDBLOCK != GetLastError())
+                if(WSAEWOULDBLOCK != GetLastError())
 #endif
-                if ((errno != EINPROGRESS) && (errno != EWOULDBLOCK)) {
-                    perror("send");
-                    closesocket(gh_buf.Socket);
-                    return SOCKET_ERROR;
-                } else {
-                    continue;
-                }
+                    if ((errno != EINPROGRESS) && (errno != EWOULDBLOCK)) {
+                        perror("send");
+                        closesocket(gh_buf.Socket);
+                        return SOCKET_ERROR;
+                    } else {
+                        continue;
+                    }
             }
-            
-            memset(gh_buf.szBuffer, 0 , sizeof(gh_buf.szBuffer));
+
+            memset(gh_buf.szBuffer, 0, sizeof(gh_buf.szBuffer));
             FD_ZERO(&wfd);
             FD_SET(gh_buf.Socket, &rfd);
         }
 
         if (FD_ISSET(gh_buf.Socket, &rfd)) {
-            //printf("read...\n");          
+            //printf("read...\n");
             nRet = recv(gh_buf.Socket, gh_buf.szBuffer, sizeof(gh_buf.szBuffer), 0);
             //nRet = http_parse_header(gh_buf.Socket);
-            
+
             if (nRet == SOCKET_ERROR) {
 #ifdef _WIN32
-		if(WSAEWOULDBLOCK != GetLastError())
+                if(WSAEWOULDBLOCK != GetLastError())
 #endif
-                if ((errno != EINPROGRESS) && (errno != EWOULDBLOCK)) {
-                    perror("recv");
-                    closesocket(gh_buf.Socket);
-                    return SOCKET_ERROR;
-                }
+                    if ((errno != EINPROGRESS) && (errno != EWOULDBLOCK)) {
+                        perror("recv");
+                        closesocket(gh_buf.Socket);
+                        return SOCKET_ERROR;
+                    }
             }
             /* Did the server close the connection? */
             if (nRet == 0) {
-               
+
                 break;
             }
 
@@ -180,9 +180,9 @@ int gh_connect_poll()
     return 1;
 }
 
-int gh_make_request(struct gh_url *url) 
+int gh_make_request(struct gh_url *url)
 {
-int nRet;
+    int nRet;
     struct 	in_addr		iaHost;
     struct 	hostent  	*lpHostEntry;
     struct 	sockaddr_in 	saServer;
@@ -221,13 +221,13 @@ int nRet;
 
     if (nRet == SOCKET_ERROR) {
 #ifdef _WIN32
-		if(WSAEWOULDBLOCK != GetLastError())
+        if(WSAEWOULDBLOCK != GetLastError())
 #endif
-        if ((errno != EINPROGRESS) && (errno != EWOULDBLOCK)) {
-            perror("connect");
-            closesocket(gh_buf.Socket);
-            return SOCKET_ERROR;
-        }
+            if ((errno != EINPROGRESS) && (errno != EWOULDBLOCK)) {
+                perror("connect");
+                closesocket(gh_buf.Socket);
+                return SOCKET_ERROR;
+            }
     }
 
     gh_connect_poll();
@@ -245,7 +245,7 @@ void GetHTTP( char *args[] )
     char host[512];
     char urlpath[1024];
     char invalid_char = 'e';
- 
+
     if (sscanf(args[1],"%64[^\n:]://%512[^\n/?]%[^\n]", proto, host, urlpath) < 2) {
         printf("Error: invalid URL\n");
         return;
@@ -258,11 +258,11 @@ void GetHTTP( char *args[] )
     else
         url.lpFileName = "/";
 
-    ptr = strtok( NULL , ":" );
+    ptr = strtok( NULL, ":" );
     url.port = (ptr != NULL ) ? atoi(ptr) : (80);
 
     printf("resolving: %s lpServerName='%s', lpFileName='%s', port='%d'\n",
-	proto , url.lpServerName, url.lpFileName, url.port );
+           proto, url.lpServerName, url.lpFileName, url.port );
 
     //send invalid char
     if (args[2] && !strcmp(args[2],"-x")) {

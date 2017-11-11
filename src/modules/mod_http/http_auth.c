@@ -24,7 +24,7 @@ static int http_auth_header(calipso_request_t * request)
 int http_auth_access_check(calipso_request_t * request)
 {
 
-    if(!request->user && !strncmp(request->uri, "/test/priv" , strlen("/test/priv") )) {
+    if(!request->user && !strncmp(request->uri, "/test/priv", strlen("/test/priv") )) {
 
         char *authhdr = calipso_request_get_header_value(request, "Authorization");
         printf("authhdr '%s'\n", authhdr);

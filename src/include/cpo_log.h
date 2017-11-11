@@ -5,45 +5,45 @@
 #define LOG_FILE_ACCESS "access.log"
 #define LOG_FILE_ERROR "error.log"
 
-enum log_type { 
-	LOG_ACCESS 	= 0, 
-	LOG_WARNING	= 1, 
-	LOG_ERROR	= 2, 
-	LOG_NOTICE	= 3,
+enum log_type {
+    LOG_ACCESS 	= 0,
+    LOG_WARNING	= 1,
+    LOG_ERROR	= 2,
+    LOG_NOTICE	= 3,
 };
 
 typedef struct cpo_log {
-	u_int level;
-	char * file_access;
-	char * file_error;
-	FILE *fp_log_access;
-	FILE *fp_log_error;
-	/* chunk_buf_t */
+    u_int level;
+    char * file_access;
+    char * file_error;
+    FILE *fp_log_access;
+    FILE *fp_log_error;
+    /* chunk_buf_t */
 } cpo_log_t;
 
-cpo_log_t * 
+cpo_log_t *
 cpo_log_alloc();
 
-void 
+void
 cpo_log_unalloc(cpo_log_t *log);
 
-//void 
+//void
 //cpo_log_rotate_logfile(cpo_log_t *log, const char *logfilename);
 
-int  
+int
 cpo_log_set_level(cpo_log_t *log, u_int level);
 
-int  
+int
 cpo_log_open(cpo_log_t * log);
 
-void 
+void
 cpo_log_close(cpo_log_t * log);
 
-void 
-cpo_log_print(cpo_log_t * log, int type ,const char *fmt,...);
+void
+cpo_log_print(cpo_log_t * log, int type,const char *fmt,...);
 
 #include "core.h"
-void 
+void
 cpo_log_write_access_log(cpo_log_t * log, calipso_request_t * request);
 
 /* Error log types */

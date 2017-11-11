@@ -1,4 +1,4 @@
-/** 
+/**
  * Description: Generic DataTypes
  * Autor: (c) 2006 Borislav Sapundjiev <BSapundjiev_AT_gmail[D0T]com>
  *
@@ -10,8 +10,8 @@
 typedef struct _List 	List;
 
 struct _List {
-        void *data;
-        List *next;
+    void *data;
+    List *next;
 };
 
 /*---list---*/
@@ -30,16 +30,16 @@ size_t 	list_length (List *list);
 void 	list_remove_data(List *L, void * data);
 void 	list_delete(List *L);
 void 	list_debug_dump( List *list );
-List * 	list_find_prev(List *L , void * data);
+List * 	list_find_prev(List *L, void * data);
 List *	sort_list(List *L, lcomparer cmpfn);
 
 /*---btree---*/
 struct bin_tree {
-		int 			size;
-    	int             key;
-    	void            *data;
-    	struct bin_tree	*left;
-    	struct bin_tree	*right;
+    int 			size;
+    int             key;
+    void            *data;
+    struct bin_tree	*left;
+    struct bin_tree	*right;
 };
 
 typedef struct bin_tree btree_t;

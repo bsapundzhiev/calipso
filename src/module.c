@@ -90,7 +90,7 @@ static void calipso_register_module(calipso_mod_t * m, const char *module_name,
     m->handler = Sys_LoadLibrary(path);
 
     if (!m->handler) {
-	TRACE("dlerror= %s - terminate\n",Sys_LibraryError());
+        TRACE("dlerror= %s - terminate\n",Sys_LibraryError());
         fprintf(stderr, "%s():%d dlerror= %s - terminate\n", __func__, __LINE__,
                 Sys_LibraryError());
         exit(-1);

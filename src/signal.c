@@ -55,7 +55,7 @@ static void handle_sigchld(int sig)
     pid_t pid;
     int status;
 //#ifdef _DEBUG
-	fprintf( stderr, "handle_sigchld SIG(%d)\n", sig);
+    fprintf( stderr, "handle_sigchld SIG(%d)\n", sig);
 //#endif
     for (;;) {
 

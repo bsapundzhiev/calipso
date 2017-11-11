@@ -18,7 +18,8 @@
 #include "calipso.h"
 
 /*bucket ctx*/
-struct chunk_ctx * chunk_ctx_alloc(struct mpool * pool) {
+struct chunk_ctx * chunk_ctx_alloc(struct mpool * pool)
+{
     struct chunk_ctx *ctx = cpo_pool_malloc(pool, sizeof(struct chunk_ctx));
     if (ctx == NULL)
         return NULL;
@@ -48,25 +49,25 @@ int chunk_ctx_append(struct mpool * pool, struct chunk_ctx *ctx,
 int chunk_ctx_printf(struct mpool * pool, struct chunk_ctx *ctx, char *fmt, ...)
 {
     char 	*buf;
-	int		bytes;
-  	va_list arg_ptr, apcopy;
-  	va_start(arg_ptr, fmt);
-  	va_copy(apcopy, arg_ptr);
-	bytes = vsnprintf(NULL, 0, fmt, apcopy);
-	va_end(apcopy);
+    int		bytes;
+    va_list arg_ptr, apcopy;
+    va_start(arg_ptr, fmt);
+    va_copy(apcopy, arg_ptr);
+    bytes = vsnprintf(NULL, 0, fmt, apcopy);
+    va_end(apcopy);
 
     buf = malloc(bytes + 1);
     if(buf) {
-    	/* cpo_vslprintf */
-    	bytes = vsnprintf(buf, bytes + 1, fmt, arg_ptr);
-    	if(bytes) {
-        	chunk_ctx_append(pool, ctx, buf, bytes);
+        /* cpo_vslprintf */
+        bytes = vsnprintf(buf, bytes + 1, fmt, arg_ptr);
+        if(bytes) {
+            chunk_ctx_append(pool, ctx, buf, bytes);
         }
     }
-    
+
     va_end(arg_ptr);
     free(buf);
-	
+
     return bytes;
 }
 
@@ -190,7 +191,8 @@ int chunks_read_block(chunks_t *c, char *b, int size)
 }
 
 /* get chunk  by size */
-struct chunk_ctx * chunks_read_data(chunks_t *c, int size) {
+struct chunk_ctx * chunks_read_data(chunks_t *c, int size)
+{
     struct chunk_ctx *ctx = NULL;
     dllist_t *l;
     l = c->list;

@@ -14,7 +14,7 @@
 #include "chunks.h"
 
 static void
-calipso_get_status_error(calipso_request_t *request, int http_status , char *buff, int len);
+calipso_get_status_error(calipso_request_t *request, int http_status, char *buff, int len);
 
 char *
 calipso_http_get_server_address(calipso_reply_t* reply)
@@ -50,7 +50,7 @@ calipso_http_print_error(calipso_reply_t *reply)
     message    = calipso_http_status_get_message(status);
     serveraddr = calipso_http_get_server_address(reply);
 
-    calipso_get_status_error(reply->request, status , error_message, sizeof(error_message));
+    calipso_get_status_error(reply->request, status, error_message, sizeof(error_message));
 
     /* XXX: error body may be present */
     if(reply->out_filter->total_bytes) {
@@ -95,7 +95,7 @@ calipso_http_print_error(calipso_reply_t *reply)
 }
 
 static void
-calipso_get_status_error(calipso_request_t *request, int http_status , char *buff , int len)
+calipso_get_status_error(calipso_request_t *request, int http_status, char *buff, int len)
 {
 
     const char *uri 	   = calipso_request_get_uri(request);

@@ -196,7 +196,7 @@ int config_parse_file(calipso_config_t *config, char const *fname)
     char parse = 0;
 
     if ((f = fopen(fname, "r")) == NULL) {
-	TRACE("Error : '%s' %s \n", fname, strerror(errno));
+        TRACE("Error : '%s' %s \n", fname, strerror(errno));
         printf("Error : '%s' %s \n", fname, strerror(errno));
         exit(EXIT_FAILURE);
     }
@@ -314,7 +314,7 @@ void config_unalloc(calipso_config_t * config)
             if (c->option)
                 free(c->option);
             if (c->value)
-            	free(c->value);
+                free(c->value);
             free(c);
         }
         config = list_get_next_entry(config);
@@ -339,7 +339,7 @@ int calipso_config_set_parent(calipso_config_t * parent,
 static void parser_error(int nline, unsigned short err)
 {
     fprintf(stderr, "parser error @ line: %d ", nline);
-    TRACE("parser error @ line: %d err %d", nline , err);
+    TRACE("parser error @ line: %d err %d", nline, err);
     switch (err) {
     case PERR_LINE:
         fprintf(stderr, "Line too long!\n");

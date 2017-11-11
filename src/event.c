@@ -108,13 +108,13 @@ void cpo_events_init()
 #endif
         }
 
-		if(!strcasecmp(server_model, "KqueueModel")) {
+        if(!strcasecmp(server_model, "KqueueModel")) {
 #ifdef USE_KQUEUE
-			cpo_events = &cpo_kqueue_events;
+            cpo_events = &cpo_kqueue_events;
 #endif
-		}
+        }
     } else {
-	TRACE("Unknown event model %s\n", server_model);
+        TRACE("Unknown event model %s\n", server_model);
         printf("Unknown event model %s\n", server_model);
         exit(EXIT_FAILURE);
     }

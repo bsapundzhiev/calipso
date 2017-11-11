@@ -3,6 +3,11 @@
  */
 package com.bsapundzhiev.calipso;
 
+
+import android.util.Log;
+
+import java.security.acl.LastOwnerException;
+
 /**
  * @author Borislav Sapundzhiev  
  */
@@ -11,13 +16,16 @@ public class CalipsoJNIWrapper {
 	private Thread _cpoThread;
 	boolean isRunning;
 	
-	static {
-		System.loadLibrary("calipso-jni");
-	}
+
 	
 	private native String getCurrentWorkingDir();
 	private native String stringFromJNI();
 	private native void startCalipsoServer(final String filePath);
+
+	static {
+		System.loadLibrary("calipso-jni");
+	}
+
 	/**
 	 * Construct
 	 */

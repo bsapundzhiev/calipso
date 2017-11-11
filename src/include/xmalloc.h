@@ -18,6 +18,6 @@ extern char *xstrndup (const char *str, unsigned len);
 /* Functions using xmalloc.h must provide a function called fatal() conforming
    to the following: */
 extern void fatal(const char *fatal_message, int fatal_code)
-   __attribute__ ((noreturn));
+__attribute__ ((noreturn));
 
-#endif /* INCLUDED_XMALLOC_H */ 
+#endif /* INCLUDED_XMALLOC_H */

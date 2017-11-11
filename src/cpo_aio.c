@@ -146,7 +146,7 @@ long int calipso_aio_sendfile(int out_fd, int in_fd,  size_t size )
 int main(int argc, char **argv)
 {
 
-    int in , out;
+    int in, out;
     long int n;
     struct stat status;
 
@@ -159,15 +159,15 @@ int main(int argc, char **argv)
         return 1;
     }
 
-    stat( argv[1] , &status );
+    stat( argv[1], &status );
 
 
-    if ( (in = open ( argv[1] , O_RDONLY )) == 0 ) {
+    if ( (in = open ( argv[1], O_RDONLY )) == 0 ) {
         perror("open()");
         return -1;
     }
 
-    if ( (out = open ( "test" , O_CREAT | O_RDWR )) == 0 ) {
+    if ( (out = open ( "test", O_CREAT | O_RDWR )) == 0 ) {
         perror("open()");
         return -1;
     }
@@ -183,7 +183,7 @@ int main(int argc, char **argv)
 
     time_total = ((float)( stopclock -startclock ) / (float)CLOCKS_PER_SEC) ;
 
-    printf("stat %ld return %ld for %.4f sec - total: %.4f\n", status.st_size ,n ,time_total , ( time_total / (float)n) );
+    printf("stat %ld return %ld for %.4f sec - total: %.4f\n", status.st_size,n,time_total, ( time_total / (float)n) );
 
     close (in);
 

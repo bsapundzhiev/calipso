@@ -13,18 +13,23 @@ import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 
-import org.apache.http.conn.util.InetAddressUtils;
-
 import android.R.array;
 import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
 
+import java.util.regex.Pattern;
 
 public class CpoFileUtils {
 	public static final String CONFIG_FILE = "calipso.conf";
 	public static final String MIME_TYPE_FILE = "mime.types";
-	
+
+	private static final Pattern IPV4_PATTERN =
+			        Pattern.compile(
+			 		               "^(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)(\\.(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}$");
+	public static boolean isIPv4Address(final String input) {
+		       return IPV4_PATTERN.matcher(input).matches();
+	}
 	/**
 	 * get application directory
 	 * @param context
@@ -111,7 +116,7 @@ public class CpoFileUtils {
 	                InetAddress inetAddress = enumIpAddr.nextElement();
 	                if (!inetAddress.isLoopbackAddress()) {
 	                    //IPAddresses.setText(inetAddress.getHostAddress().toString());
-	                	boolean isIPv4 = InetAddressUtils.isIPv4Address(inetAddress.getHostAddress().toString());
+	                	boolean isIPv4 = isIPv4Address(inetAddress.getHostAddress().toString());
 	                	if(isIPv4) {
 	                		addresses.add(inetAddress.getHostAddress().toString());
 	                	}

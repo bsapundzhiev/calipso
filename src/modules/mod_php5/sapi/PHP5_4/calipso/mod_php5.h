@@ -28,4 +28,4 @@ int mod_php5_chroot(void);
 int mod_php5_privileges(void);
 int mod_php5_resource(calipso_request_t *);
 
-#endif 
+#endif

@@ -5,24 +5,28 @@ package com.bsapundzhiev.calipso;
 import java.util.Locale;
 
 import com.bsapundzhiev.util.CpoFileUtils;
-import android.support.v7.app.ActionBarActivity;
+
+import android.Manifest;
+import android.os.Build;
+import android.support.v4.app.*;
+
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.app.ActionBar.Tab;
-import android.app.ActionBar.TabListener;
+import android.support.v7.app.ActionBar.*;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.content.pm.PackageManager;
 
-public class MainActivity extends ActionBarActivity implements TabListener {
+public class MainActivity extends AppCompatActivity implements TabListener {
 
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -33,9 +37,9 @@ public class MainActivity extends ActionBarActivity implements TabListener {
 	 */
 	private static final String LOG_TAG = "MainActivity";
 	SectionsPagerAdapter mSectionsPagerAdapter;
-
+    private static final int CPO_PERMISSIONS_REQUEST = 1;
 	/**
-	 * The {@link ViewPager} that will host the section contents.
+	 * The {@link ViewPager} that will host the section contents
 	 */
 	ViewPager mViewPager;
 	/**
@@ -45,16 +49,46 @@ public class MainActivity extends ActionBarActivity implements TabListener {
 	{
 		if( AppConstants.getcpoHttpServiceHandle().isRunning == false) {
 			// Init config file
-		    CpoFileUtils.createExternalStoragePrivateFile(this, 
-						this.getResources().openRawResource(R.raw.mime), CpoFileUtils.MIME_TYPE_FILE);
-				
-			String confPath = CpoFileUtils.createExternalStoragePrivateFile(this, 
-						this.getResources().openRawResource(R.raw.calipso), CpoFileUtils.CONFIG_FILE);
-				
+            String confPath = CpoFileUtils.getCpoFilesDir(this).toString() + "/" + CpoFileUtils.CONFIG_FILE;
+
+            if(!CpoFileUtils.hasExternalStoragePrivateFile(this,CpoFileUtils.CONFIG_FILE)) {
+                CpoFileUtils.createExternalStoragePrivateFile(this,
+                        this.getResources().openRawResource(R.raw.mime), CpoFileUtils.MIME_TYPE_FILE);
+            }
+            if(!CpoFileUtils.hasExternalStoragePrivateFile(this, CpoFileUtils.CONFIG_FILE)) {
+                confPath = CpoFileUtils.createExternalStoragePrivateFile(this,
+                        this.getResources().openRawResource(R.raw.calipso), CpoFileUtils.CONFIG_FILE);
+            }
 			AppConstants.getcpoHttpServiceHandle().startCalipso(confPath);
 		}
 	}
-	
+
+    /**
+     * request manifest permissions
+     */
+	private void checkAppPermission() {
+		if (ContextCompat.checkSelfPermission(this,
+				Manifest.permission.READ_CONTACTS)
+				!= PackageManager.PERMISSION_GRANTED) {
+
+			// Should we show an explanation?
+			if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+					Manifest.permission.READ_CONTACTS)) {
+
+				// Show an expanation to the user *asynchronously* -- don't block
+				// this thread waiting for the user's response! After the user
+				// sees the explanation, try again to request the permission.
+
+			} else {
+
+				// No explanation needed, we can request the permission.
+
+				ActivityCompat.requestPermissions(this,
+						new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+						CPO_PERMISSIONS_REQUEST);
+			}
+		}
+	}
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
@@ -72,7 +106,11 @@ public class MainActivity extends ActionBarActivity implements TabListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		try { 
+
+		try {
+            if (Build.VERSION.SDK_INT >= 23) {
+                checkAppPermission();
+            }
 			Log.d(LOG_TAG, CpoFileUtils.getCpoFilesDir(this.getBaseContext()).getPath() );
 			Log.d(LOG_TAG, AppConstants.getcpoHttpServiceHandle().getCurrentWorkingDirectory());
 			initServer();
@@ -81,7 +119,7 @@ public class MainActivity extends ActionBarActivity implements TabListener {
 		}
 		
 		// Set up the action bar.
-        final android.app.ActionBar actionBar = this.getActionBar();
+        final ActionBar actionBar = this.getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
        
         // Create the adapter that will return a fragment for each of the three
@@ -142,21 +180,19 @@ public class MainActivity extends ActionBarActivity implements TabListener {
 		
 		return super.onOptionsItemSelected(item);
 	}
-	
+
 	@Override
-	public void onTabSelected(Tab tab, android.app.FragmentTransaction fragmentTransaction) {
-		
-		mViewPager.setCurrentItem(tab.getPosition());
-		
+	public void onTabSelected(Tab tab, FragmentTransaction ft) {
+
 	}
-	
+
 	@Override
-	public void onTabReselected(Tab tab, android.app.FragmentTransaction fragmentTransaction) {
+	public void onTabReselected(Tab tab, FragmentTransaction fragmentTransaction) {
 		// TODO Auto-generated method stub
 	}
 	
 	@Override
-	public void onTabUnselected(Tab tab, android.app.FragmentTransaction fragmentTransaction) {
+	public void onTabUnselected(Tab tab, FragmentTransaction fragmentTransaction) {
 		// TODO Auto-generated method stub
 		
 	}

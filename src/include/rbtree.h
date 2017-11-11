@@ -1,4 +1,4 @@
-/* red-black tree 
+/* red-black tree
  *
  * Copyright (C) 2012 Borislav Sapundzhiev
  *
@@ -35,8 +35,8 @@ typedef struct NodeTag {
 } NodeType;
 
 typedef struct TreeTag {
-	struct NodeTag *root;
-	struct NodeTag sentinel;
+    struct NodeTag *root;
+    struct NodeTag sentinel;
 } RBTreeType;
 
 
@@ -47,4 +47,4 @@ NodeType *rbtFind(RBTreeType *tree, KeyType key);
 void rbtDel(RBTreeType *tree);
 void rbtDelete(NodeType **p, NodeType *sentinel);
 void rbtInorder(NodeType **p, NodeType *sentinel, void (callback)(NodeType *));
-#endif 
+#endif

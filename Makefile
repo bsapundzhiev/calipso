@@ -73,7 +73,10 @@ distclean:
 #	@make -C src distclean
 #	@make -C src/modules distclean
 	find . -name \*~ -o -name \*.o | xargs rm -f 
-	find . -name \*.so -o -name \*.bundle | xargs rm -f
+	find . -name \*.so -o -name \*.bundle -o -name \*.orig | xargs rm -f
+
+format:
+	astyle --style=stroustrup -s4 --recursive  ./*.c  ./*.h
 
 install:
 	@make -C src install

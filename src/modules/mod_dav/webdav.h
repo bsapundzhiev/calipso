@@ -5,22 +5,22 @@
 
 
 typedef enum {
-	PROPFIND,
-	MKCOL,
-	DELETE,
-	PUT,
-	COPY,
-	MOVE,
-	LOCK,
-	UNLOCK,
-	OPTIONS
+    PROPFIND,
+    MKCOL,
+    DELETE,
+    PUT,
+    COPY,
+    MOVE,
+    LOCK,
+    UNLOCK,
+    OPTIONS
 } edav_methos;
 
 typedef enum {
-	INVALID		= -2,
-	ZERO		=  0,
-	ONE			=  1,
-	INFINITY	= -1,
+    INVALID		= -2,
+    ZERO		=  0,
+    ONE			=  1,
+    INFINITY	= -1,
 } edav_depth;
 
 /**
@@ -49,7 +49,7 @@ typedef enum {
 #define HEADER_ENFORCE_LIVE_OMIT ("Omit")
 
 #define HEADER_IF_NONE_STATE_MATCH ("If-None-State-Match")
-	
+
 #define HEADER_IF_STATE_MATCH	("If-State-Match")
 #define HEADER_IF_STATE_MATCH_AND ("AND")
 #define String HEADER_IF_STATE_MATCH_OR ("OR")
@@ -76,7 +76,7 @@ typedef enum {
 #define HEADER_PROPFIND_NAME	("propname")
 
 #define HEADER_STATUS_URI		("Status-URI")
-	
+
 #define HEADER_TIMEOUT			("Timeout")
 #define HEADER_TIMEOUT_INFINITE	("Infinite")
 
@@ -99,4 +99,4 @@ typedef enum {
 
 int webdav_invoke(calipso_request_t *request);
 
-#endif 
+#endif

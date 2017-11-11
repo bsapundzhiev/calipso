@@ -2,15 +2,15 @@
 #Calipso Jni module
 #
 LOCAL_PATH := $(call my-dir)
-SRC_DIR :=../../../src
-SRC_INC :=../../../src/include
+SRC_DIR :=../../../../../../src
+SRC_INC :=../../../../../../src/include
 MOD_DIR :=../$(SRC_DIR)/modules
-VERSION := $(shell cat ../../../VERSION)
+VERSION := $(shell cat ../../../../../../VERSION)
 
 include $(CLEAR_VARS)
 #include $(call all-subdir-makefiles)
 LOCAL_CFLAGS := -Wall -g -DDEBUG -D_FILE_OFFSET_BITS=64 -D_REENTRANT -DVERSION="\"$(VERSION)\""
-LOCAL_LDLIBS :=  -llog 
+LOCAL_LDLIBS :=  -llog
 LOCAL_C_INCLUDES := $(SRC_INC)
 LOCAL_MODULE := calipso-jni
 LOCAL_SRC_FILES := calipso-jni.cpp \
@@ -53,9 +53,9 @@ LOCAL_SRC_FILES := calipso-jni.cpp \
 	$(SRC_DIR)/timer.c
 
 include $(BUILD_SHARED_LIBRARY)
-LOCAL_SHARED_LIBRARIES := libc librt libpthread 
+LOCAL_SHARED_LIBRARIES := libc librt libpthread android
 
-# create a temp variable with the current path, because it 
+# create a temp variable with the current path, because it
 # changes after each include
 #ZPATH := $(LOCAL_PATH)
 #include $(ZPATH)/mod_http/Android.mk

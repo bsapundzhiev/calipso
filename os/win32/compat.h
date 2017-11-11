@@ -19,7 +19,7 @@ typedef unsigned int	u_int;
 //#define sprintf 	_sprintf
 #define snprintf 		_snprintf
 #define	strdup			_strdup
-#define strcasecmp 		_stricmp  
+#define strcasecmp 		_stricmp
 #define strncasecmp 	_strnicmp
 #define getpid			_getpid
 
@@ -59,11 +59,11 @@ typedef unsigned int	u_int;
 #endif
 
 #if defined(WINAPI_FAMILY) && WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP
- /// This code is for Windows phone 8
+/// This code is for Windows phone 8
 #undef OS
 #define OS "WP8"
 #define WP8 1
-//other config 
+//other config
 #endif
 
 int pread(unsigned int fd, char *buf, size_t count, off_t offset);

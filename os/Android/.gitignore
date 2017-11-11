@@ -1,16 +1,10 @@
-#bin folder
-*.ap_
-*.apk
-*.dex
-/bin/classes/
-/bin/dexedLibs/
-/bin/res/
-/bin/*.cache
-/bin/*.txt
-
-#gen
-/gen/android/
-/gen/com/
-
-#.
-/obj/
+/app/src/main/obj/
+/app/src/main/libs/
+/app/build/
+/app/.externalNativeBuild
+/.gradle/
+/build/
+/.idea/
+*.properties
+import-summary.txt
+*.iml
