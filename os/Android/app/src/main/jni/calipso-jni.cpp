@@ -11,9 +11,9 @@
 
 #include <string.h>
 #include <jni.h>
-//
-//https://code.google.com/p/awesomeguy/wiki/JNITutorial
-//
+///
+/// http://www3.ntu.edu.sg/home/ehchua/programming/java/JavaNativeInterface.html
+///
 extern "C" {
 #include "calipso.h"
 #include "compat.h"
@@ -79,9 +79,5 @@ Java_com_bsapundzhiev_calipso_CalipsoJNIWrapper_startCalipsoServer
     TRACE("main loop\n");
     cpo_events_loop();
 }
-<<<<<<< HEAD:os/Android/jni/calipso-jni.cpp
 
-=======
-/*!ex*/
->>>>>>> master:os/Android/app/src/main/jni/calipso-jni.cpp
 }

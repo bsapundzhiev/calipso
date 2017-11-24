@@ -89,10 +89,10 @@ typedef unsigned int u_int;
 #include <sys/wait.h>
 #include <unistd.h>
 #include <pwd.h>  	/* struct passwd */
-#include <limits.h> /* IOV_MAX */
+#include <limits.h> 	/* IOV_MAX */
 /*net*/
 #if defined(ANDROID)
-#undef MAXHOSTNAMELEN /*defined in netdb*/
+//#undef MAXHOSTNAMELEN /*defined in netdb*/
 #endif
 #include <netdb.h>
 #include <netinet/in.h>

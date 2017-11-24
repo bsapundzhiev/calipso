@@ -2,16 +2,16 @@ package com.bsapundzhiev.calipso;
 /**
  * @author Borislav Sapundzhiev
  */
-import com.bsapundzhiev.util.CpoFileUtils;
-
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-public class AboutHelpActivity extends ActionBarActivity {
+import com.bsapundzhiev.util.CpoFileUtils;
+
+public class AboutHelpActivity extends AppCompatActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

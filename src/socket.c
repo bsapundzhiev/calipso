@@ -26,7 +26,7 @@
 
 #define CP_SSO(SOCK, LEVEL, OPT, VAL)\
 if (setsockopt(SOCK, LEVEL, OPT, (const char*)&VAL, sizeof(VAL)) < 0) {\
-perror("setsockopt() call failure.");\
+TRACE("setsockopt() call failure.");\
 close(SOCK);\
 return (-1);\
 }
@@ -279,7 +279,9 @@ static int socket_set_options(int lsocket)
     int yes = 1, no = 0;
 
 #ifdef SO_REUSEPORT
+#if !defined(ANDROID)
     CP_SSO(lsocket, SOL_SOCKET, SO_REUSEPORT, yes);
+#endif
 #endif
 
 #ifdef SO_REUSEADDR
