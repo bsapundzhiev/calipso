@@ -41,7 +41,14 @@ public class CpoFileUtils {
 	            .getPackageInfo(context.getPackageName(), 0)
 	            .applicationInfo.dataDir;
 	}
-	
+
+	public static String getNativeLibraryDir(Context context) throws Exception
+	{
+		return context.getPackageManager()
+				.getPackageInfo(context.getPackageName(), 0)
+				.applicationInfo.nativeLibraryDir;
+	}
+
 	public static File getCpoFilesDir(Context appCtx) {
 		
 		File filesDir;

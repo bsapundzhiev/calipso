@@ -3,10 +3,11 @@
  */
 package com.bsapundzhiev.calipso;
 
-
 import android.util.Log;
 
 import java.security.acl.LastOwnerException;
+
+import static android.util.Log.*;
 
 /**
  * @author Borislav Sapundzhiev  
@@ -23,7 +24,11 @@ public class CalipsoJNIWrapper {
 	private native void startCalipsoServer(final String filePath);
 
 	static {
-		System.loadLibrary("calipso-jni");
+		try {
+			System.loadLibrary("calipso-jni");
+		} catch (UnsatisfiedLinkError ex) {
+			Log.d("CalipsoJNIWrapper", "calipso-jni failed to load: " + ex.getMessage());
+		}
 	}
 
 	/**
@@ -51,11 +56,14 @@ public class CalipsoJNIWrapper {
 		
 		_cpoThread = new Thread(new Runnable() { 
 		       public void run() {
-		    	   isRunning = true;
-		    	   startCalipsoServer(filePath);
+		       	isRunning = true;
+		       	startCalipsoServer(filePath);
+
+		       	Log.d("CalipsoJNIWrapper","Calipso jni procress ended.");
+
 		       }  
 		});
-		 
+
 		_cpoThread.start();
 	}
 	

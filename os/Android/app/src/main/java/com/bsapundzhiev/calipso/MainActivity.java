@@ -111,6 +111,9 @@ public class MainActivity extends AppCompatActivity implements TabListener {
             if (Build.VERSION.SDK_INT >= 23) {
                 checkAppPermission();
             }
+
+            Log.d(LOG_TAG, "App data folder: "+ CpoFileUtils.getAppDataDir(this));
+            Log.d(LOG_TAG, "App native lib folder: " + CpoFileUtils.getNativeLibraryDir(this));
 			Log.d(LOG_TAG, CpoFileUtils.getCpoFilesDir(this.getBaseContext()).getPath() );
 			Log.d(LOG_TAG, AppConstants.getcpoHttpServiceHandle().getCurrentWorkingDirectory());
 			initServer();
