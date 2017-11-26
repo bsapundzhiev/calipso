@@ -83,7 +83,7 @@ typedef unsigned int u_int;
 #pragma comment(lib, "ssleay32.lib")
 #endif
 #else /* *NIX */
-
+#include <sys/uio.h>
 #include <sys/ioctl.h>
 #include <fcntl.h>
 #include <sys/wait.h>
@@ -102,8 +102,6 @@ typedef unsigned int u_int;
 #include <sys/socket.h>
 #ifdef __APPLE__
 #include <sys/types.h>
-#include <sys/uio.h>
-
 #else
 #include <sys/sendfile.h>
 
