@@ -18,7 +18,6 @@ extern "C" {
 #include "calipso.h"
 #include "compat.h"
 
-
 JNIEXPORT jstring JNICALL
 Java_com_bsapundzhiev_calipso_CalipsoJNIWrapper_getCurrentWorkingDir
 	(JNIEnv *env, jobject obj)
@@ -76,8 +75,21 @@ Java_com_bsapundzhiev_calipso_CalipsoJNIWrapper_startCalipsoServer
     config_unalloc(calipso->config);
     calipso->config = NULL;
     //env->ReleaseStringUTFChars(jstr, cstr);
+
     TRACE("main loop\n");
     cpo_events_loop();
+    TRACE("main loop end!\n");
+    calipso_destroy();
 }
 
+JNIEXPORT void JNICALL
+Java_com_bsapundzhiev_calipso_CalipsoJNIWrapper_stopCalipsoServer
+    (JNIEnv *env, jobject obj)
+    {
+    	calipso_set_exit_status();
+    	
+    	TRACE("Send signal to %d\n", getpid());
+    	//kill(serverPid, SIGUSR1);
+    	raise(SIGUSR1);
+    }
 }

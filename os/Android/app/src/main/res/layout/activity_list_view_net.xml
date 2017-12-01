@@ -2,7 +2,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
- 
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/buttonStartService"
+        android:text="Start Services"
+        android:onClick="startService"
+        android:layout_below="@+id/imageButton" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Stop Services"
+        android:id="@+id/buttonStopService"
+        android:onClick="stopService" />
+
     <ImageView 
         android:id="@+id/netImage"
         android:contentDescription="@string/hello_world"
@@ -23,5 +38,6 @@
         android:id="@+id/list"
         android:layout_height="wrap_content"
         android:layout_width="match_parent" />
+
 
 </LinearLayout>

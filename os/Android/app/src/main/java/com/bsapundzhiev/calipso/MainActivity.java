@@ -42,26 +42,7 @@ public class MainActivity extends AppCompatActivity implements TabListener {
 	 * The {@link ViewPager} that will host the section contents
 	 */
 	ViewPager mViewPager;
-	/**
-	 * Calipso JNI object
-	 */
-	private void initServer()
-	{
-		if( AppConstants.getcpoHttpServiceHandle().isRunning == false) {
-			// Init config file
-            String confPath = CpoFileUtils.getCpoFilesDir(this).toString() + "/" + CpoFileUtils.CONFIG_FILE;
 
-            if(!CpoFileUtils.hasExternalStoragePrivateFile(this,CpoFileUtils.CONFIG_FILE)) {
-                CpoFileUtils.createExternalStoragePrivateFile(this,
-                        this.getResources().openRawResource(R.raw.mime), CpoFileUtils.MIME_TYPE_FILE);
-            }
-            if(!CpoFileUtils.hasExternalStoragePrivateFile(this, CpoFileUtils.CONFIG_FILE)) {
-                confPath = CpoFileUtils.createExternalStoragePrivateFile(this,
-                        this.getResources().openRawResource(R.raw.calipso), CpoFileUtils.CONFIG_FILE);
-            }
-			AppConstants.getcpoHttpServiceHandle().startCalipso(confPath);
-		}
-	}
 
     /**
      * request manifest permissions
@@ -92,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements TabListener {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+		//stopService(this.getIntent());
 		Log.d(LOG_TAG,"OnDestroy");
 	}
 	
@@ -101,25 +83,25 @@ public class MainActivity extends AppCompatActivity implements TabListener {
 		super.onActivityResult(requestCode, resultCode, data);
 
 	}
-	
+
+	public void startService(View view) {
+		startService(new Intent(getBaseContext(), CalipsoService.class));
+	}
+
+	public void stopService(View view) {
+		stopService(new Intent(getBaseContext(), CalipsoService.class));
+	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		try {
-            if (Build.VERSION.SDK_INT >= 23) {
-                checkAppPermission();
-            }
-
-            Log.d(LOG_TAG, "App data folder: "+ CpoFileUtils.getAppDataDir(this));
-            Log.d(LOG_TAG, "App native lib folder: " + CpoFileUtils.getNativeLibraryDir(this));
-			Log.d(LOG_TAG, CpoFileUtils.getCpoFilesDir(this.getBaseContext()).getPath() );
-			Log.d(LOG_TAG, AppConstants.getcpoHttpServiceHandle().getCurrentWorkingDirectory());
-			initServer();
-		}catch (Exception e) {
-			Log.d(LOG_TAG, e.getMessage());
+		if (Build.VERSION.SDK_INT >= 23) {
+			checkAppPermission();
 		}
+
+
 		
 		// Set up the action bar.
         final ActionBar actionBar = this.getSupportActionBar();

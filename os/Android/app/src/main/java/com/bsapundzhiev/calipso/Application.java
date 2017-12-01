@@ -2,14 +2,15 @@ package com.bsapundzhiev.calipso;
 /**
  * @author Borislav Sapundzhiev
  */
-//import com.google.api.client.util.Lists;
-//import java.util.ArrayList;
+
+import android.content.Context;
 
 /**
  * TODO(developer): Implement a proper data storage 
  */
 public class Application extends android.app.Application {
-    //ArrayList<HelloGreeting> greetings = Lists.newArrayList();
+
+	public static Context AppContext = null;
 	public Application() {
 		// TODO Auto-generated constructor stub
 		super();

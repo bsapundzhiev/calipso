@@ -30,7 +30,8 @@ public class NetListFragment extends Fragment {
     	
 		View root = inflater.inflate(R.layout.activity_list_view_net, container, false);
         TextView textview = (TextView) root.findViewById(R.id.text1);
-        textview.setText(AppConstants.getcpoHttpServiceHandle().getStatus());
+
+        //textview.setText(AppConstants.getcpoHttpServiceHandle().getStatus());
         
         // Get ListView object from xml
         _netlistView = (ListView) root.findViewById(R.id.list);

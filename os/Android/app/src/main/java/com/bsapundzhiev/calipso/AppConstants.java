@@ -11,10 +11,10 @@ public class AppConstants {
 	/**
 	 * Calipso JNI instance
 	 */
-	private static CalipsoJNIWrapper cpoHttpService = new CalipsoJNIWrapper();
+	//private static CalipsoJNIWrapper cpoHttpService = new CalipsoJNIWrapper();
 	
-	public static CalipsoJNIWrapper getcpoHttpServiceHandle() 
-	{
-		return cpoHttpService;
-	}
+	//public static CalipsoJNIWrapper getcpoHttpServiceHandle()
+	//{
+	//	return cpoHttpService;
+	//}
 }
