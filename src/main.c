@@ -128,6 +128,8 @@ int main(int argc, char **argv)
     /* main loop */
     cpo_events_loop();
 
+    TRACE("END\n");
+    calipso_destroy();
     return 0;
 }
 

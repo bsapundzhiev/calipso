@@ -41,7 +41,6 @@ static void calipso_win32_intializer(void *module_hdl)
     }
 
     init(calipso);
-
 }
 #endif
 
@@ -75,7 +74,8 @@ static int calipso_register_module_hook(void *module_hdl, int hook,
     }
 
     if ((error = Sys_LibraryError()) != NULL) {
-        fprintf(stderr, "%s: error: %s\n", __func__, error);
+    	TRACE("%s: fatal error: %s\n", __func__, error);
+        cpo_log_error(calipso->log, "%s: fatal error: %s\n", __func__, error);
         exit(-1);
     }
 
@@ -90,9 +90,8 @@ static void calipso_register_module(calipso_mod_t * m, const char *module_name,
     m->handler = Sys_LoadLibrary(path);
 
     if (!m->handler) {
-        TRACE("dlerror= %s - terminate\n",Sys_LibraryError());
-        fprintf(stderr, "%s():%d dlerror= %s - terminate\n", __func__, __LINE__,
-                Sys_LibraryError());
+    	TRACE("%s(): fatal error %s\n", __func__, Sys_LibraryError());
+        cpo_log_error(calipso->log, "%s(): fatal error %s\n", __func__, Sys_LibraryError());
         exit(-1);
     }
 

@@ -11,18 +11,18 @@
 
 #include "calipso.h"
 
-#define NON_BLOCKING_MODE 		1
-#define MAX_SERVERS_TABLE 		32
+#define NON_BLOCKING_MODE       1
+#define MAX_SERVERS_TABLE       32
 
-#define USE_LINGER				1
-#define USE_TCP_KEEPALIVE		0
-#define USE_TCP_NOPUSH			0
-#define USE_TCP_NODELAY			0
+#define USE_LINGER              1
+#define USE_TCP_KEEPALIVE       0
+#define USE_TCP_NOPUSH          0
+#define USE_TCP_NODELAY         0
 
 /* keepalive settings */
-#define CPO_KEEPALIVE_IDLE_TIME	5000
-#define CPO_KEEPALIVE_CNT		5
-#define CPO_KEEPALIVE_INTVL		1
+#define CPO_KEEPALIVE_IDLE_TIME 5000
+#define CPO_KEEPALIVE_CNT       5
+#define CPO_KEEPALIVE_INTVL     1
 
 #define CP_SSO(SOCK, LEVEL, OPT, VAL)\
 if (setsockopt(SOCK, LEVEL, OPT, (const char*)&VAL, sizeof(VAL)) < 0) {\
@@ -161,7 +161,7 @@ calipso_socket_accept_client(calipso_socket_t *listener)
 
     //TRACE("Accept client %d\n", client->csocket);
     //calipso_client_set_connect_time(client,
-    //		calipso_process_get_time(calipso_get_current_process()));
+    //      calipso_process_get_time(calipso_get_current_process()));
 
     calipso_socket_set_nonblocking(client->csocket, CPO_OK);
 
@@ -247,9 +247,9 @@ calipso_socket_t * calipso_do_listen_sock(const char *naddr,
         socket->event = cpo_event_alloc(EVENT_LISTENER);
         socket->event->data = socket;
     } else {
-        cpo_log_error(calipso->log,
-                      "Can't create lisnten socket %s",
-                      strerror(errno));
+        cpo_log_error(calipso->log, 
+            "%s() Fatal Error:  Can't create lisnten socket %s", 
+            __func__, strerror(errno));
         exit(-1);
     }
 
@@ -342,7 +342,7 @@ static int socket_create_inet(const char *addr, int16_t portn)
     /* create a TCP/IP stream socket to listen with */
     lsocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
     if (lsocket < 0) {
-        perror("socket()");
+        TRACE("socket error: %s\n", strerror(errno));
         close(lsocket);
         return -1;
     }
@@ -360,9 +360,8 @@ static int socket_create_inet(const char *addr, int16_t portn)
                sizeof(struct sockaddr_in));
 
     if (ret < 0) {
-        fprintf(stderr, "Error: bind %s:%d %s\n",
-                inet_ntoa(sin.sin_addr), portn,
-                strerror(errno));
+        TRACE("Error: bind %s:%d %s\n",
+            inet_ntoa(sin.sin_addr), portn, strerror(errno));
         close(lsocket);
         return -1;
     }

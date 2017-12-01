@@ -187,5 +187,5 @@ int kqueue_done()
 {
     printf("Clear kqueue data\n");
     memset(pfds, 0, MAX_EVENTS * sizeof(struct kevent));
-    return NOK;
+    return calipso_get_exit_status();
 }

@@ -116,6 +116,7 @@ struct s_calipso {
     uid_t	uid;
     gid_t	gid;
     cpo_log_t * log;
+    int         done;			/*end*/
 };
 
 

@@ -164,6 +164,6 @@ int poll_done()
 {
     memset(pfds, 0, MAX_EVENTS * sizeof(struct pollfd));
     //memset(fdtype, 0, MAX_EVENTS * sizeof(struct _fdtype));
-    return NOK;
+    return calipso_get_exit_status();
 }
 

@@ -42,9 +42,8 @@ int calipso_init_all_signal_handlers()
  */
 static void handle_sigterm(int sig)
 {
-    fprintf( stderr, "exit -> got SIG(%d) => server terminated\n", sig);
-    calipso_destroy();
-    exit(EXIT_SUCCESS);
+    TRACE("exit -> got SIG(%d) => server terminated\n", sig);
+    calipso_set_exit_status();
 }
 
 /**
@@ -55,7 +54,7 @@ static void handle_sigchld(int sig)
     pid_t pid;
     int status;
 //#ifdef _DEBUG
-    fprintf( stderr, "handle_sigchld SIG(%d)\n", sig);
+    TRACE("handle_sigchld SIG(%d)\n", sig);
 //#endif
     for (;;) {
 

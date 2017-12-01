@@ -270,6 +270,8 @@ calipso_get_gid(void);
 
 cpo_log_t *
 calipso_get_log(void);
+void calipso_set_exit_status();
+int calipso_get_exit_status();
 
 /*
  * file client.c

@@ -26,6 +26,8 @@ calipso_init (void)
     int i;
     calipso = xmalloc (sizeof (calipso_t));
 
+    calipso->done = NOK;
+
     if (!calipso) {
         return CPO_ERR;
     }
@@ -397,4 +399,14 @@ cpo_log_t *
 calipso_get_log ()
 {
     return calipso->log;
+}
+
+void calipso_set_exit_status()
+{
+    calipso->done = OK;
+}
+
+int calipso_get_exit_status()
+{
+    return calipso->done;
 }

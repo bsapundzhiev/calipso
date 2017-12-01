@@ -15,6 +15,12 @@
 //Linux epoll
 #include <sys/epoll.h>
 
+#if defined(ANDROID)
+#define EPOLL_TIMEOUT 3000
+#else
+#define EPOLL_TIMEOUT -1
+#endif
+
 static int kdpfd;
 static struct epoll_event pfds[MAX_EVENTS];
 
@@ -95,9 +101,9 @@ int epoll_process(int nfds)
     calipso_socket_t *listener;
     calipso_client_t *client;
 
-    if ((nfds = epoll_wait(kdpfd, pfds, nfds, -1)) < 0) {
+    if ((nfds = epoll_wait(kdpfd, pfds, nfds, EPOLL_TIMEOUT)) < 0) {
         if (errno == EINTR) {
-            printf("poll interupted\n");
+            TRACE("poll interupted\n");
             return CPO_ERR;
         }
 
@@ -175,6 +181,6 @@ int epoll_init()
 
 int epoll_done()
 {
-    return NOK;
+    return calipso_get_exit_status();
 }
 
