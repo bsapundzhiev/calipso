@@ -93,6 +93,13 @@ void calipso_socket_unalloc(calipso_socket_t *socket)
         free(socket->client);
     }
 
+#ifdef _WIN32
+    shutdown(socket->lsocket, SD_BOTH);
+    WSACleanup();
+#else 
+    shutdown(socket->lsocket, SHUT_RDWR);
+#endif
+    
     free(socket);
 }
 
