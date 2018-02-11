@@ -4,10 +4,11 @@ package com.bsapundzhiev.calipso;
  */
 import java.util.Locale;
 
-import com.bsapundzhiev.util.CpoFileUtils;
-
 import android.Manifest;
+import android.app.Activity;
 import android.os.Build;
+import android.os.Handler;
+import android.os.ResultReceiver;
 import android.support.v4.app.*;
 
 import android.support.v4.content.ContextCompat;
@@ -35,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements TabListener {
 	 * becomes too memory intensive, it may be best to switch to a
 	 * {@link android.support.v4.app.FragmentStatePagerAdapter}.
 	 */
-	private static final String LOG_TAG = "MainActivity";
+	private static final String TAG = "MainActivity";
 	SectionsPagerAdapter mSectionsPagerAdapter;
     private static final int CPO_PERMISSIONS_REQUEST = 1;
 	/**
@@ -74,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements TabListener {
 	protected void onDestroy() {
 		super.onDestroy();
 		//stopService(this.getIntent());
-		Log.d(LOG_TAG,"OnDestroy");
+		Log.d(TAG,"OnDestroy");
 	}
 	
 	@Override
@@ -85,7 +86,24 @@ public class MainActivity extends AppCompatActivity implements TabListener {
 	}
 
 	public void startService(View view) {
-		startService(new Intent(getBaseContext(), CalipsoService.class));
+
+        Intent serviceIntent = new Intent(getBaseContext(), CalipsoService.class);
+
+        serviceIntent.putExtra(CalipsoService.BUNDLED_LISTENER, new ResultReceiver(new Handler()) {
+            @Override
+            protected void onReceiveResult(int resultCode, Bundle resultData) {
+                super.onReceiveResult(resultCode, resultData);
+
+                if (resultCode == Activity.RESULT_OK) {
+                    String val = resultData.getString("value");
+                    Log.i(TAG, "++++++++++++RESULT_OK+++++++++++ [" + val + "]");
+                } else {
+                    Log.i(TAG, "+++++++++++++RESULT_NOT_OK++++++++++++");
+                }
+            }
+        });
+
+		startService(serviceIntent);
 	}
 
 	public void stopService(View view) {

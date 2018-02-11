@@ -1,8 +1,11 @@
 package com.bsapundzhiev.calipso;
 
+import android.app.Activity;
 import android.app.Service;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.IBinder;
+import android.os.ResultReceiver;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
@@ -12,6 +15,7 @@ import com.bsapundzhiev.util.CpoFileUtils;
 public class CalipsoService extends Service {
 
     private static final String LOG_TAG = "CalipsoService";
+    public final static String BUNDLED_LISTENER = "listener";
     /**
      * Calipso JNI object
      */
@@ -62,6 +66,12 @@ public class CalipsoService extends Service {
         try {
             initServer();
             Toast.makeText(this, "Calipso Service Started", Toast.LENGTH_LONG).show();
+
+            ResultReceiver receiver = intent.getParcelableExtra(this.BUNDLED_LISTENER);
+            Bundle bundle = new Bundle();
+            bundle.putString("value", "30");
+            receiver.send(Activity.RESULT_OK, bundle);
+
         } catch (Exception e) {
 
             Log.d(LOG_TAG, e.getMessage());
