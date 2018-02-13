@@ -633,35 +633,32 @@ static int mod_http_set_if_modified_since(calipso_request_t *request, const char
 static int mod_http_partial_content(calipso_request_t *request, int fd)
 {
     /* HTTP_PARTIAL_CONTENT */
+    char *range, *type;
+    char *offset1, *offset2;
 
-    char *range;
-    char *type;
-    char *offset1;
-    char *offset2;
-
-    uintmax_t total_size;
+    uintmax_t off1, total_size;
     uintmax_t partial_size;
 
     range = calipso_request_get_header_value(request, "range");
+    calipso_reply_t *reply = request->reply;
 
-    if (range) {
-        calipso_reply_set_status(request->reply, HTTP_PARTIAL_CONTENT);
-        type = offset1 = offset2 = NULL;
+    if (reply && range) {
+
+        calipso_reply_set_status(reply, HTTP_PARTIAL_CONTENT);
         http_range_tokenize(range, &type, &offset1, &offset2);
         TRACE("RANGE: %s\n", range);
-        TRACE("type: %s offset1: %s offset2: %s \n", type, offset1, offset2);
-
-        total_size = calipso_resource_get_size(request->reply->resource);
-        partial_size = total_size - atol(offset1);
+        //TRACE("type: %s offset1: %s offset2: %s \n", type, offset1, offset2);
+	off1 = offset1 ? atol(offset1): 0;
+        total_size = calipso_resource_get_size(reply->resource);
+        partial_size = total_size - off1;
         TRACE("partial size: %lu ? total size %lu\n", partial_size, total_size);
-
-        calipso_reply_set_header_value(request->reply,
+        calipso_reply_set_header_value(reply,
                                        "content-range", "bytes=%s-%lu/%lu", offset1, total_size - 1, total_size);
-        calipso_reply_set_header_value(request->reply,
+        calipso_reply_set_header_value(reply,
                                        "Content-Length", "%lu", partial_size);
 
         /*set fd position */
-        (off_t)lseek(fd, (off_t)atoi(offset1), SEEK_SET);
+        (off_t)lseek(fd, (off_t)off1, SEEK_SET);
 
     }
     /* !HTTP_PARTIAL_CONTENT*/
@@ -672,14 +669,10 @@ static int mod_http_partial_content(calipso_request_t *request, int fd)
 /* helper */
 void http_range_tokenize(const char *range, char **type, char **from, char **total)
 {
-    char *copy = (char *)malloc(strlen(range) + 1);
-
-    if (copy != NULL) {
-        strcpy(copy, range);
-        *type = strtok(copy, "=");
+    if (range != NULL) { 
+        *type = strtok(range, "=");
         *from = strtok(NULL, "-");
         *total = strtok(NULL, "-");
-        free(copy);
     }
 }
 
